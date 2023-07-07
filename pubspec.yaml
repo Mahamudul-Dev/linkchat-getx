@@ -1,0 +1,47 @@
+name: linkchat
+version: 1.0.0+1
+publish_to: none
+description: A new Flutter project.
+environment: 
+  sdk: '>=3.0.1 <4.0.0'
+
+dependencies: 
+  cupertino_icons: ^1.0.2
+  get: 4.6.5
+  get_storage: 2.1.1
+  flutter_screenutil: 5.8.4
+  lottie: 2.4.0
+  cached_network_image: 3.2.3
+  timeago: 3.5.0
+  flutter_chat_bubble: 2.0.2
+  flutter_webrtc: 0.9.35
+  font_awesome_flutter: 10.5.0
+  flutter_webrtc_wrapper: 1.0.2
+  permission_handler: 10.3.0
+  country_picker: 2.0.20
+  gzx_dropdown_menu: 3.1.0
+  animated_text_kit: 4.2.2
+  objectbox: 2.0.0
+  objectbox_flutter_libs: 2.0.0
+  icon_badge: 1.0.0
+  flutter_dtmf: 2.0.2
+  flutter_masked_text2: 0.9.1
+  image_picker: 0.8.9
+  pinput: 2.2.31
+  star_menu: 3.1.4
+  logger: 1.4.0
+  flutter: 
+    sdk: flutter
+
+dev_dependencies: 
+  flutter_lints: ^2.0.0
+  build_runner: 2.4.4
+  objectbox_generator: 2.0.0
+  flutter_test: 
+    sdk: flutter
+
+flutter: 
+  assets: 
+    - assets/anim/
+  uses-material-design: true
+
