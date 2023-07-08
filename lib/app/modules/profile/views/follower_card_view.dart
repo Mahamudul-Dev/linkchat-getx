@@ -10,16 +10,15 @@ import './about_card_view.dart';
 
 class FollowerCardView extends GetView {
   const FollowerCardView({Key? key}) : super(key: key);
-  //final int uid;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: MediaQuery.of(context).size.height - kBottomNavigationBarHeight,
       child: GridView.builder(
-          scrollDirection: Axis.horizontal,
+          scrollDirection: Axis.vertical,
           itemCount: Get.find<FollowersController>().followers.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 4,
+            crossAxisCount: 2,
           ),
           itemBuilder: (context, int index) {
             return InkWell(
@@ -64,16 +63,16 @@ class FollowerCardView extends GetView {
                   },
                 );
               },
-              child: Container(
+              child: SizedBox(
                 height: 30,
                 width: 30,
-                margin: const EdgeInsets.all(3),
                 child: Material(
                   elevation: 3,
+                  borderRadius: BorderRadius.circular(20),
                   child: GridTile(
                       footer: Container(
                         color: blackAccent,
-                        padding: const EdgeInsets.all(3),
+                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
                         child: Text(
                           Get.find<FollowersController>()
                               .followers[index]

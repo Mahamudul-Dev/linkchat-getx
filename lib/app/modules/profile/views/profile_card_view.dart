@@ -21,7 +21,7 @@ class ProfileCardView extends GetView<ProfileController> {
                 bottomLeft: Radius.circular(35),
                 bottomRight: Radius.circular(35)),
             child: Container(
-              height: MediaQuery.of(context).size.height / 2.3,
+              height: MediaQuery.of(context).size.height / 2.2,
               decoration: BoxDecoration(
                   color:
                       ThemeProvider().isSavedLightMood() ? accentColor : black,
@@ -31,20 +31,24 @@ class ProfileCardView extends GetView<ProfileController> {
               child: Center(
                 child: Column(
                   children: [
+                    const SizedBox(height: 20,),
                     Stack(alignment: Alignment.center, children: [
                       CircleAvatar(
                         radius: 78.w,
                         backgroundColor: accentColor,
                       ),
+                      // -- user profile photo display -- //
                       CircleAvatar(
                         radius: 75.w,
                         backgroundColor: ThemeProvider().isSavedLightMood()
                             ? brightWhite
                             : blackAccent,
                         backgroundImage: CachedNetworkImageProvider(
-                            Get.find<FollowersController>().followers
+                          uid != Get.find<HomeController>().currentUser.uid
+                            ? Get.find<FollowersController>().followers
                                 .singleWhere((element) => element.uid == uid)
-                                .userProfilePic),
+                                .userProfilePic : Get.find<HomeController>().currentUser.userProfilePic)
+                            ,
                       ),
                     ]),
                     const SizedBox(
@@ -54,10 +58,13 @@ class ProfileCardView extends GetView<ProfileController> {
                       width: 250.w,
                       child: Column(
                         children: [
+                          // -- user name display -- //
                           Text(
-                            Get.find<FollowersController>().followers
+                            uid != Get.find<HomeController>().currentUser.uid
+                            ? Get.find<FollowersController>().followers
                                 .singleWhere((element) => element.uid == uid)
-                                .userName,
+                                .userName
+                            : Get.find<HomeController>().currentUser.userName,
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                                 color: brightWhite,
@@ -66,15 +73,24 @@ class ProfileCardView extends GetView<ProfileController> {
                                 overflow: TextOverflow.ellipsis),
                             maxLines: 1,
                           ),
+
+                          // -- user tagline display -- //
                           Text(
-                            Get.find<HomeController>().currentUser.tagline ?? '',
+                            uid != Get.find<HomeController>().currentUser.uid
+                            ? Get.find<FollowersController>().followers.singleWhere((element) => element.uid == uid).tagline ?? ''
+                            : Get.find<HomeController>().currentUser.tagline ?? '',
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(color: white),
                           ),
                           const SizedBox(
                             height: 5,
                           ),
-                          Text('@${Get.find<HomeController>().currentUser.uid}',
+
+                          // -- user uid display -- //
+                          Text(
+                            uid != Get.find<HomeController>().currentUser.uid
+                            ? '@${Get.find<FollowersController>().followers.singleWhere((element) => element.uid == uid).uid}'
+                            : '@${Get.find<HomeController>().currentUser.uid}',
                               style: const TextStyle(color: white))
                         ],
                       ),

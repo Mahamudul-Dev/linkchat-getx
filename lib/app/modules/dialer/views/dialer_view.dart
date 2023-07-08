@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:linkchat/app/style/app_color.dart';
+import '../../../style/app_color.dart';
 
 import '../controllers/dialer_controller.dart';
 
@@ -60,8 +60,9 @@ class DialerView extends GetView<DialerController> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _buildActionButton(Icons.backspace, ()=>controller.eraseNumber(), false),
-                _buildActionButton(Icons.phone, ()=>controller.makeCall(), true),
+                Obx(() => controller.enteredNumber.value.isNotEmpty ? _buildActionButton(Icons.backspace, ()=> controller.eraseNumber(), false) : const SizedBox.shrink()),
+                Obx(() => controller.enteredNumber.value.isNotEmpty ? const SizedBox(width: 20): const SizedBox.shrink()),
+                _buildActionButton(Icons.phone, ()=> controller.makeCall(), true),
               ],
             ),
           ),
@@ -75,12 +76,14 @@ class DialerView extends GetView<DialerController> {
     return Expanded(
       child: InkWell(
         onTap: () => controller.addToNumber(digit),
-        child: Container(
+        splashColor: accentColor,
+        child: AnimatedContainer(
+          duration: const Duration(seconds: 2),
           height: 80.0,
           alignment: Alignment.center,
           child: Text(
             digit,
-            style: const TextStyle(fontSize: 24.0),
+            style: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.w600),
           ),
         ),
       ),

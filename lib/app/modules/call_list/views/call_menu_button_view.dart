@@ -20,20 +20,31 @@ class CallMenuButtonView extends GetView<CallListController> {
         const RoundButtonView(icon: Icons.call_rounded),
         RoundButtonView(
           icon: FontAwesomeIcons.video,
-          iconSize: 10,
-          onTap: () => Get.toNamed(Routes.CALL, arguments: {
+          iconSize: 14,
+          onTap: () => Get.toNamed(Routes.VIDEO_CALL, arguments: {
             'uid': controller.getUserInfo(index).uid
           }),
         ),
         const RoundButtonView(icon: Icons.screen_share_rounded),
       ],
-      onItemTapped: (index, controller) {
-        if (index == 1) {
-          controller.closeMenu;
-          controller.dispose();
-        } else {
-          controller.closeMenu;
-          controller.dispose();
+      onItemTapped: (btn, menuController) {
+        switch (btn) {
+          case 0:
+            Get.offNamed(Routes.AUDIO_CALL);
+            menuController.closeMenu;
+            menuController.dispose();
+            break;
+          case 1:
+            Get.offNamed(Routes.VIDEO_CALL, arguments: {
+            'uid': controller.getUserInfo(index).uid
+          });
+            menuController.closeMenu;
+            menuController.dispose();
+            break;
+          case 2:
+            menuController.closeMenu;
+            menuController.dispose();
+          default:
         }
       });
   }

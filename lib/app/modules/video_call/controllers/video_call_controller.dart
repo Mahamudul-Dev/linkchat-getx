@@ -1,4 +1,7 @@
 import 'dart:core';
+import 'package:flutter/material.dart';
+import 'package:linkchat/app/routes/app_pages.dart';
+import 'package:linkchat/app/style/app_color.dart';
 import 'package:logger/logger.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
@@ -17,7 +20,7 @@ class VideoCallController extends GetxController {
   @override
   void onInit() {
     initRenderer();
-    makeCall();
+    connectCall();
     super.onInit();
   }
 
@@ -41,10 +44,11 @@ class VideoCallController extends GetxController {
     await remoteRenderer.initialize();
   }
 
-  makeCall() async {
-    PermissionStatus cameraStatus = await Permission.camera.request();
 
-    if (cameraStatus.isGranted) {
+  connectCall() async {
+    PermissionStatus status = await Permission.camera.request();
+
+    if (status.isGranted) {
       final Map<String, dynamic> mediaConstraints = {
         "audio": true,
         "video": {
@@ -71,6 +75,17 @@ class VideoCallController extends GetxController {
       }
 
       inCalling.value = true;
+    } else {
+      Get.dialog(
+        barrierDismissible: false,
+        AlertDialog(
+          title: const Text('Camera'),
+          content: const Text('You need to give access of your camera'),
+          actions: [
+            ElevatedButton(onPressed: (){connectCall();}, style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(accentColor)), child: const Text('Give Permission', style: TextStyle(color: brightWhite),),)
+          ],
+        )
+      );
     }
   }
 
@@ -79,7 +94,7 @@ class VideoCallController extends GetxController {
       await localStream?.dispose();
       localRenderer.srcObject = null;
       inCalling.value = false;
-      Get.back();
+      Get.offAllNamed(Routes.HOME);
     } catch (e) {
       Logger().e(e.toString());
     }

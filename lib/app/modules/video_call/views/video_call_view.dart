@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -16,12 +17,22 @@ class VideoCallView extends GetView<VideoCallController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
           _followersController.followers
               .singleWhere((element) => element.uid == uid)
               .userName,
           style: TextStyle(
             color: ThemeProvider().isSavedLightMood() ? black : brightWhite,
+            fontSize: 19.sp
+          ),
+        ),
+        leadingWidth: 60,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 20),
+          child: CircleAvatar(
+            backgroundImage: CachedNetworkImageProvider(_followersController.followers
+                .singleWhere((element) => element.uid == uid).userProfilePic),
           ),
         ),
       ),

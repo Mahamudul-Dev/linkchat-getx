@@ -12,7 +12,7 @@ class AboutCardView extends GetView {
   @override
   Widget build(BuildContext context) {
     return Padding(
-    padding: const EdgeInsets.all(10),
+    padding: const EdgeInsets.all(15),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -25,7 +25,7 @@ class AboutCardView extends GetView {
           height: 3,
         ),
         Text(
-          uid == Get.find<HomeController>().currentUser.uid ? Get.find<HomeController>().currentUser.bio.toString() : Get.find<FollowersController>().followers.singleWhere((element) => element.uid == uid).bio.toString(),
+          uid == Get.find<HomeController>().currentUser.uid ? Get.find<HomeController>().currentUser.bio ?? 'No Information Available' : Get.find<FollowersController>().followers.singleWhere((element) => element.uid == uid).bio ?? 'No Information Available',
           textAlign: TextAlign.justify,
           style: TextStyle(color: ThemeProvider().isSavedLightMood() ? black : brightWhite),
         ),
@@ -40,23 +40,23 @@ class AboutCardView extends GetView {
                     style: const ButtonStyle(
                         backgroundColor: MaterialStatePropertyAll(accentColor)),
                     onPressed: () {},
-                    icon: const Icon(Icons.no_accounts_rounded),
-                    label: const Text('Unfollow'))
+                    icon: const Icon(Icons.no_accounts_rounded, color: brightWhite),
+                    label: const Text('Unfollow',style: TextStyle(color: brightWhite, fontWeight: FontWeight.w600)))
                 : const SizedBox.shrink(),
             Get.find<HomeController>().currentUser.uid != uid
                 ? ElevatedButton.icon(
                     style: const ButtonStyle(
                         backgroundColor: MaterialStatePropertyAll(accentColor)),
                     onPressed: () {},
-                    icon: const Icon(Icons.chat_bubble),
-                    label: const Text('Message'))
+                    icon: const Icon(Icons.chat_bubble, color: brightWhite,),
+                    label: const Text('Message',style: TextStyle(color: brightWhite, fontWeight: FontWeight.w600)))
                 : const SizedBox.shrink(),
-            ElevatedButton.icon(
-                style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(accentColor)),
-                onPressed: () {},
-                icon: const Icon(Icons.share, color: brightWhite,),
-                label: const Text('Share', style: TextStyle(color: brightWhite, fontWeight: FontWeight.w600),))
+            // ElevatedButton.icon(
+            //     style: const ButtonStyle(
+            //         backgroundColor: MaterialStatePropertyAll(accentColor)),
+            //     onPressed: () {},
+            //     icon: const Icon(Icons.share, color: brightWhite,),
+            //     label: const Text('Share', style: TextStyle(color: brightWhite, fontWeight: FontWeight.w600),))
           ],
         )
       ],

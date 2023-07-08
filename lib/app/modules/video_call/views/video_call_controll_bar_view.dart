@@ -49,7 +49,7 @@ class VideoCallControllBarView extends GetView<VideoCallController> {
                   )),
               CircleAvatar(
                 radius: 27.w,
-                backgroundColor: Colors.red,
+                backgroundColor: Colors.red.shade700,
                 child: IconButton(
                     onPressed: () => controller.hangUp(),
                     icon: const Icon(
