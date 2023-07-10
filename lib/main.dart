@@ -3,11 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:linkchat/app/style/style.dart';
 
 import 'app/routes/app_pages.dart';
 
-void main() {
+void main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       systemNavigationBarColor:
           ThemeProvider().isSavedLightMood() ? white : solidMate,
@@ -15,6 +16,7 @@ void main() {
           ? Brightness.light
           : Brightness.dark,
       statusBarColor: Colors.transparent));
+  await GetStorage.init();
   runApp(const Link());
 }
 

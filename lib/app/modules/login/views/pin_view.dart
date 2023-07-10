@@ -13,9 +13,7 @@ class PinView extends GetView<LoginController> {
       body: SafeArea(
           child: ListView(
         children: [
-          
           Row(
-            
             children: [
               Pinput(
                 defaultPinTheme: PinTheme(
@@ -27,7 +25,7 @@ class PinView extends GetView<LoginController> {
                       fontWeight: FontWeight.w600),
                   decoration: BoxDecoration(
                     border: Border.all(
-                        color: const Color.fromRGBO(234, 239, 243, 1)),
+                        color: const Color.fromARGB(255, 202, 244, 254)),
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),

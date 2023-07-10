@@ -1,6 +1,7 @@
-// ignore_for_file: constant_identifier_names
+// ignore_for_file: non_constant_identifier_names
 
 import 'package:get/get.dart';
+import 'package:linkchat/app/services/auth_service.dart';
 
 import '../modules/audio_call/bindings/audio_call_binding.dart';
 import '../modules/audio_call/views/audio_call_view.dart';
@@ -24,6 +25,8 @@ import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/random_call/bindings/random_call_binding.dart';
 import '../modules/random_call/views/random_call_view.dart';
+import '../modules/register/bindings/register_binding.dart';
+import '../modules/register/views/register_view.dart';
 import '../modules/settings/bindings/settings_binding.dart';
 import '../modules/settings/views/settings_view.dart';
 import '../modules/setup_pin/bindings/setup_pin_binding.dart';
@@ -31,23 +34,24 @@ import '../modules/setup_pin/views/setup_pin_view.dart';
 import '../modules/video_call/bindings/video_call_binding.dart';
 import '../modules/video_call/views/video_call_view.dart';
 
+// ignore_for_file: constant_identifier_names
+
 part 'app_routes.dart';
 
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.HOME;
+  static final INITIAL = AuthService().checkLogedIn() ? Routes.HOME : Routes.REGISTER;
 
   static final routes = [
     GetPage(
-      name: _Paths.HOME,
-      page: () => const HomeView(),
-      bindings: [HomeBinding(),FollowersBinding()]
-    ),
+        name: _Paths.HOME,
+        page: () => const HomeView(),
+        bindings: [HomeBinding(), FollowersBinding()]),
     GetPage(
       name: _Paths.CALL,
       page: () => const CallListView(),
-      bindings: [CallListBinding(),FollowersBinding()],
+      bindings: [CallListBinding(), FollowersBinding()],
     ),
     GetPage(
       name: _Paths.CHAT,
@@ -82,7 +86,12 @@ class AppPages {
     GetPage(
       name: _Paths.SETTINGS,
       page: () => SettingsView(),
-      bindings: [SettingsBinding(),BlockListBinding(),SetupPinBinding(),FollowersBinding()],
+      bindings: [
+        SettingsBinding(),
+        BlockListBinding(),
+        SetupPinBinding(),
+        FollowersBinding()
+      ],
     ),
     GetPage(
       name: _Paths.AUDIO_CALL,
@@ -102,12 +111,17 @@ class AppPages {
     GetPage(
       name: _Paths.BLOCK_LIST,
       page: () => BlockListView(),
-      bindings: [BlockListBinding(),FollowersBinding()],
+      bindings: [BlockListBinding(), FollowersBinding()],
     ),
     GetPage(
       name: _Paths.SETUP_PIN,
       page: () => const SetupPinView(),
       binding: SetupPinBinding(),
+    ),
+    GetPage(
+      name: _Paths.REGISTER,
+      page: () => const RegisterView(),
+      binding: RegisterBinding(),
     ),
   ];
 }

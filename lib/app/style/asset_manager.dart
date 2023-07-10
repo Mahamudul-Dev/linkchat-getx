@@ -1,6 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 class AssetManager {
+  static const String OTP_ANIM = 'assets/anim/otp.json';
   static const String NO_CHAT_ANIM = 'assets/anim/no_data.json';
   static const String ARROW_RIGHT_ANIM = 'assets/anim/arrow_right.json';
   static const String ARROW_RIGHT_OUTLINE_ANIM = 'assets/anim/arrow_right_outline.json';

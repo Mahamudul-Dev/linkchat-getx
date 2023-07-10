@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:linkchat/app/style/app_color.dart';
@@ -5,7 +7,7 @@ import 'package:linkchat/app/style/app_color.dart';
 import 'package:get/get.dart';
 
 class EditTextFieldView extends GetView {
-  const EditTextFieldView({this.controller, this.hintText, this.labelText, this.keyboardType, required this.iconData, this.suffixIcon, this.readOnly = false, this.onTap, Key? key}) : super(key: key);
+  EditTextFieldView({this.controller, this.hintText, this.labelText, this.keyboardType, required this.iconData, this.suffixIcon, this.readOnly = false, this.onTap, this.validator, Key? key}) : super(key: key);
   @override
   final TextEditingController? controller;
   final String? hintText;
@@ -15,6 +17,8 @@ class EditTextFieldView extends GetView {
   final Widget? suffixIcon;
   final bool readOnly;
   final void Function()? onTap;
+  String? Function(String?)? validator;
+  
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -22,6 +26,7 @@ class EditTextFieldView extends GetView {
       keyboardType: keyboardType,
       readOnly: readOnly,
       onTap: onTap,
+      validator: validator,
       style: TextStyle(
         fontSize: 14.sp,
       ),

@@ -19,6 +19,7 @@ abstract class Routes {
   static const RANDOM_CALL = _Paths.RANDOM_CALL;
   static const BLOCK_LIST = _Paths.BLOCK_LIST;
   static const SETUP_PIN = _Paths.SETUP_PIN;
+  static const REGISTER = _Paths.REGISTER;
 }
 
 abstract class _Paths {
@@ -37,4 +38,5 @@ abstract class _Paths {
   static const RANDOM_CALL = '/random-call';
   static const BLOCK_LIST = '/block-list';
   static const SETUP_PIN = '/setup-pin';
+  static const REGISTER = '/register';
 }

@@ -1,7 +1,7 @@
 import 'package:objectbox/objectbox.dart';
 
 @Entity()
-class Chat {
+class Message {
   @Id()
   int id;
   String content;
@@ -12,7 +12,7 @@ class Chat {
   @Property(type: PropertyType.date)
   DateTime timestamp;
 
-  Chat({
+  Message({
     required this.id,
     required this.content,
     required this.attachment,
