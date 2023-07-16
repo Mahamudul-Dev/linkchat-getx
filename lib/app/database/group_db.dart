@@ -1,27 +1,10 @@
 import 'package:objectbox/objectbox.dart';
 
 @Entity()
-class Group {
-  @Id()
-  int id;
-  String name;
-  String photo;
-  @Property(type: PropertyType.date)
-  DateTime createdAt;
-  @Backlink()
-  final participants = ToMany<Participant>();
-
-  Group(
-      {required this.id,
-      required this.name,
-      required this.photo,
-      required this.createdAt});
-}
-
-@Entity()
 class Participant {
   @Id()
-  int id;
+  int objectId;
+  String serverId;
   int uid;
   String name;
   String photo;
@@ -30,8 +13,11 @@ class Participant {
   bool isActive;
   String lastActive;
 
+  final group = ToOne<Group>();
+
   Participant({
-    required this.id,
+    this.objectId = 0,
+    required this.serverId,
     required this.uid,
     required this.name,
     required this.photo,
@@ -40,4 +26,25 @@ class Participant {
     required this.isActive,
     required this.lastActive,
   });
+}
+
+
+@Entity()
+class Group {
+  @Id()
+  int objectId;
+  String groupId;
+  String name;
+  String photo;
+  @Property(type: PropertyType.date)
+  DateTime createdAt;
+  @Backlink('group')
+  final participants = ToMany<Participant>();
+
+  Group(
+      {this.objectId = 0,
+        required this.groupId,
+        required this.name,
+        required this.photo,
+        required this.createdAt});
 }

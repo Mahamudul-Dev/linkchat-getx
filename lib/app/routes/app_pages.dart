@@ -1,7 +1,4 @@
-// ignore_for_file: non_constant_identifier_names
-
 import 'package:get/get.dart';
-import 'package:linkchat/app/services/auth_service.dart';
 
 import '../modules/audio_call/bindings/audio_call_binding.dart';
 import '../modules/audio_call/views/audio_call_view.dart';
@@ -13,6 +10,8 @@ import '../modules/chat/bindings/chat_binding.dart';
 import '../modules/chat/views/chat_view.dart';
 import '../modules/dialer/bindings/dialer_binding.dart';
 import '../modules/dialer/views/dialer_view.dart';
+import '../modules/email_verification/bindings/email_verification_binding.dart';
+import '../modules/email_verification/views/email_verification_view.dart';
 import '../modules/followers/bindings/followers_binding.dart';
 import '../modules/followers/views/followers_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -21,6 +20,8 @@ import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/message/bindings/message_binding.dart';
 import '../modules/message/views/message_view.dart';
+import '../modules/otp_verification/bindings/otp_verification_binding.dart';
+import '../modules/otp_verification/views/otp_verification_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/random_call/bindings/random_call_binding.dart';
@@ -33,6 +34,9 @@ import '../modules/setup_pin/bindings/setup_pin_binding.dart';
 import '../modules/setup_pin/views/setup_pin_view.dart';
 import '../modules/video_call/bindings/video_call_binding.dart';
 import '../modules/video_call/views/video_call_view.dart';
+import '../services/auth_service.dart';
+
+// ignore_for_file: non_constant_identifier_names
 
 // ignore_for_file: constant_identifier_names
 
@@ -41,7 +45,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static final INITIAL = AuthService().checkLogedIn() ? Routes.HOME : Routes.REGISTER;
+  static final INITIAL =  AuthService().checkLoggedIn() ? Routes.HOME : Routes.LOGIN;
 
   static final routes = [
     GetPage(
@@ -123,5 +127,15 @@ class AppPages {
       page: () => const RegisterView(),
       binding: RegisterBinding(),
     ),
+    GetPage(
+      name: _Paths.EMAIL_VERIFICATION,
+      page: () => const EmailVerificationView(),
+      binding: EmailVerificationBinding(),
+    ),
+    GetPage(
+      name: _Paths.OTP_VERIFICATION,
+      page: () => const OtpVerificationView(),
+      binding: OtpVerificationBinding(),
+    )
   ];
 }

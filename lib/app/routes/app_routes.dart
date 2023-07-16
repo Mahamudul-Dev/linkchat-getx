@@ -20,6 +20,8 @@ abstract class Routes {
   static const BLOCK_LIST = _Paths.BLOCK_LIST;
   static const SETUP_PIN = _Paths.SETUP_PIN;
   static const REGISTER = _Paths.REGISTER;
+  static const EMAIL_VERIFICATION = _Paths.EMAIL_VERIFICATION;
+  static const OTP_VERIFICATION = _Paths.OTP_VERIFICATION;
 }
 
 abstract class _Paths {
@@ -39,4 +41,6 @@ abstract class _Paths {
   static const BLOCK_LIST = '/block-list';
   static const SETUP_PIN = '/setup-pin';
   static const REGISTER = '/register';
+  static const EMAIL_VERIFICATION = '/email-verification';
+  static const OTP_VERIFICATION = '/otp-verification';
 }

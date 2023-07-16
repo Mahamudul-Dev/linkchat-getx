@@ -6,6 +6,8 @@ const String placeholderImageFemale =
     'https://www.parkamerica.net/wp-content/uploads/2020/12/placeholder-profile-female.jpg';
 
 // apis
-const String BASE_URL = 'https://link-server.up.railway.app';
-const String REGISTER = '/api/v1/user/register/'; // for register new user
+const String BASE_URL = 'http://chat.linkfy.org:8000';
+const String REGISTER = '/api/v1/user/register'; // for register new user
+const String LOGIN = '/api/v1/user/login'; // for login a user
 const String USER = '/api/v1/user/'; // need to put user id in parameter
+const String FOLLOWERS = '/api/v1/user/followers/'; // need to put user id in parameter

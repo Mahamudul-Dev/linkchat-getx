@@ -21,18 +21,18 @@ class MessageView extends GetView<MessageController> {
           slivers: [
             ChatProfileBarView(
               name: followersController.followers
-                  .singleWhere((element) => element.uid == uid)
-                  .userName,
+                  .singleWhere((element) => element.data!.first.uid == uid)
+                  .data!.first.userName!,
               profilePic: followersController.followers
-                  .singleWhere((element) => element.uid == uid)
-                  .userProfilePic,
+                  .singleWhere((element) => element.data!.first.uid == uid)
+                  .data!.first.profilePic!,
               tagLine: followersController.followers
-                      .singleWhere((element) => element.uid == uid)
-                      .tagline ??
+                      .singleWhere((element) => element.data!.first.uid == uid)
+                      .data!.first.tagLine ??
                   '',
               isActive: followersController.followers
-                  .singleWhere((element) => element.uid == uid)
-                  .isActive,
+                  .singleWhere((element) => element.data!.first.uid == uid)
+                  .data!.first.isActive!,
               uid: uid,
             ),
             SliverList.separated(

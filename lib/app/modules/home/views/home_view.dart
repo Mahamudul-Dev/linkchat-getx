@@ -12,8 +12,10 @@ class HomeView extends GetView<HomeController> {
     return Scaffold(
       key: controller.scaffoldKey,
       drawer: const NavigationDrawerView(),
-      body: Obx(() => controller
-          .pages[controller.currentIndex.value]),
+      body: SafeArea(
+        child: Obx(() => controller
+            .pages[controller.currentIndex.value]),
+      ),
       bottomNavigationBar: const BottomNavBarView(),
     );
   }

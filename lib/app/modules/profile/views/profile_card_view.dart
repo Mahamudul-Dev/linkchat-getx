@@ -44,10 +44,10 @@ class ProfileCardView extends GetView<ProfileController> {
                             ? brightWhite
                             : blackAccent,
                         backgroundImage: CachedNetworkImageProvider(
-                          uid != Get.find<HomeController>().currentUser.uid
+                          uid != Get.find<HomeController>().currentUser.data!.first.uid!
                             ? Get.find<FollowersController>().followers
-                                .singleWhere((element) => element.uid == uid)
-                                .userProfilePic : Get.find<HomeController>().currentUser.userProfilePic)
+                                .singleWhere((element) => element.data!.first.uid! == uid)
+                                .data!.first.profilePic! : Get.find<HomeController>().currentUser.data!.first.profilePic!)
                             ,
                       ),
                     ]),
@@ -60,11 +60,11 @@ class ProfileCardView extends GetView<ProfileController> {
                         children: [
                           // -- user name display -- //
                           Text(
-                            uid != Get.find<HomeController>().currentUser.uid
+                            uid != Get.find<HomeController>().currentUser.data!.first.uid!
                             ? Get.find<FollowersController>().followers
-                                .singleWhere((element) => element.uid == uid)
-                                .userName
-                            : Get.find<HomeController>().currentUser.userName,
+                                .singleWhere((element) => element.data!.first.uid! == uid)
+                                .data!.first.userName!
+                            : Get.find<HomeController>().currentUser.data!.first.userName!,
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                                 color: brightWhite,
@@ -76,9 +76,9 @@ class ProfileCardView extends GetView<ProfileController> {
 
                           // -- user tagline display -- //
                           Text(
-                            uid != Get.find<HomeController>().currentUser.uid
-                            ? Get.find<FollowersController>().followers.singleWhere((element) => element.uid == uid).tagline ?? ''
-                            : Get.find<HomeController>().currentUser.tagline ?? '',
+                            uid != Get.find<HomeController>().currentUser.data!.first.uid!
+                            ? Get.find<FollowersController>().followers.singleWhere((element) => element.data!.first.uid! == uid).data!.first.tagLine! ?? ''
+                            : Get.find<HomeController>().currentUser.data!.first.tagLine! ?? '',
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(color: white),
                           ),
@@ -88,9 +88,9 @@ class ProfileCardView extends GetView<ProfileController> {
 
                           // -- user uid display -- //
                           Text(
-                            uid != Get.find<HomeController>().currentUser.uid
-                            ? '@${Get.find<FollowersController>().followers.singleWhere((element) => element.uid == uid).uid}'
-                            : '@${Get.find<HomeController>().currentUser.uid}',
+                            uid != Get.find<HomeController>().currentUser.data!.first.uid!
+                            ? '@${Get.find<FollowersController>().followers.singleWhere((element) => element.data!.first.uid! == uid).data!.first.uid!}'
+                            : '@${Get.find<HomeController>().currentUser.data!.first.uid!}',
                               style: const TextStyle(color: white))
                         ],
                       ),

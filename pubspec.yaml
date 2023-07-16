@@ -21,8 +21,8 @@ dependencies:
   country_picker: 2.0.20
   gzx_dropdown_menu: 3.1.0
   animated_text_kit: 4.2.2
-  objectbox: 2.0.0
-  objectbox_flutter_libs: 2.0.0
+  objectbox: 2.1.0
+  objectbox_flutter_libs: 2.1.0
   icon_badge: 1.0.0
   flutter_dtmf: 2.0.2
   flutter_masked_text2: 0.9.1
@@ -33,18 +33,23 @@ dependencies:
   image_cropper: any
   loading_animation_widget: 1.2.0+4
   http: any
+  geolocator: 9.0.2
+  geocoding: 2.1.0
+  path_provider: 2.0.15
+  path: 1.8.3
   flutter: 
     sdk: flutter
 
 dev_dependencies: 
   flutter_lints: ^2.0.0
-  build_runner: 2.4.4
-  objectbox_generator: 2.0.0
+  build_runner: 2.4.6
+  objectbox_generator: 2.1.0
   flutter_test: 
     sdk: flutter
 
 flutter: 
   assets: 
     - assets/anim/
+    - assets/images/
   uses-material-design: true
 

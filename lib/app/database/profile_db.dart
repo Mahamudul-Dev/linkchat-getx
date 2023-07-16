@@ -1,48 +1,69 @@
 import 'package:objectbox/objectbox.dart';
 
+
+@Entity()
+class Follow {
+  @Id()
+  int objectId;
+  String serverId;
+  int uid;
+  String name;
+  String photo;
+  String country;
+  bool isActive;
+
+  final profile = ToOne<Profile>();
+
+  Follow({
+    this.objectId = 0,
+    required this.serverId,
+    required this.uid,
+    required this.name,
+    required this.photo,
+    required this.country,
+    required this.isActive
+  });
+}
+
+
 @Entity()
 class Profile {
   @Id()
-  int id;
+  int objectId;
+  String serverId;
   int uid;
   String name;
   String photo;
   String tagline;
   String dob;
+  String email;
+  String phone;
+  String country;
+  String relationshipStatus;
   String gender;
   bool isActive;
   String lastActive;
-  @Backlink()
+  @Property(type: PropertyType.date)
+  DateTime createdAt;
+  @Backlink('profile')
   final followers = ToMany<Follow>();
-  @Backlink()
+  @Backlink('profile')
   final following = ToMany<Follow>();
 
   Profile(
-      {required this.id,
-      required this.uid,
-      required this.name,
-      required this.photo,
-      required this.tagline,
-      required this.dob,
-      required this.gender,
-      required this.isActive,
-      required this.lastActive});
-}
-
-@Entity()
-class Follow {
-  @Id()
-  int id;
-  int uid;
-  String name;
-  String photo;
-  String tagline;
-
-  Follow({
-    required this.id,
-    required this.uid,
-    required this.name,
-    required this.photo,
-    required this.tagline,
-  });
+      {this.objectId = 0,
+        required this.serverId,
+        required this.uid,
+        required this.name,
+        required this.photo,
+        required this.tagline,
+        required this.dob,
+        required this.email,
+        required this.phone,
+        required this.country,
+        required this.relationshipStatus,
+        required this.gender,
+        required this.isActive,
+        required this.lastActive,
+        required this.createdAt});
 }

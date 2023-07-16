@@ -25,7 +25,7 @@ class AboutCardView extends GetView {
           height: 3,
         ),
         Text(
-          uid == Get.find<HomeController>().currentUser.uid ? Get.find<HomeController>().currentUser.bio ?? 'No Information Available' : Get.find<FollowersController>().followers.singleWhere((element) => element.uid == uid).bio ?? 'No Information Available',
+          uid == Get.find<HomeController>().currentUser.data!.first.uid ? Get.find<HomeController>().currentUser.data!.first.bio ?? 'No Information Available' : Get.find<FollowersController>().followers.singleWhere((element) => element.data!.first.uid == uid).data!.first.bio ?? 'No Information Available',
           textAlign: TextAlign.justify,
           style: TextStyle(color: ThemeProvider().isSavedLightMood() ? black : brightWhite),
         ),
@@ -35,7 +35,7 @@ class AboutCardView extends GetView {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Get.find<HomeController>().currentUser.uid != uid
+            Get.find<HomeController>().currentUser.data!.first.uid != uid
                 ? ElevatedButton.icon(
                     style: const ButtonStyle(
                         backgroundColor: MaterialStatePropertyAll(accentColor)),
@@ -43,7 +43,7 @@ class AboutCardView extends GetView {
                     icon: const Icon(Icons.no_accounts_rounded, color: brightWhite),
                     label: const Text('Unfollow',style: TextStyle(color: brightWhite, fontWeight: FontWeight.w600)))
                 : const SizedBox.shrink(),
-            Get.find<HomeController>().currentUser.uid != uid
+            Get.find<HomeController>().currentUser.data!.first != uid
                 ? ElevatedButton.icon(
                     style: const ButtonStyle(
                         backgroundColor: MaterialStatePropertyAll(accentColor)),

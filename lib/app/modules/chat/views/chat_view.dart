@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:linkchat/app/data/utils/app_strings.dart';
 import 'package:linkchat/app/modules/chat/views/activity_list_horizontal_view.dart';
 import 'package:linkchat/app/modules/chat/views/chat_list_tile_view.dart';
 import 'package:linkchat/app/routes/app_pages.dart';
@@ -59,12 +60,10 @@ class ChatView extends GetView<ChatController> {
                       Lottie.asset(AssetManager.NO_CHAT_ANIM,
                           height: 150, width: 230),
                       Text(
-                        'No Chat AvailableI!\n Start New Conversation...',
+                        NO_CHAT_MESSAGE,
                         style: TextStyle(
-                            color: ThemeProvider().isSavedLightMood()
-                                ? black
-                                : brightWhite,
-                            fontSize: 14.sp),
+                            color: ash,
+                            fontSize: 16.sp, fontWeight: FontWeight.bold),
                         textAlign: TextAlign.center,
                       )
                     ],

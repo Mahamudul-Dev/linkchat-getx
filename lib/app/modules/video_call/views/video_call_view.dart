@@ -20,8 +20,8 @@ class VideoCallView extends GetView<VideoCallController> {
         centerTitle: true,
         title: Text(
           _followersController.followers
-              .singleWhere((element) => element.uid == uid)
-              .userName,
+              .singleWhere((element) => element.data!.first.uid == uid)
+              .data!.first.userName!,
           style: TextStyle(
             color: ThemeProvider().isSavedLightMood() ? black : brightWhite,
             fontSize: 19.sp
@@ -32,7 +32,7 @@ class VideoCallView extends GetView<VideoCallController> {
           padding: const EdgeInsets.only(left: 20),
           child: CircleAvatar(
             backgroundImage: CachedNetworkImageProvider(_followersController.followers
-                .singleWhere((element) => element.uid == uid).userProfilePic),
+                .singleWhere((element) => element.data!.first.uid == uid).data!.first.profilePic!),
           ),
         ),
       ),

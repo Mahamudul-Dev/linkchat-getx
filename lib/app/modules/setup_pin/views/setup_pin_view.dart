@@ -14,9 +14,7 @@ class SetupPinView extends GetView<SetupPinController> {
       body: SafeArea(
           child: ListView(
         children: [
-          
           Row(
-            
             children: [
               Pinput(
                 defaultPinTheme: PinTheme(

@@ -69,12 +69,7 @@ class BlockListView extends GetView <BlockListController>{
               leading: CircleAvatar(
                 backgroundColor:
                     ThemeProvider().isSavedLightMood() ? white : blackAccent,
-                backgroundImage: CachedNetworkImageProvider(
-                    followersController
-                        .followers
-                        .singleWhere((element) =>
-                            element.uid == controller.blockList[index].uid)
-                        .userProfilePic),
+                backgroundImage: CachedNetworkImageProvider('https://images.pexels.com/photos/17490386/pexels-photo-17490386/free-photo-of-a-portrait-of-a-woman-in-sunlight.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'),
               ),
               title: Text(controller.blockList[index].username),
               subtitle:
@@ -117,7 +112,7 @@ Widget buildUnBlockedUserList() {
               ),
               title: Text(controller.unMarkedFollowers[index].username),
               subtitle: Text(
-                  '@ ${followersController.followers[index].uid}'),
+                  '@3205930'),
               trailing: Obx(() => Checkbox(
                     value: controller.unMarkedFollowers[index].isChecked.value,
                     onChanged: (value) => controller.singleMark(index, value),

@@ -4,29 +4,17 @@ import 'package:objectbox/objectbox.dart';
 @Entity()
 class BlockedUser {
   @Id()
-  int id;
+  int objectId;
+  String serverId;
   int uid;
   String username;
+  @Property(type: PropertyType.date)
   DateTime blockedDate;
-  RxBool isChecked;
 
   BlockedUser(
-      {this.id = 0,
+      {this.objectId = 0,
+        required this.serverId,
       required this.uid,
       required this.username,
-      required this.blockedDate,
-      bool isChecked = false})
-      : isChecked = isChecked.obs;
-}
-
-@Entity()
-class UserBlocklist {
-  @Id()
-  int id;
-
-  late final ToMany<BlockedUser> blockedUsers;
-
-  UserBlocklist({
-    this.id = 0,
-  });
+      required this.blockedDate});
 }

@@ -1,18 +1,12 @@
+import 'package:get_storage/get_storage.dart';
 import 'package:linkchat/app/database/cach_db.dart';
+
 
 class AuthService {
 
-  bool checkLogedIn(){
-    if (CacheDB.cacheDb.hasData('isLogedIn')) {
-      if (CacheDB.cacheDb.read('isLogedIn') == true) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      return false;
-    }
-  }
+  GetStorage box = GetStorage();
+
+
 
   bool isValidEmail(String email) {
   // Regular expression pattern for email validation
@@ -24,7 +18,34 @@ class AuthService {
 
   // Check if the email matches the pattern
   return regExp.hasMatch(email);
-}
+  }
+
+  bool checkLoggedIn(){
+    if (CacheDB.cacheDb.hasData('loginInfo')) {
+      Map<String,dynamic> userInfo = CacheDB.cacheDb.read('loginInfo');
+      if (userInfo['accessToken'] != null) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  void saveUserVerificationStatus(String otp, bool status){
+    box.write('isVerified', status);
+  }
+
+  bool checkVerification(){
+    final bool status = box.hasData('isVerified');
+    if (status) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 
 
 }

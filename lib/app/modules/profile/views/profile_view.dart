@@ -23,7 +23,7 @@ class ProfileView extends GetView<ProfileController> {
           icon: Icons.arrow_back_rounded,
         ),
         actions: [
-          uid == Get.find<HomeController>().currentUser.uid
+          uid == Get.find<HomeController>().currentUser.data!.first.uid
               ? RoundButtonView(
                   onTap: () {},
                   icon: Icons.edit,

@@ -47,9 +47,9 @@ late TabController tabController;
       Get.find<FollowersController>()
           .followers
           .map((e) => FollowersCheckObjectModel(
-              uid: e.uid,
-              username: e.userName,
-              profilepic: e.userProfilePic,
+              uid: e.data![0].uid!,
+              username: e.data![0].userName!,
+              profilepic: e.data![0].profilePic!,
               date: DateTime.now()))
           .toList()
           .obs;

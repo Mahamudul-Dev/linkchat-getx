@@ -12,21 +12,24 @@ class NameView extends GetView <RegisterController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('On more step',),
-        centerTitle: true,
-      ),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Form(
           key: controller.formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const SizedBox(height: 30,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('One More Step!', style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.bold, color: accentColor), textAlign: TextAlign.center,),
+                ],
+              ),
+              SizedBox(height: MediaQuery.of(context).size.height / 4,),
               Text('Type Your Full Name', style: TextStyle(fontSize: 22.sp, color: accentColor, fontWeight: FontWeight.bold),),
               const SizedBox(height: 10,),
-              EditTextFieldView(iconData: CupertinoIcons.person, keyboardType: TextInputType.name, controller: controller.nameController,hintText: 'Type your name',)
+              EditTextFieldView(iconData: CupertinoIcons.person, keyboardType: TextInputType.name, controller: controller.nameController.value,hintText: 'Type your name',)
             ],
           ),
         ),

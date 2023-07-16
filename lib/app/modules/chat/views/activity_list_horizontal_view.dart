@@ -69,7 +69,7 @@ class ActivityListHorizontalView extends GetView <ChatController> {
                 backgroundImage: CachedNetworkImageProvider(
                     controller
                         .activeUser[index]
-                        .userProfilePic),
+                        .data!.first.profilePic!),
               ),
               Align(
                 alignment: Alignment.bottomRight,
@@ -90,7 +90,7 @@ class ActivityListHorizontalView extends GetView <ChatController> {
       SizedBox(
         width: 55,
         child: Text(
-          controller.activeUser[index].userName,
+          controller.activeUser[index].data!.first.userName!,
           style: TextStyle(
               color: ThemeProvider().isSavedLightMood() ? black : brightWhite,
               fontSize: 10.sp),

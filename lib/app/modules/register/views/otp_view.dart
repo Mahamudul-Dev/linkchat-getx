@@ -23,7 +23,7 @@ class OtpView extends GetView <RegisterController> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 Lottie.asset(AssetManager.OTP_ANIM, height: 120, width: 120),
-                Text('Please check your email, \nWe send a otp in ${controller.userEmailController.text.trim()}', style: TextStyle(fontSize: 16.sp), textAlign: TextAlign.center,),
+                Text('Please check your email, \nWe send a otp in ${controller.userEmailController.value.text.trim()}', style: TextStyle(fontSize: 16.sp), textAlign: TextAlign.center,),
                 const SizedBox(height: 20,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -58,8 +58,8 @@ class OtpView extends GetView <RegisterController> {
           ],
         ),
       floatingActionButton: Obx(() => controller.otpText.value != "" ? FloatingActionButton.extended(backgroundColor: accentColor, onPressed: (){
-        controller.isLoading.value = true;
-        Future.delayed(const Duration(seconds: 2), ()=> controller.next());
+        
+        Future.delayed(const Duration(seconds: 2), ()=> controller.next(isEmailView: false));
       }, label: const Text('Verify', style: TextStyle(fontWeight: FontWeight.w600, color: brightWhite),)) : const SizedBox.shrink()),
     );
   }

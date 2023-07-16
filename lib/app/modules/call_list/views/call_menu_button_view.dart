@@ -22,7 +22,7 @@ class CallMenuButtonView extends GetView<CallListController> {
           icon: FontAwesomeIcons.video,
           iconSize: 14,
           onTap: () => Get.toNamed(Routes.VIDEO_CALL, arguments: {
-            'uid': controller.getUserInfo(index).uid
+            'uid': controller.getUserInfo(index).data!.first.uid
           }),
         ),
         const RoundButtonView(icon: Icons.screen_share_rounded),
@@ -36,7 +36,7 @@ class CallMenuButtonView extends GetView<CallListController> {
             break;
           case 1:
             Get.offNamed(Routes.VIDEO_CALL, arguments: {
-            'uid': controller.getUserInfo(index).uid
+            'uid': controller.getUserInfo(index).data!.first.uid
           });
             menuController.closeMenu;
             menuController.dispose();

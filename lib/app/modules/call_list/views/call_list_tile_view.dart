@@ -28,7 +28,7 @@ class CallListTileView extends GetView<CallListController> {
                 backgroundImage: CachedNetworkImageProvider(
                     controller
                         .getUserInfo(index)
-                        .userProfilePic),
+                        .data!.first.profilePic!),
               ),
               Align(
                 alignment: Alignment.bottomRight,
@@ -40,11 +40,11 @@ class CallListTileView extends GetView<CallListController> {
                     color: Get.find<FollowersController>()
                             .followers
                             .singleWhere((element) =>
-                                element.uid ==
+                                element.data!.first.uid ==
                                 controller
                                     .callHistory[index]
                                     .callerId)
-                            .isActive
+                            .data!.first.isActive!
                         ? Colors.green
                         : null,
                   ),
@@ -53,7 +53,7 @@ class CallListTileView extends GetView<CallListController> {
             ],
           ),
         ),
-        title: Text(controller.getUserInfo(index).userName, style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),),
+        title: Text(controller.getUserInfo(index).data!.first.userName!, style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),),
         subtitle: Row(
           children: [
             Text(timeago.format(DateTime.parse(
@@ -74,7 +74,7 @@ class CallListTileView extends GetView<CallListController> {
   Widget getStatus(int index) {
     if (controller.callHistory[index].isComplete &&
         controller.callHistory[index].callerId ==
-            Get.find<HomeController>().currentUser.uid) {
+            Get.find<HomeController>().currentUser.data!.first.uid) {
       return Row(
         children: [
           const Icon(
@@ -88,7 +88,7 @@ class CallListTileView extends GetView<CallListController> {
       );
     } else if (!controller.callHistory[index].isComplete &&
         controller.callHistory[index].receiverId ==
-            Get.find<HomeController>().currentUser.uid) {
+            Get.find<HomeController>().currentUser.data!.first.uid) {
       return Row(
         children: [
           const Icon(
@@ -102,7 +102,7 @@ class CallListTileView extends GetView<CallListController> {
       );
     } else if (controller.callHistory[index].isComplete &&
         controller.callHistory[index].callerId ==
-            Get.find<HomeController>().currentUser.uid) {
+            Get.find<HomeController>().currentUser.data!.first.uid) {
       return Row(
         children: [
           const Icon(

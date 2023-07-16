@@ -23,8 +23,7 @@ class NavigationDrawerView extends GetView {
             children: [
               CircleAvatar(
                 radius: 40,
-                backgroundImage: CachedNetworkImageProvider(
-                    Get.find<HomeController>().currentUser.userProfilePic),
+                backgroundImage: CachedNetworkImageProvider(''),
               ),
               const SizedBox(
                 width: 5,
@@ -34,7 +33,7 @@ class NavigationDrawerView extends GetView {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      Get.find<HomeController>().currentUser.userName,
+                      '',
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           color: ThemeProvider().isSavedLightMood()
@@ -46,7 +45,7 @@ class NavigationDrawerView extends GetView {
                     const SizedBox(
                       height: 3,
                     ),
-                    Text('@${Get.find<HomeController>().currentUser.uid}')
+                    Text('8457398457')
                   ],
                 ),
               )
@@ -60,7 +59,7 @@ class NavigationDrawerView extends GetView {
           children: [
             ListTile(
               onTap: () => Get.toNamed(Routes.PROFILE, arguments: {
-                'uid': Get.find<HomeController>().currentUser.uid
+                'uid': 234687
               }),
               leading: const Icon(
                 CupertinoIcons.profile_circled,

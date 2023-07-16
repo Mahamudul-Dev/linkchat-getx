@@ -1,0 +1,488 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:3186227760629210722",
+      "lastPropertyId": "5:2200810974922979695",
+      "name": "BlockedUser",
+      "properties": [
+        {
+          "id": "1:3250001493275735359",
+          "name": "objectId",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:4759588681306607790",
+          "name": "serverId",
+          "type": 9
+        },
+        {
+          "id": "3:8659758685491347737",
+          "name": "uid",
+          "type": 6
+        },
+        {
+          "id": "4:8258812888643578992",
+          "name": "username",
+          "type": 9
+        },
+        {
+          "id": "5:2200810974922979695",
+          "name": "blockedDate",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:8239648096423448884",
+      "lastPropertyId": "7:5796715996643826462",
+      "name": "Call",
+      "properties": [
+        {
+          "id": "1:8087273198893859459",
+          "name": "objectId",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:6216139844110119108",
+          "name": "callId",
+          "type": 9
+        },
+        {
+          "id": "3:3839312314536592916",
+          "name": "startTime",
+          "type": 10
+        },
+        {
+          "id": "4:591724963541086009",
+          "name": "endTime",
+          "type": 10
+        },
+        {
+          "id": "5:7009060435658403125",
+          "name": "duration",
+          "type": 6
+        },
+        {
+          "id": "6:5574508928564316985",
+          "name": "mediaType",
+          "type": 9
+        },
+        {
+          "id": "7:5796715996643826462",
+          "name": "status",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:7840614916228830186",
+      "lastPropertyId": "6:3337024087768771066",
+      "name": "CallParticipant",
+      "properties": [
+        {
+          "id": "1:897229677647990705",
+          "name": "objectId",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3812220377531672440",
+          "name": "serverId",
+          "type": 9
+        },
+        {
+          "id": "3:9098397644357370100",
+          "name": "uid",
+          "type": 9
+        },
+        {
+          "id": "4:4667488316469281693",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "5:2767057460638201728",
+          "name": "isHost",
+          "type": 1
+        },
+        {
+          "id": "6:3337024087768771066",
+          "name": "callId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "1:2728460147671640667",
+          "relationTarget": "Call"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "4:3192217011446078797",
+      "lastPropertyId": "8:3983325896197196434",
+      "name": "ChatParticipant",
+      "properties": [
+        {
+          "id": "1:1095947567929823370",
+          "name": "objectId",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5226371409010802612",
+          "name": "serverId",
+          "type": 9
+        },
+        {
+          "id": "3:425084494613191638",
+          "name": "uid",
+          "type": 6
+        },
+        {
+          "id": "4:2710187988511274458",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "5:4273404560604557606",
+          "name": "photo",
+          "type": 9
+        },
+        {
+          "id": "6:259223397324173444",
+          "name": "country",
+          "type": 9
+        },
+        {
+          "id": "7:5954222452161767894",
+          "name": "isActive",
+          "type": 1
+        },
+        {
+          "id": "8:3983325896197196434",
+          "name": "conversationId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "2:3925427140036503993",
+          "relationTarget": "Conversation"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "5:1985099699604219208",
+      "lastPropertyId": "2:8444767209774800476",
+      "name": "Conversation",
+      "properties": [
+        {
+          "id": "1:6339953363637299210",
+          "name": "objectId",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:8444767209774800476",
+          "name": "name",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "6:6607612567605664512",
+      "lastPropertyId": "8:7016745506633397807",
+      "name": "Follow",
+      "properties": [
+        {
+          "id": "1:7677191042140968021",
+          "name": "objectId",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:7833711238381892876",
+          "name": "serverId",
+          "type": 9
+        },
+        {
+          "id": "3:1329427352479445756",
+          "name": "uid",
+          "type": 6
+        },
+        {
+          "id": "4:8826191229458833564",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "5:7017727300028392390",
+          "name": "photo",
+          "type": 9
+        },
+        {
+          "id": "6:5112863948835744768",
+          "name": "country",
+          "type": 9
+        },
+        {
+          "id": "7:5365066936599761389",
+          "name": "isActive",
+          "type": 1
+        },
+        {
+          "id": "8:7016745506633397807",
+          "name": "profileId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "3:5007332974929314760",
+          "relationTarget": "Profile"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "7:4740549941581533618",
+      "lastPropertyId": "5:7584380973931041360",
+      "name": "Group",
+      "properties": [
+        {
+          "id": "1:6107503548238423106",
+          "name": "objectId",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:8511967085073585153",
+          "name": "groupId",
+          "type": 9
+        },
+        {
+          "id": "3:6328638868460881703",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "4:6417168168623471576",
+          "name": "photo",
+          "type": 9
+        },
+        {
+          "id": "5:7584380973931041360",
+          "name": "createdAt",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "8:3534649597296540028",
+      "lastPropertyId": "7:4043764624221419635",
+      "name": "Message",
+      "properties": [
+        {
+          "id": "1:2554539629455160591",
+          "name": "objectId",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:6082888500554375860",
+          "name": "content",
+          "type": 9
+        },
+        {
+          "id": "3:6863128075130816393",
+          "name": "attachment",
+          "type": 30
+        },
+        {
+          "id": "4:8967010547806654797",
+          "name": "senderId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "4:4258670617851926882",
+          "relationTarget": "ChatParticipant"
+        },
+        {
+          "id": "5:5950395249939898957",
+          "name": "receiverId",
+          "type": 9
+        },
+        {
+          "id": "6:348203840683320740",
+          "name": "groupId",
+          "type": 9
+        },
+        {
+          "id": "7:4043764624221419635",
+          "name": "timestamp",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "9:7232083230412326210",
+      "lastPropertyId": "10:9087332896474422032",
+      "name": "Participant",
+      "properties": [
+        {
+          "id": "1:6081458799569731884",
+          "name": "objectId",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:9027399748451378831",
+          "name": "serverId",
+          "type": 9
+        },
+        {
+          "id": "3:1132651072116322078",
+          "name": "uid",
+          "type": 6
+        },
+        {
+          "id": "4:8346258961320967525",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "5:1505283416333331844",
+          "name": "photo",
+          "type": 9
+        },
+        {
+          "id": "6:2649843281749892037",
+          "name": "tagline",
+          "type": 9
+        },
+        {
+          "id": "7:2775213752800900627",
+          "name": "gender",
+          "type": 9
+        },
+        {
+          "id": "8:3991535512978688703",
+          "name": "isActive",
+          "type": 1
+        },
+        {
+          "id": "9:6071558369893398337",
+          "name": "lastActive",
+          "type": 9
+        },
+        {
+          "id": "10:9087332896474422032",
+          "name": "groupId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "5:7784526491509234335",
+          "relationTarget": "Group"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "10:6469001632077361422",
+      "lastPropertyId": "15:4803659458041966464",
+      "name": "Profile",
+      "properties": [
+        {
+          "id": "1:2657678815673459401",
+          "name": "objectId",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:8452077550366842918",
+          "name": "serverId",
+          "type": 9
+        },
+        {
+          "id": "3:1917648982461552139",
+          "name": "uid",
+          "type": 6
+        },
+        {
+          "id": "4:6919884696640011361",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "5:6221487985599435715",
+          "name": "photo",
+          "type": 9
+        },
+        {
+          "id": "6:6403406205085792527",
+          "name": "tagline",
+          "type": 9
+        },
+        {
+          "id": "7:1147959631056999338",
+          "name": "dob",
+          "type": 9
+        },
+        {
+          "id": "8:3074587677862267945",
+          "name": "email",
+          "type": 9
+        },
+        {
+          "id": "9:4213552065241482153",
+          "name": "phone",
+          "type": 9
+        },
+        {
+          "id": "10:3623198587705920512",
+          "name": "country",
+          "type": 9
+        },
+        {
+          "id": "11:5834747202117559627",
+          "name": "relationshipStatus",
+          "type": 9
+        },
+        {
+          "id": "12:6820990420092640242",
+          "name": "gender",
+          "type": 9
+        },
+        {
+          "id": "13:6612209105334428253",
+          "name": "isActive",
+          "type": 1
+        },
+        {
+          "id": "14:8417175202539257194",
+          "name": "lastActive",
+          "type": 9
+        },
+        {
+          "id": "15:4803659458041966464",
+          "name": "createdAt",
+          "type": 10
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "10:6469001632077361422",
+  "lastIndexId": "5:7784526491509234335",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}

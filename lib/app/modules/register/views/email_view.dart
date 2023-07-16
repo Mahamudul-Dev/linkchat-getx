@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
-import 'package:linkchat/app/routes/app_pages.dart';
 import 'package:linkchat/app/services/auth_service.dart';
-import 'package:linkchat/app/style/app_color.dart';
+import 'package:linkchat/app/style/style.dart';
 import 'package:linkchat/app/widgets/views/edit_text_field_view.dart';
+import 'package:lottie/lottie.dart';
 import '../controllers/register_controller.dart';
 
 class EmailView extends GetView<RegisterController> {
@@ -13,15 +13,13 @@ class EmailView extends GetView<RegisterController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: SafeArea(
-          child: Stack(
-            children: [
-              Form(
-                key: controller.formKey,
-                child: ListView(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                      children: [
+          child: Form(
+            key: controller.formKey,
+            child: ListView(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+              children: [
+                Lottie.asset(AssetManager.EMAIL_ANIM, repeat: false, height: 220.h, width: 250.w),
                 Text(
                   'Enter Your \nEmail Address',
                   style: TextStyle(
@@ -35,8 +33,15 @@ class EmailView extends GetView<RegisterController> {
                 EditTextFieldView(
                   iconData: Icons.email_rounded,
                   keyboardType: TextInputType.emailAddress,
-                  controller: controller.userEmailController,
+                  controller: controller.userEmailController.value,
                   hintText: 'Enter your email address',
+                  onChanged: (value){
+                    if (AuthService().isValidEmail(value ?? '')) {
+                      controller.typedEmail.value = value ?? '';
+                    } else {
+                      controller.typedEmail.value = '';
+                    }
+                  },
                   validator: (value) {
                     if (value == '' || value == null) {
                       return 'Email is required.';
@@ -44,23 +49,33 @@ class EmailView extends GetView<RegisterController> {
                       return null;
                     }
                   },
-                )
-                      ],
-                    ),
-              ),
-
-              Positioned(bottom: 10, left: 10, child: TextButton(onPressed: ()=> Get.offNamed(Routes.HOME), child: Text('Skip', style: TextStyle(fontSize: 19.sp, color: accentColor, fontWeight: FontWeight.bold),)))
-            ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Obx(() => controller.typedEmail.isNotEmpty ? ElevatedButton(
+                  onPressed: () {},
+                  style: const ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(accentColor)),
+                  child: const Text(
+                    'Verify',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600, color: brightWhite),
+                  ),
+                ) : const SizedBox.shrink())
+              ],
+            ),
           )),
       floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
             if (controller.formKey.currentState!.validate()) {
-              if (AuthService().isValidEmail(controller.userEmailController.text.trim())) {
-                controller.isLoading.value = true;
-              Future.delayed(const Duration(seconds: 2), ()=> controller.next());
-            } else {
-              Get.snackbar('Opps', 'Please enter a valid email address');
-            }
+              if (AuthService()
+                  .isValidEmail(controller.userEmailController.value.text.trim())) {
+                
+                controller.next(isEmailView: true);
+              } else {
+                Get.snackbar('Opps', 'Please enter a valid email address');
+              }
             }
           },
           backgroundColor: accentColor,

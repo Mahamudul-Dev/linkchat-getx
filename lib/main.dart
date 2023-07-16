@@ -4,19 +4,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:linkchat/app/database/database_helper.dart';
 import 'package:linkchat/app/style/style.dart';
 
 import 'app/routes/app_pages.dart';
 
 void main() async {
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      systemNavigationBarColor:
-          ThemeProvider().isSavedLightMood() ? white : solidMate,
-      statusBarBrightness: ThemeProvider().isSavedLightMood()
-          ? Brightness.light
-          : Brightness.dark,
-      statusBarColor: Colors.transparent));
+
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
   await GetStorage.init();
+  await DatabaseHelper.create();
   runApp(const Link());
 }
 

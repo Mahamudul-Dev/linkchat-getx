@@ -12,6 +12,6 @@ class ThemeProvider {
   }
 
   bool isSavedLightMood() {
-    return _getStorage.read(themeStoreKey) ?? true;
+    return _getStorage.read(themeStoreKey) ?? false;
   }
 }

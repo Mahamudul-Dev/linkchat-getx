@@ -51,11 +51,11 @@ class FollowerCardView extends GetView {
                                 ProfileCardView(
                                     uid: Get.find<FollowersController>()
                                         .followers[index]
-                                        .uid),
+                                        .data!.first.uid!),
                                 AboutCardView(
                                     uid: Get.find<FollowersController>()
                                         .followers[index]
-                                        .uid),
+                                        .data!.first.uid!),
                               ],
                             ));
                       },
@@ -76,7 +76,7 @@ class FollowerCardView extends GetView {
                         child: Text(
                           Get.find<FollowersController>()
                               .followers[index]
-                              .userName,
+                              .data!.first.userName!,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(color: brightWhite),
                         ),
@@ -84,7 +84,7 @@ class FollowerCardView extends GetView {
                       child: CachedNetworkImage(
                         imageUrl: Get.find<FollowersController>()
                             .followers[index]
-                            .userProfilePic,
+                            .data!.first.profilePic!,
                         fit: BoxFit.cover,
                         placeholder: (context, url) => const Center(
                           child: CircularProgressIndicator(

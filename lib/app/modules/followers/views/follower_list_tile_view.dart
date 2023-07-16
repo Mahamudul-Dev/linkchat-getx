@@ -25,7 +25,7 @@ class FollowerListTileView extends GetView<FollowersController> {
                     ThemeProvider().isSavedLightMood() ? brightWhite : black,
                 backgroundImage: CachedNetworkImageProvider(
                         controller.followers[index]
-                        .userProfilePic),
+                        .data!.first.profilePic!),
               ),
               Align(
                 alignment: Alignment.bottomRight,
@@ -36,7 +36,7 @@ class FollowerListTileView extends GetView<FollowersController> {
                     shape: BoxShape.circle,
                     color: controller
                             .followers[index]
-                            .isActive
+                            .data!.first.isActive!
                         ? Colors.green
                         : null,
                   ),
@@ -46,18 +46,18 @@ class FollowerListTileView extends GetView<FollowersController> {
           ),
         ),
         title: Text(
-          '${controller.followers[index].userName.split(' ')[0]} ${controller.followers[index].userName.split(' ')[1]}',
+          '${controller.followers[index].data!.first.userName!.split(' ')[0]} ${controller.followers[index].data!.first.userName!.split(' ')[1]}',
           overflow: TextOverflow.ellipsis,
         ),
         subtitle:
-            Text(controller.followers[index].userEmail),
+            Text(controller.followers[index].data!.first.email!),
         trailing: isChat
             ? RoundButtonView(
                 icon: isChat ? Icons.send : Icons.call,
                 onTap: () {
                   Get.toNamed(Routes.MESSAGE, arguments: {
                     'uid':
-                        controller.followers[index].uid
+                        controller.followers[index].data!.first.uid
                   });
                 })
             : CallMenuButtonView(index: index));

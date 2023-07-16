@@ -7,7 +7,7 @@ class ChatController extends GetxController {
 
 // user activity list section
   List<UserModel> get activeUser =>
-      profiles.where((element) => element.isActive).toList();
+      profiles.where((element) => element.data!.first.isActive!).toList();
 
 // user chat section
   List<Chat> get chatList => chats.obs;

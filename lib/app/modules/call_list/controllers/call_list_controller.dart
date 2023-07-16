@@ -12,14 +12,14 @@ class CallListController extends GetxController {
 
   UserModel getUserInfo(int index) {
     if (callHistory[index].callerId ==
-        Get.find<HomeController>().currentUser.uid) {
+        Get.find<HomeController>().currentUser) {
       var user = Get.find<FollowersController>().followers.singleWhere(
-          (element) => element.uid == callHistory[index].receiverId);
+          (element) => element.data!.first.uid == callHistory[index].receiverId);
       return user;
     } else {
       var user = Get.find<FollowersController>()
           .followers
-          .singleWhere((element) => element.uid == callHistory[index].callerId);
+          .singleWhere((element) => element.data!.first.uid == callHistory[index].callerId);
 
       return user;
     }
