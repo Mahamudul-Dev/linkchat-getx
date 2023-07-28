@@ -22,7 +22,7 @@ class NewUserRegResModel {
 
 class NewUser {
   String? userName;
-  int? uid;
+  String? uid;
   String? email;
   String? password;
   String? country;

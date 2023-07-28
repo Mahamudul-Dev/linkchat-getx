@@ -13,7 +13,7 @@ class Participant {
   bool isActive;
   String lastActive;
 
-  final group = ToOne<Group>();
+  final group = ToOne<GroupSchema>();
 
   Participant({
     this.objectId = 0,
@@ -30,7 +30,7 @@ class Participant {
 
 
 @Entity()
-class Group {
+class GroupSchema {
   @Id()
   int objectId;
   String groupId;
@@ -41,7 +41,7 @@ class Group {
   @Backlink('group')
   final participants = ToMany<Participant>();
 
-  Group(
+  GroupSchema(
       {this.objectId = 0,
         required this.groupId,
         required this.name,

@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import 'package:linkchat/app/style/style.dart';
 
 class EditTextFieldView extends GetView {
-  EditTextFieldView({this.controller, this.hintText, this.labelText, this.keyboardType, required this.iconData, this.suffixIcon, this.readOnly = false, this.onTap, this.validator, this.onChanged,  Key? key}) : super(key: key);
+  EditTextFieldView({this.controller, this.hintText, this.labelText, this.keyboardType, required this.iconData, this.suffixIcon, this.readOnly = false, this.obscureText, this.onTap, this.validator, this.onChanged,  Key? key}) : super(key: key);
   @override
   final TextEditingController? controller;
   final String? hintText;
@@ -17,6 +17,7 @@ class EditTextFieldView extends GetView {
   final IconData iconData;
   final Widget? suffixIcon;
   final bool readOnly;
+  final bool? obscureText;
   final void Function()? onTap;
   final void Function(String?)? onChanged;
   String? Function(String?)? validator;
@@ -28,6 +29,7 @@ class EditTextFieldView extends GetView {
       keyboardType: keyboardType,
       readOnly: readOnly,
       onTap: onTap,
+      obscureText: obscureText ?? false,
       validator: validator,
       onChanged: onChanged,
       style: Theme.of(context).textTheme.bodyMedium,
@@ -36,20 +38,20 @@ class EditTextFieldView extends GetView {
         hintText: hintText,
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(
-            color: ThemeProvider().isSavedLightMood() ? accentColor : white,
+            color: ThemeProvider().isSavedLightMood().value ? accentColor : white,
             width: 2
           )
         ),
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(
-            color: ThemeProvider().isSavedLightMood() ? accentColor : white,
+            color: ThemeProvider().isSavedLightMood().value ? accentColor : white,
             width: 1
           )
         ),
         
         suffixIcon: suffixIcon,
         labelText: labelText,
-        labelStyle: TextStyle(color: ThemeProvider().isSavedLightMood() ? accentColor : white)
+        labelStyle: TextStyle(color: ThemeProvider().isSavedLightMood().value ? accentColor : white)
       ),
     );
   }

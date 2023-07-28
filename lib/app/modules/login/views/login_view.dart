@@ -8,7 +8,6 @@ import '../../../data/utils/app_strings.dart';
 import '../../../style/style.dart';
 import '../../../widgets/widgets.dart';
 import '../controllers/login_controller.dart';
-import './email_login_view.dart';
 
 class LoginView extends GetView<LoginController> {
   const LoginView({Key? key}) : super(key: key);
@@ -23,20 +22,13 @@ class LoginView extends GetView<LoginController> {
             Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  const Spacer(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ClipRRect(borderRadius: BorderRadius.circular(20), child: Image.asset(AssetManager.APP_LOGO, fit: BoxFit.fill, height: 100, width: 100,)),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
+
                   WideButton(
                     buttonIcon: AssetManager.TIKTOK_LOGO,
                     buttonText: TIKTOK_LOGIN_BUTTON_TEXT,
-                    buttonColor: ThemeProvider().isSavedLightMood() ? cyanWhite : blackAccent,
+                    buttonColor: ThemeProvider().isSavedLightMood().value ? cyanWhite : accentColor,
                     onTap: ()=>Get.offNamed(Routes.REGISTER),
                   ),
 
@@ -44,38 +36,18 @@ class LoginView extends GetView<LoginController> {
                   WideButton(
                     buttonIcon: AssetManager.MAIL_LOGO,
                     buttonText: EMAIL_LOGIN_BUTTON_TEXT,
-                    buttonColor: ThemeProvider().isSavedLightMood() ? white : transparentBlack,
-                    onTap: ()=>_showEmailLoginView(context),
+                    buttonColor: ThemeProvider().isSavedLightMood().value ? white : blackAccent,
+                    onTap: ()=> Get.toNamed(Routes.EMAIL_LOGIN),
                   ),
-                  const Spacer(),
+                  const SizedBox(height: 15,),
                   Text(ATTRIBUTE_TEXT, style: Theme.of(context).textTheme.bodySmall,)
                 ],
               ),
             ),
-            Obx(() {
-              return controller.isLoading.value
-                  ? Container(
-                color: ThemeProvider().isSavedLightMood() ? brightWhite : solidMate,
-                child: Center(
-                  child: LoadingAnimationWidget.inkDrop(
-                      color: accentColor, size: 50.w),
-                ),
-              )
-                  : const SizedBox.shrink();
-            })
+
           ],
         ),
       )
     );
-  }
-
-  _showEmailLoginView(BuildContext context){
-    return showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-        builder:(context){
-          return const EmailLoginView();
-        });
   }
 }

@@ -21,15 +21,7 @@ class CallListView extends GetView<CallListController> {
               height: 45,
               hint: 'Search calls...',
             )),
-        body: Obx(() {
-          return controller.callHistory.isNotEmpty
-              ? ListView.builder(
-                  itemCount: controller.callHistory.length,
-                  itemBuilder: (context, index) {
-                    return CallListTileView(index: index);
-                  },
-                )
-              : Center(
+        body: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -39,15 +31,14 @@ class CallListView extends GetView<CallListController> {
                         'No incomming or outgoing call found!',
                         style: TextStyle(
                           fontSize: 14.sp,
-                          color: ThemeProvider().isSavedLightMood()
+                          color: ThemeProvider().isSavedLightMood().value
                               ? black
                               : brightWhite,
                         ),
                       )
                     ],
                   ),
-                );
-        }),
+                ),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () => Get.toNamed(Routes.FOLLOWERS,
               arguments: {'isChat': false}),

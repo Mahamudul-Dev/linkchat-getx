@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
+import 'package:linkchat/app/routes/app_pages.dart';
 import '../../profile/views/about_card_view.dart';
 import '../../profile/views/follower_card_view.dart';
 import '../../profile/views/profile_card_view.dart';
-import '../../home/controllers/home_controller.dart';
 import '../../../style/style.dart';
 import '../../../widgets/widgets.dart';
 
@@ -23,17 +22,18 @@ class ProfileView extends GetView<ProfileController> {
           icon: Icons.arrow_back_rounded,
         ),
         actions: [
-          uid == Get.find<HomeController>().currentUser.data!.first.uid
+          uid == controller.getProfile.uid
               ? RoundButtonView(
-                  onTap: () {},
+                  onTap: () => Get.toNamed(Routes.EDIT_PROFILE),
                   icon: Icons.edit,
                 )
               : const SizedBox.shrink()
         ],
         backgroundColor:
-            ThemeProvider().isSavedLightMood() ? accentColor : black,
+            ThemeProvider().isSavedLightMood().value ? accentColor : black,
       ),
       body: ListView(
+        controller: controller.scrollController,
         children: [
           ProfileCardView(uid: uid,),
           AboutCardView(uid: uid),
@@ -41,9 +41,10 @@ class ProfileView extends GetView<ProfileController> {
             padding: const EdgeInsets.only(left: 10),
             child: Text(
               'Followers',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp),
+              style: Theme.of(context).textTheme.labelMedium,
             ),
           ),
+          const SizedBox(height: 10),
           const FollowerCardView()
         ],
       ),

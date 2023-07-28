@@ -20,7 +20,7 @@ class RandomCallSettingSheetView extends GetView<RandomCallController> {
           return Container(
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-                color: ThemeProvider().isSavedLightMood() ? white : blackAccent,
+                color: ThemeProvider().isSavedLightMood().value ? white : blackAccent,
                 borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(35),
                     topRight: Radius.circular(35))),
@@ -31,13 +31,13 @@ class RandomCallSettingSheetView extends GetView<RandomCallController> {
                 Text(
                   'Describe your interest',
                   style: TextStyle(
-                      color: ThemeProvider().isSavedLightMood()
+                      color: ThemeProvider().isSavedLightMood().value
                           ? black
                           : brightWhite,
                       fontSize: 22.sp,
                       fontWeight: FontWeight.bold),
                 ),
-                Lottie.asset(ThemeProvider().isSavedLightMood()
+                Lottie.asset(ThemeProvider().isSavedLightMood().value
                     ? AssetManager.FULL_MAP_BLACK
                     : AssetManager.FULL_MAP_WHITE),
                 Padding(
@@ -46,7 +46,7 @@ class RandomCallSettingSheetView extends GetView<RandomCallController> {
                     'Age Range',
                     style: TextStyle(
                         fontSize: 16.sp,
-                        color: ThemeProvider().isSavedLightMood()
+                        color: ThemeProvider().isSavedLightMood().value
                             ? black
                             : brightWhite),
                   ),
@@ -60,7 +60,7 @@ class RandomCallSettingSheetView extends GetView<RandomCallController> {
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         decoration: BoxDecoration(
-                            color: ThemeProvider().isSavedLightMood()
+                            color: ThemeProvider().isSavedLightMood().value
                                 ? brightWhite
                                 : transparentBlack,
                             borderRadius: BorderRadius.circular(8.0)),
@@ -72,7 +72,7 @@ class RandomCallSettingSheetView extends GetView<RandomCallController> {
                                 elevation: 16,
                                 borderRadius: BorderRadius.circular(8.0),
                                 style: TextStyle(
-                                    color: ThemeProvider().isSavedLightMood()
+                                    color: ThemeProvider().isSavedLightMood().value
                                         ? black
                                         : brightWhite,
                                     fontSize: 14.sp),
@@ -98,7 +98,7 @@ class RandomCallSettingSheetView extends GetView<RandomCallController> {
                       'to',
                       style: TextStyle(
                           fontSize: 16.sp,
-                          color: ThemeProvider().isSavedLightMood()
+                          color: ThemeProvider().isSavedLightMood().value
                               ? black
                               : brightWhite),
                     ),
@@ -108,7 +108,7 @@ class RandomCallSettingSheetView extends GetView<RandomCallController> {
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         decoration: BoxDecoration(
-                            color: ThemeProvider().isSavedLightMood()
+                            color: ThemeProvider().isSavedLightMood().value
                                 ? white
                                 : transparentBlack,
                             borderRadius: BorderRadius.circular(8.0)),
@@ -120,7 +120,7 @@ class RandomCallSettingSheetView extends GetView<RandomCallController> {
                                 elevation: 16,
                                 borderRadius: BorderRadius.circular(8.0),
                                 style: TextStyle(
-                                    color: ThemeProvider().isSavedLightMood()
+                                    color: ThemeProvider().isSavedLightMood().value
                                         ? black
                                         : brightWhite,
                                     fontSize: 14.sp),
@@ -146,7 +146,7 @@ class RandomCallSettingSheetView extends GetView<RandomCallController> {
                   child: Text(
                     'Select country',
                     style: TextStyle(
-                        color: ThemeProvider().isSavedLightMood()
+                        color: ThemeProvider().isSavedLightMood().value
                             ? black
                             : brightWhite,
                         fontSize: 14.sp),
@@ -163,7 +163,7 @@ class RandomCallSettingSheetView extends GetView<RandomCallController> {
                     Text(
                       'Select Gender',
                       style: TextStyle(
-                          color: ThemeProvider().isSavedLightMood()
+                          color: ThemeProvider().isSavedLightMood().value
                               ? black
                               : brightWhite,
                           fontSize: 14.sp),
@@ -177,7 +177,7 @@ class RandomCallSettingSheetView extends GetView<RandomCallController> {
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         decoration: BoxDecoration(
-                            color: ThemeProvider().isSavedLightMood()
+                            color: ThemeProvider().isSavedLightMood().value
                                 ? white
                                 : transparentBlack,
                             borderRadius: BorderRadius.circular(8.0)),
@@ -189,7 +189,7 @@ class RandomCallSettingSheetView extends GetView<RandomCallController> {
                                 elevation: 16,
                                 borderRadius: BorderRadius.circular(8.0),
                                 style: TextStyle(
-                                    color: ThemeProvider().isSavedLightMood()
+                                    color: ThemeProvider().isSavedLightMood().value
                                         ? black
                                         : brightWhite,
                                     fontSize: 14.sp),
@@ -238,7 +238,7 @@ class RandomCallSettingSheetView extends GetView<RandomCallController> {
       padding: const EdgeInsets.all(3),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          color: ThemeProvider().isSavedLightMood() ? white : transparentBlack),
+          color: ThemeProvider().isSavedLightMood().value ? white : transparentBlack),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [

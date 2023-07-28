@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:linkchat/app/style/app_color.dart';
-import 'package:linkchat/app/style/theme_provider.dart';
-
 import 'package:get/get.dart';
+
+import '../../style/style.dart';
 
 class SearchBarView extends GetView implements PreferredSizeWidget{
   const SearchBarView({Key? key, required this.height, required this.hint}) : super(key: key);
@@ -24,23 +23,23 @@ class SearchBarView extends GetView implements PreferredSizeWidget{
               offset: const Offset(0, 10),
             ),
           ],
-          color: ThemeProvider().isSavedLightMood() ? white : blackAccent,
+          color: ThemeProvider().isSavedLightMood().value ? white : darkAsh,
           borderRadius: BorderRadius.circular(15)),
       child: TextField(
         style: TextStyle(
             fontSize: 16.sp,
-            color: ThemeProvider().isSavedLightMood() ? black : white),
-        cursorColor: ThemeProvider().isSavedLightMood() ? black : white,
+            color: ThemeProvider().isSavedLightMood().value ? black : white),
+        cursorColor: ThemeProvider().isSavedLightMood().value ? black : white,
         decoration: InputDecoration(
             prefixIcon: Icon(
               Icons.search_rounded,
-              color: ThemeProvider().isSavedLightMood() ? accentColor : white,
+              color: ThemeProvider().isSavedLightMood().value ? accentColor : white,
             ),
             hintText: hint,
             border: InputBorder.none,
             hintStyle: TextStyle(
                 overflow: TextOverflow.ellipsis,
-                color: ThemeProvider().isSavedLightMood() ? black : white,
+                color: ThemeProvider().isSavedLightMood().value ? black : white,
                 fontSize: 14.sp)),
       ),
     );

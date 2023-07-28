@@ -18,7 +18,7 @@ class RegisterView extends GetView<RegisterController> {
             Obx(() => controller.regViews[controller.currentView.value]),
             Obx(() => controller.isLoading.value
                 ? Container(
-                    color: ThemeProvider().isSavedLightMood()
+                    color: ThemeProvider().isSavedLightMood().value
                         ? brightWhite
                         : solidMate,
                     child: Center(

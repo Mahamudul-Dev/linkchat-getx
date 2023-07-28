@@ -23,7 +23,7 @@ class BlockListView extends GetView <BlockListController>{
                     pinned: true,
                     floating: true,
                     snap: true,
-                    backgroundColor: ThemeProvider().isSavedLightMood()
+                    backgroundColor: ThemeProvider().isSavedLightMood().value
                         ? brightWhite
                         : black,
                     actions: [
@@ -44,11 +44,11 @@ class BlockListView extends GetView <BlockListController>{
                     ],
                     bottom: TabBar(
                       tabs: controller.tabs,
-                      labelColor: ThemeProvider().isSavedLightMood()
+                      labelColor: ThemeProvider().isSavedLightMood().value
                           ? blackAccent
                           : brightWhite,
                       controller: controller.tabController,
-                      indicatorColor: ThemeProvider().isSavedLightMood()
+                      indicatorColor: ThemeProvider().isSavedLightMood().value
                           ? black
                           : brightWhite,
                     ),
@@ -68,12 +68,12 @@ class BlockListView extends GetView <BlockListController>{
             return ListTile(
               leading: CircleAvatar(
                 backgroundColor:
-                    ThemeProvider().isSavedLightMood() ? white : blackAccent,
+                    ThemeProvider().isSavedLightMood().value ? white : blackAccent,
                 backgroundImage: CachedNetworkImageProvider('https://images.pexels.com/photos/17490386/pexels-photo-17490386/free-photo-of-a-portrait-of-a-woman-in-sunlight.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'),
               ),
-              title: Text(controller.blockList[index].username),
+              title: Text(controller.blockList[index].userName),
               subtitle:
-                  Text(timeago.format(controller.blockList[index].blockedDate)),
+                  Text(timeago.format(controller.blockList[index].date)),
               trailing: Obx(() => Checkbox(
                     value: controller.blockList[index].isChecked.value,
                     onChanged: (value) => controller.singleMark(index, value),
@@ -106,11 +106,11 @@ Widget buildUnBlockedUserList() {
             return ListTile(
               leading: CircleAvatar(
                 backgroundColor:
-                    ThemeProvider().isSavedLightMood() ? white : blackAccent,
+                    ThemeProvider().isSavedLightMood().value ? white : blackAccent,
                 backgroundImage: CachedNetworkImageProvider(
-                    controller.unMarkedFollowers[index].profilepic),
+                    controller.unMarkedFollowers[index].profilePic),
               ),
-              title: Text(controller.unMarkedFollowers[index].username),
+              title: Text(controller.unMarkedFollowers[index].userName),
               subtitle: Text(
                   '@3205930'),
               trailing: Obx(() => Checkbox(

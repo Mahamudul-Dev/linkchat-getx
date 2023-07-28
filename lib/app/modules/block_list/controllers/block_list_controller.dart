@@ -17,42 +17,27 @@ late TabController tabController;
       text: 'Blocked Users',
       icon: Icon(
         Icons.block_rounded,
-        color: ThemeProvider().isSavedLightMood() ? blackAccent : brightWhite,
+        color: ThemeProvider().isSavedLightMood().value ? blackAccent : brightWhite,
       ),
     ),
     Tab(
       text: 'Followers',
       icon: Icon(
         Icons.people,
-        color: ThemeProvider().isSavedLightMood() ? blackAccent : brightWhite,
+        color: ThemeProvider().isSavedLightMood().value ? blackAccent : brightWhite,
       ),
     ),
   ];
-  List<BlockedUser> blockList = [
-    BlockedUser(
-        uid: 124561715,
-        username: 'Mohammad Jashim Akbar',
-        blockedDate: DateTime.now()),
-    BlockedUser(
-        id: 1,
-        uid: 0498147278,
-        username: 'Mohammad Jakir',
-        blockedDate: DateTime.now())
+  List<FollowersCheckObjectModel> blockList = [
+    FollowersCheckObjectModel(serverId: '123456', uid: 345678, userName: 'Mahamudul Hasan', profilePic: 'https://images.pexels.com/photos/17490386/pexels-photo-17490386/free-photo-of-a-portrait-of-a-woman-in-sunlight.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', date: DateTime.now())
   ].obs;
+
+
 
   List<FollowersCheckObjectModel> markedFollowers =
       <FollowersCheckObjectModel>[].obs;
 
-  List<FollowersCheckObjectModel> unMarkedFollowers =
-      Get.find<FollowersController>()
-          .followers
-          .map((e) => FollowersCheckObjectModel(
-              uid: e.data![0].uid!,
-              username: e.data![0].userName!,
-              profilepic: e.data![0].profilePic!,
-              date: DateTime.now()))
-          .toList()
-          .obs;
+  List<FollowersCheckObjectModel> unMarkedFollowers = <FollowersCheckObjectModel>[].obs;
 
   void singleMark(int index, bool? value) {
     if (tabController.index == 0) {

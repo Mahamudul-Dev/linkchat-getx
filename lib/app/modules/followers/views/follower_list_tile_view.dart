@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:linkchat/app/data/utils/utils.dart';
 import 'package:linkchat/app/modules/call_list/views/call_menu_button_view.dart';
 import 'package:linkchat/app/routes/app_pages.dart';
 import 'package:linkchat/app/style/style.dart';
@@ -8,8 +9,12 @@ import 'package:linkchat/app/widgets/widgets.dart';
 import 'package:linkchat/app/modules/followers/controllers/followers_controller.dart';
 
 class FollowerListTileView extends GetView<FollowersController> {
-  const FollowerListTileView({Key? key, required this.index, required this.isChat}) : super(key: key);
-  final int index;
+  const FollowerListTileView({Key? key, required this.serverId, required this.userName, required this.profilePic, required this.uid, required this.isActive, this.isChat = false}) : super(key: key);
+  final String serverId;
+  final String userName;
+  final String profilePic;
+  final String uid;
+  final bool isActive;
   final bool isChat;
   @override
   Widget build(BuildContext context) {
@@ -22,10 +27,8 @@ class FollowerListTileView extends GetView<FollowersController> {
               CircleAvatar(
                 radius: 30,
                 backgroundColor:
-                    ThemeProvider().isSavedLightMood() ? brightWhite : black,
-                backgroundImage: CachedNetworkImageProvider(
-                        controller.followers[index]
-                        .data!.first.profilePic!),
+                    ThemeProvider().isSavedLightMood().value ? brightWhite : black,
+                backgroundImage: CachedNetworkImageProvider(profilePic),
               ),
               Align(
                 alignment: Alignment.bottomRight,
@@ -34,9 +37,7 @@ class FollowerListTileView extends GetView<FollowersController> {
                   height: 12,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: controller
-                            .followers[index]
-                            .data!.first.isActive!
+                    color: isActive
                         ? Colors.green
                         : null,
                   ),
@@ -46,20 +47,19 @@ class FollowerListTileView extends GetView<FollowersController> {
           ),
         ),
         title: Text(
-          '${controller.followers[index].data!.first.userName!.split(' ')[0]} ${controller.followers[index].data!.first.userName!.split(' ')[1]}',
+          '${userName.split(' ')[0]} ${userName.split(' ')[1]}',
           overflow: TextOverflow.ellipsis,
         ),
         subtitle:
-            Text(controller.followers[index].data!.first.email!),
+            Text(uid),
         trailing: isChat
             ? RoundButtonView(
                 icon: isChat ? Icons.send : Icons.call,
                 onTap: () {
                   Get.toNamed(Routes.MESSAGE, arguments: {
-                    'uid':
-                        controller.followers[index].data!.first.uid
+                    'id': serverId
                   });
                 })
-            : CallMenuButtonView(index: index));
+            : CallMenuButtonView(serverId: serverId));
   }
 }

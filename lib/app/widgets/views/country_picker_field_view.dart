@@ -23,12 +23,12 @@ class _CountryPickerFieldViewState extends State<CountryPickerFieldView> {
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         decoration: BoxDecoration(
             border: Border.all(
-              color: ThemeProvider().isSavedLightMood() ? white : blackAccent,
+              color: ThemeProvider().isSavedLightMood().value ? white : blackAccent,
               width: 1.0,
             ),
             borderRadius: BorderRadius.circular(8.0),
             color:
-                ThemeProvider().isSavedLightMood() ? white : transparentBlack),
+                ThemeProvider().isSavedLightMood().value ? white : transparentBlack),
         child: Row(
           children: <Widget>[
             Expanded(

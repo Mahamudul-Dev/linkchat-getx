@@ -18,7 +18,7 @@ class ChatProfileBarView extends GetView {
     return SliverAppBar(
       expandedHeight: 130,
       floating: true,
-      backgroundColor: ThemeProvider().isSavedLightMood() ? brightWhite : black,
+      backgroundColor: ThemeProvider().isSavedLightMood().value ? brightWhite : black,
       title: Text(name),
       actions: [
         IconButton(
@@ -26,7 +26,7 @@ class ChatProfileBarView extends GetView {
             icon: Icon(
               Icons.menu_rounded,
               size: 25.w,
-              color: ThemeProvider().isSavedLightMood() ? black : brightWhite,
+              color: ThemeProvider().isSavedLightMood().value ? black : brightWhite,
             ))
       ],
       flexibleSpace: Align(
@@ -43,7 +43,7 @@ class ChatProfileBarView extends GetView {
                     decoration:
                         BoxDecoration(shape: BoxShape.circle, boxShadow: [
                       BoxShadow(
-                        color: ThemeProvider().isSavedLightMood()
+                        color: ThemeProvider().isSavedLightMood().value
                             ? const Color(0x72000000)
                             : const Color.fromARGB(113, 60, 60, 60),
                         blurRadius: 17.54,
@@ -52,7 +52,7 @@ class ChatProfileBarView extends GetView {
                     ]),
                     child: CircleAvatar(
                       backgroundColor:
-                          ThemeProvider().isSavedLightMood() ? white : black,
+                          ThemeProvider().isSavedLightMood().value ? white : black,
                       radius: 30.w,
                       backgroundImage: CachedNetworkImageProvider(profilePic),
                     ),
@@ -81,7 +81,7 @@ class ChatProfileBarView extends GetView {
                         child: Text(tagLine,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                                color: ThemeProvider().isSavedLightMood()
+                                color: ThemeProvider().isSavedLightMood().value
                                     ? black
                                     : white)),
                       )
@@ -95,7 +95,7 @@ class ChatProfileBarView extends GetView {
                     onPressed: () {},
                     icon: Icon(
                       Icons.call_rounded,
-                      color: ThemeProvider().isSavedLightMood()
+                      color: ThemeProvider().isSavedLightMood().value
                           ? accentColor
                           : brightWhite,
                       size: 25.w,
@@ -106,7 +106,7 @@ class ChatProfileBarView extends GetView {
                         arguments: {'uid': uid}),
                     icon: Icon(
                       Icons.video_call_rounded,
-                      color: ThemeProvider().isSavedLightMood()
+                      color: ThemeProvider().isSavedLightMood().value
                           ? accentColor
                           : brightWhite,
                       size: 25.w,

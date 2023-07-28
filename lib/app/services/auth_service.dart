@@ -1,5 +1,5 @@
 import 'package:get_storage/get_storage.dart';
-import 'package:linkchat/app/database/cach_db.dart';
+import '../database/database.dart';
 
 
 class AuthService {
@@ -21,13 +21,8 @@ class AuthService {
   }
 
   bool checkLoggedIn(){
-    if (CacheDB.cacheDb.hasData('loginInfo')) {
-      Map<String,dynamic> userInfo = CacheDB.cacheDb.read('loginInfo');
-      if (userInfo['accessToken'] != null) {
-        return true;
-      } else {
-        return false;
-      }
+    if (!DatabaseHelper().loginInfoBox.isEmpty()) {
+      return true;
     } else {
       return false;
     }

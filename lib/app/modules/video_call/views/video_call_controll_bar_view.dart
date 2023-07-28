@@ -13,7 +13,7 @@ class VideoCallControllBarView extends GetView<VideoCallController> {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       color:
-          ThemeProvider().isSavedLightMood() ? brightWhite : transparentBlack,
+          ThemeProvider().isSavedLightMood().value ? brightWhite : transparentBlack,
       shadowColor: black,
       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
       child: SizedBox(
@@ -29,7 +29,7 @@ class VideoCallControllBarView extends GetView<VideoCallController> {
                   onPressed: () {},
                   icon: FaIcon(
                     FontAwesomeIcons.videoSlash,
-                    color: ThemeProvider().isSavedLightMood()
+                    color: ThemeProvider().isSavedLightMood().value
                         ? black
                         : brightWhite,
                   )),
@@ -43,7 +43,7 @@ class VideoCallControllBarView extends GetView<VideoCallController> {
                   onPressed: () {},
                   icon: FaIcon(
                     FontAwesomeIcons.microphoneLines,
-                    color: ThemeProvider().isSavedLightMood()
+                    color: ThemeProvider().isSavedLightMood().value
                         ? black
                         : brightWhite,
                   )),
@@ -62,7 +62,7 @@ class VideoCallControllBarView extends GetView<VideoCallController> {
                   onPressed: () {},
                   icon: FaIcon(
                     FontAwesomeIcons.cameraRotate,
-                    color: ThemeProvider().isSavedLightMood()
+                    color: ThemeProvider().isSavedLightMood().value
                         ? black
                         : brightWhite,
                   )),
@@ -76,7 +76,7 @@ class VideoCallControllBarView extends GetView<VideoCallController> {
                   onPressed: () {},
                   icon: Icon(
                     Icons.dashboard_rounded,
-                    color: ThemeProvider().isSavedLightMood()
+                    color: ThemeProvider().isSavedLightMood().value
                         ? black
                         : brightWhite,
                   )),

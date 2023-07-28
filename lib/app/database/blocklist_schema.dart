@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:objectbox/objectbox.dart';
 
 @Entity()
-class BlockedUser {
+class BlockListSchema {
   @Id()
   int objectId;
   String serverId;
@@ -11,7 +11,7 @@ class BlockedUser {
   @Property(type: PropertyType.date)
   DateTime blockedDate;
 
-  BlockedUser(
+  BlockListSchema(
       {this.objectId = 0,
         required this.serverId,
       required this.uid,

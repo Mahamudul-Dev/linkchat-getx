@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
+import 'package:linkchat/app/data/utils/utils.dart';
 import 'package:linkchat/app/modules/chat/controllers/chat_controller.dart';
 import 'package:linkchat/app/routes/app_pages.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -25,9 +26,7 @@ class ChatListTileView extends GetView<ChatController> {
               ''),
       leading: CircleAvatar(
         backgroundImage: CachedNetworkImageProvider(
-            controller.chatList[index].profilePic ??
-                controller.getPlaceHolder(
-                    controller.chatList[index].gender)),
+            controller.chatList[index].profilePic ?? PLACEHOLDER_IMAGE),
       ),
       trailing: Text(
         timeago.format(controller

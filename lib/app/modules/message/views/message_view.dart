@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-import 'package:linkchat/app/modules/chat/controllers/chat_controller.dart';
-import 'package:linkchat/app/modules/message/views/chat_profile_bar_view.dart';
-import 'package:linkchat/app/modules/message/views/send_message_field_view.dart';
-import 'package:linkchat/app/style/style.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
+import 'package:linkchat/app/data/utils/utils.dart';
+
+import '../../../modules/chat/controllers/chat_controller.dart';
+import '../../../modules/message/views/chat_profile_bar_view.dart';
+import '../../../modules/message/views/send_message_field_view.dart';
+import '../../../style/style.dart';
 import '../controllers/message_controller.dart';
 import '../../followers/controllers/followers_controller.dart';
 
@@ -20,19 +21,10 @@ class MessageView extends GetView<MessageController> {
         body: CustomScrollView(
           slivers: [
             ChatProfileBarView(
-              name: followersController.followers
-                  .singleWhere((element) => element.data!.first.uid == uid)
-                  .data!.first.userName!,
-              profilePic: followersController.followers
-                  .singleWhere((element) => element.data!.first.uid == uid)
-                  .data!.first.profilePic!,
-              tagLine: followersController.followers
-                      .singleWhere((element) => element.data!.first.uid == uid)
-                      .data!.first.tagLine ??
-                  '',
-              isActive: followersController.followers
-                  .singleWhere((element) => element.data!.first.uid == uid)
-                  .data!.first.isActive!,
+              name: 'Elon Musk',
+              profilePic: PLACEHOLDER_IMAGE,
+              tagLine: 'N/A',
+              isActive: false,
               uid: uid,
             ),
             SliverList.separated(

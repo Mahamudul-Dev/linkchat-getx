@@ -9,7 +9,7 @@ class CallParticipant {
   String name;
   bool isHost;
 
-  final call = ToOne<Call>();
+  final call = ToOne<CallSchema>();
 
   CallParticipant(
       {this.objectId = 0,
@@ -20,7 +20,7 @@ class CallParticipant {
 }
 
 @Entity()
-class Call {
+class CallSchema {
   @Id()
   int objectId;
   String callId;
@@ -36,7 +36,7 @@ class Call {
   String mediaType;
   String status;
 
-  Call({
+  CallSchema({
     this.objectId = 0,
     required this.callId,
     required this.startTime,

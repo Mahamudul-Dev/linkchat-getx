@@ -5,7 +5,7 @@ import 'package:linkchat/app/style/style.dart';
 
 class AppTheme {
   final lightTheme = ThemeData.light().copyWith(
-      primaryColor: solidMate,
+      primaryColor: brightWhite,
       useMaterial3: true,
       scaffoldBackgroundColor: white,
       textTheme: TextTheme(
@@ -22,9 +22,15 @@ class AppTheme {
         ),
         labelMedium: TextStyle(
           fontFamily: 'Roboto',
-          fontSize: 18.sp,
+          fontSize: 16.sp,
           fontWeight: FontWeight.w600,
           color: black
+        ),
+        labelSmall: TextStyle(
+            fontFamily: 'Roboto',
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w600,
+            color: black
         ),
         titleMedium: TextStyle(
           fontFamily: 'Roboto',
@@ -32,7 +38,12 @@ class AppTheme {
           fontSize: 22.sp,
           color: black
         ),
-
+        titleSmall: TextStyle(
+            fontFamily: 'Roboto',
+            fontWeight: FontWeight.bold,
+            fontSize: 18.sp,
+            color: black
+        ),
 
       ),
       appBarTheme: AppBarTheme(
@@ -48,6 +59,9 @@ class AppTheme {
 
   final darkTheme = ThemeData.dark().copyWith(
       primaryColor: solidMate,
+      primaryIconTheme: const IconThemeData(
+        color: accentColor
+      ),
       useMaterial3: true,
       scaffoldBackgroundColor: solidMate,
       textTheme: TextTheme(
@@ -67,12 +81,24 @@ class AppTheme {
               fontWeight: FontWeight.w600,
               color: brightWhite
           ),
+          labelSmall: TextStyle(
+              fontFamily: 'Roboto',
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w600,
+              color: brightWhite
+          ),
           titleMedium: TextStyle(
               fontFamily: 'Roboto',
               fontWeight: FontWeight.bold,
               fontSize: 22.sp,
               color: brightWhite
-          )
+          ),
+        titleSmall: TextStyle(
+            fontFamily: 'Roboto',
+            fontWeight: FontWeight.bold,
+            fontSize: 18.sp,
+            color: brightWhite
+        ),
       ),
       appBarTheme: AppBarTheme(
         titleTextStyle: TextStyle(

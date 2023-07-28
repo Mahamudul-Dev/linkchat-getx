@@ -2,9 +2,11 @@
 
 import 'dart:convert';
 import 'dart:ffi';
+import 'dart:math';
 
 import 'package:get/get.dart';
 import 'package:linkchat/app/data/models/models.dart';
+import 'package:linkchat/app/database/database.dart';
 import 'package:linkchat/app/services/location_services.dart';
 import 'package:logger/logger.dart';
 import 'dart:io';
@@ -23,7 +25,6 @@ import '../../../routes/app_pages.dart';
 import '../../../services/auth_service.dart';
 import '../../../style/style.dart';
 import '../../../data/utils/utils.dart';
-import '../../../database/cach_db.dart';
 class RegisterController extends GetxController {
   Rx<File?> imageFile = Rx<File?>(null);
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -136,14 +137,14 @@ class RegisterController extends GetxController {
                     },
                     style: ButtonStyle(
                         backgroundColor: MaterialStatePropertyAll(
-                            ThemeProvider().isSavedLightMood()
+                            ThemeProvider().isSavedLightMood().value
                                 ? ash
                                 : accentColor)),
                     child: Text(
                       'Continue verify',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: ThemeProvider().isSavedLightMood()
+                          color: ThemeProvider().isSavedLightMood().value
                               ? black
                               : brightWhite),
                     )),
@@ -157,14 +158,14 @@ class RegisterController extends GetxController {
                     },
                     style: ButtonStyle(
                         backgroundColor: MaterialStatePropertyAll(
-                            ThemeProvider().isSavedLightMood()
+                            ThemeProvider().isSavedLightMood().value
                                 ? ash
                                 : blackAccent)),
                     child: Text(
                       'Skip',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: ThemeProvider().isSavedLightMood()
+                          color: ThemeProvider().isSavedLightMood().value
                               ? black
                               : brightWhite),
                     )),
@@ -189,27 +190,36 @@ class RegisterController extends GetxController {
 
   Future<void> register() async {
     if(await LocationServices().checkLocationPermission()){
+
       if (formKey.currentState!.validate()) {
         loadingMessage.value = 'Creating your profile';
         String userCountry = await LocationServices().getUserCountry();
         Map<String, dynamic> user = {
-          "uid": "123456",
+          "uid": '011${generateUniqueRandomNumber()}',
           "userName": nameController.value.text,
           "email": userEmailController.value.text,
           "password": userPinController.value.text,
-          "country": userCountry
+          "country": userCountry,
+          "createdAt": DateTime.now().toString(),
+          "updatedAt" : DateTime.now().toString()
         };
+
 
         try {
           final response = await http.post(Uri.parse(BASE_URL + REGISTER), body: user);
           if (response.statusCode == 200) {
             Logger().i(response.body);
-            final responseData = jsonDecode(response.body);
-            final result = NewUserRegResModel.fromJson(responseData);
-            CacheDB().saveUserInfo(accessToken: result.token!, userName: result.newUser!.userName!);
-            Map<String,dynamic> userInfo = CacheDB.cacheDb.read('loginInfo');
-            Logger().i(userInfo['accessToken']);
-            Get.offAllNamed(Routes.HOME);
+            final result = NewUserRegResModel.fromJson(jsonDecode(response.body));
+            DatabaseHelper().saveEmailLoginInfo(EmailLoginResponseModel(id: result.newUser!.sId, userName: result.newUser!.userName, email: result.newUser!.email, token: result.token));
+            final userInfo = DatabaseHelper().getLoginInfo();
+
+            final getUserResponse = await http.get(Uri.parse(BASE_URL+USER+result.newUser!.sId!), headers: {'Authorization':'Bearer ${userInfo.token}'});
+            Logger().e(getUserResponse.body);
+            final userData = UserModel.fromJson(jsonDecode(getUserResponse.body));
+            Logger().e(jsonDecode(getUserResponse.body));
+            DatabaseHelper().saveUserData(userData.data!.first);
+
+              Get.offAllNamed(Routes.HOME);
           } else {
             Get.snackbar('Opps!',response.body);
             currentView.value = 0;
@@ -229,7 +239,22 @@ class RegisterController extends GetxController {
   }
 
 
+// Function to generate a 7-digit unique random number
+  int generateUniqueRandomNumber() {
+    // Get the current timestamp in milliseconds
+    int timestamp = DateTime.now().millisecondsSinceEpoch;
 
+    // Use the last 7 digits of the timestamp
+    int sevenDigitTimestamp = timestamp % 10000000;
+
+    // Generate a random 3-digit number to append to the timestamp
+    int randomThreeDigitNumber = Random().nextInt(1000);
+
+    // Combine the timestamp and random number and use modulo to get 7 digits
+    int uniqueRandomNumber = (sevenDigitTimestamp * 1000 + randomThreeDigitNumber) % 10000000;
+
+    return uniqueRandomNumber;
+  }
 
   @override
   void onInit() {

@@ -15,7 +15,7 @@ class BottomNavBarView extends GetView<HomeController> {
       height: MediaQuery.of(context).size.width * .155,
       decoration: BoxDecoration(
         color:
-            ThemeProvider().isSavedLightMood() ? brightWhite : transparentBlack,
+            ThemeProvider().isSavedLightMood().value ? brightWhite : transparentBlack,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(.15),

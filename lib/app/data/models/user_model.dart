@@ -30,7 +30,7 @@ class UserModel {
 class Data {
   String? sId;
   String? userName;
-  int? uid;
+  String? uid;
   String? profilePic;
   String? email;
   String? password;
@@ -43,10 +43,13 @@ class Data {
   String? relationshipStatus;
   String? lastActive;
   bool? isActive;
+  String? createdAt;
+  String? updatedAt;
+  List<FollowerModel>? linked;
   List<FollowerModel>? followers;
   List<FollowerModel>? following;
-  String? createdAt;
-  String? updateTime;
+  List<FollowerModel>? pendingFollowers;
+  List<FollowerModel>? pendingFollowing;
   int? iV;
 
   Data(
@@ -65,10 +68,13 @@ class Data {
         this.relationshipStatus,
         this.lastActive,
         this.isActive,
+        this.createdAt,
+        this.updatedAt,
+        this.linked,
         this.followers,
         this.following,
-        this.createdAt,
-        this.updateTime,
+        this.pendingFollowers,
+        this.pendingFollowing,
         this.iV});
 
   Data.fromJson(Map<String, dynamic> json) {
@@ -87,20 +93,48 @@ class Data {
     relationshipStatus = json['relationshipStatus'];
     lastActive = json['lastActive'];
     isActive = json['isActive'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    if (json['linked'] != null) {
+      linked = <FollowerModel>[];
+      json['linked'].forEach((v) {
+        linked!.add(FollowerModel.fromJson(v));
+      });
+    } else {
+      linked = [];
+    }
     if (json['followers'] != null) {
       followers = <FollowerModel>[];
       json['followers'].forEach((v) {
         followers!.add(FollowerModel.fromJson(v));
       });
+    } else {
+      followers = [];
     }
     if (json['following'] != null) {
       following = <FollowerModel>[];
       json['following'].forEach((v) {
         following!.add(FollowerModel.fromJson(v));
       });
+    } else {
+      following = [];
     }
-    createdAt = json['createdAt'];
-    updateTime = json['updateTime'];
+    if (json['pendingFollowers'] != null) {
+      pendingFollowers = <FollowerModel>[];
+      json['pendingFollowers'].forEach((v) {
+        pendingFollowers!.add(FollowerModel.fromJson(v));
+      });
+    } else {
+      pendingFollowers = [];
+    }
+    if (json['pendingFollowing'] != null) {
+      pendingFollowing = <FollowerModel>[];
+      json['pendingFollowing'].forEach((v) {
+        pendingFollowing!.add(FollowerModel.fromJson(v));
+      });
+    } else {
+      pendingFollowing = [];
+    }
     iV = json['__v'];
   }
 
@@ -121,45 +155,49 @@ class Data {
     data['relationshipStatus'] = relationshipStatus;
     data['lastActive'] = lastActive;
     data['isActive'] = isActive;
+    data['createdAt'] = createdAt;
+    data['updatedAt'] = updatedAt;
     if (followers != null) {
       data['followers'] = followers!.map((v) => v.toJson()).toList();
     }
     if (following != null) {
       data['following'] = following!.map((v) => v.toJson()).toList();
     }
-    data['createdAt'] = createdAt;
-    data['updateTime'] = updateTime;
     data['__v'] = iV;
     return data;
   }
 }
 
+
 class FollowerModel {
   String? sId;
   String? userName;
   String? profilePic;
+  String? tagLine;
+  String? bio;
   int? uid;
   String? country;
   bool? isActive;
-  int? iV;
 
   FollowerModel(
       {this.sId,
         this.userName,
         this.profilePic,
+        this.tagLine,
+        this.bio,
         this.uid,
         this.country,
-        this.isActive,
-        this.iV});
+        this.isActive});
 
   FollowerModel.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     userName = json['userName'];
     profilePic = json['profilePic'];
+    tagLine = json['tagLine'];
+    bio = json['bio'];
     uid = json['uid'];
     country = json['country'];
     isActive = json['isActive'];
-    iV = json['__v'];
   }
 
   Map<String, dynamic> toJson() {
@@ -167,10 +205,11 @@ class FollowerModel {
     data['_id'] = sId;
     data['userName'] = userName;
     data['profilePic'] = profilePic;
+    data['tagLine'] = tagLine;
+    data['bio'] = bio;
     data['uid'] = uid;
     data['country'] = country;
     data['isActive'] = isActive;
-    data['__v'] = iV;
     return data;
   }
 }

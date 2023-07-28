@@ -28,7 +28,7 @@ class RandomCallView extends GetView<RandomCallController> {
                       textStyle: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 19,
-                          color: ThemeProvider().isSavedLightMood()
+                          color: ThemeProvider().isSavedLightMood().value
                               ? black
                               : brightWhite))
                 ],

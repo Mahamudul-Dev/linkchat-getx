@@ -1,48 +1,30 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:logger/logger.dart';
-import 'package:linkchat/app/modules/login/controllers/login_controller.dart';
 
-import '../../../widgets/widgets.dart';
-import '../../../data/utils/app_strings.dart';
-import '../../../style/style.dart';
+import 'package:get/get.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:logger/logger.dart';
+
+import '../../../../data/utils/app_strings.dart';
+import '../../../../style/style.dart';
+import '../../../../widgets/widgets.dart';
+import '../../controllers/login_controller.dart';
+
 
 class EmailLoginView extends GetView<LoginController> {
   const EmailLoginView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return DraggableScrollableSheet(
-        initialChildSize: 0.8,
-        builder: (context, scrollController) {
-          return Container(
-            padding: const EdgeInsets.all(20),
-            decoration: const BoxDecoration(
-                color: solidMate,
-                borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(30),
-                    topLeft: Radius.circular(30))),
-            child: Form(
+    return Scaffold(
+
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Stack(
+          children: [
+            Form(
               key: controller.loginFormKey,
               child: ListView(
-                controller: scrollController,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: 5.h,
-                        width: 50.w,
-                        decoration: BoxDecoration(
-                            color: ThemeProvider().isSavedLightMood()
-                                ? accentColor
-                                : white,
-                            borderRadius:
-                            const BorderRadius.all(Radius.circular(10))),
-                      ),
-                    ],
-                  ),
                   const SizedBox(
                     height: 30,
                   ),
@@ -72,7 +54,8 @@ class EmailLoginView extends GetView<LoginController> {
                   ),
                   EditTextFieldView(
                     iconData: Icons.password,
-                    keyboardType: TextInputType.emailAddress,
+                    keyboardType: TextInputType.number,
+                    obscureText: true,
                     controller: controller.pinController.value,
                     hintText: 'Type your pin',
                     validator: (value) {
@@ -90,7 +73,7 @@ class EmailLoginView extends GetView<LoginController> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       ElevatedButton(
-                          onPressed: () => controller.loginWithEmail(),
+                          onPressed: ()=> controller.loginWithEmail(),
                           style: const ButtonStyle(
                               backgroundColor:
                               MaterialStatePropertyAll(accentColor)),
@@ -104,7 +87,20 @@ class EmailLoginView extends GetView<LoginController> {
                 ],
               ),
             ),
-          );
-        });
+            Obx(() {
+              return controller.isLoading.value
+                  ? Container(
+                color: ThemeProvider().isSavedLightMood().value ? brightWhite : solidMate,
+                child: Center(
+                  child: LoadingAnimationWidget.inkDrop(
+                      color: accentColor, size: 50.w),
+                ),
+              )
+                  : const SizedBox.shrink();
+            })
+          ],
+        ),
+      ),
+    );
   }
 }

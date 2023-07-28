@@ -32,9 +32,9 @@ class PinView extends GetView <RegisterController> {
                           color: accentColor,
                           fontWeight: FontWeight.w600),
                       decoration: BoxDecoration(
-                        color: ThemeProvider().isSavedLightMood() ? white : darkAsh,
+                        color: ThemeProvider().isSavedLightMood().value ? white : darkAsh,
                         border: Border.all(
-                            color: ThemeProvider().isSavedLightMood() ? const Color.fromARGB(255, 202, 244, 254) : accentColor),
+                            color: ThemeProvider().isSavedLightMood().value ? const Color.fromARGB(255, 202, 244, 254) : accentColor),
                         borderRadius: BorderRadius.circular(20),
                       ),
                     ),

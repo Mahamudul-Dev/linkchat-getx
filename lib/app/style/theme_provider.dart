@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 // These class provide only theme related information.
@@ -8,10 +9,13 @@ class ThemeProvider {
   final themeStoreKey = 'isDark';
 
   ThemeMode getThemeMode() {
-    return isSavedLightMood() ? ThemeMode.light : ThemeMode.dark;
+    return isSavedLightMood().value ? ThemeMode.light : ThemeMode.dark;
   }
 
-  bool isSavedLightMood() {
-    return _getStorage.read(themeStoreKey) ?? false;
+  RxBool isSavedLightMood() {
+    RxBool isDark = false.obs;
+    _getStorage.writeIfNull(themeStoreKey, isDark.value);
+    _getStorage.listenKey(themeStoreKey, (value) { isDark.value = value; });
+    return isDark;
   }
 }

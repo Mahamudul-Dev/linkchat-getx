@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:linkchat/app/modules/home/controllers/home_controller.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:linkchat/app/data/utils/utils.dart';
+import 'package:linkchat/app/database/database.dart';
 import 'package:linkchat/app/routes/app_pages.dart';
 import 'package:lottie/lottie.dart';
 import 'package:linkchat/app/style/style.dart';
@@ -13,66 +15,112 @@ class NavigationDrawerView extends GetView {
   const NavigationDrawerView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return NavigationDrawer(children: [
-      DrawerHeader(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.start,
+    return NavigationDrawer(
+        backgroundColor: Theme.of(context).primaryColor,
         children: [
-          Row(
-            children: [
-              CircleAvatar(
-                radius: 40,
-                backgroundImage: CachedNetworkImageProvider(''),
-              ),
-              const SizedBox(
-                width: 5,
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      '',
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          color: ThemeProvider().isSavedLightMood()
-                              ? black
-                              : brightWhite,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.sp),
-                    ),
-                    const SizedBox(
-                      height: 3,
-                    ),
-                    Text('8457398457')
-                  ],
+      GestureDetector(
+        onTap: () => Get.toNamed(Routes.PROFILE, arguments: {
+          'uid': DatabaseHelper().getUserData().uid
+        }),
+        child: DrawerHeader(
+
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                CircleAvatar(
+                  radius: 40,
+                  backgroundColor: darkAsh,
+                  backgroundImage: CachedNetworkImageProvider(DatabaseHelper().getUserData().photo ?? PLACEHOLDER_IMAGE),
                 ),
-              )
-            ],
-          )
-        ],
-      )),
+                const SizedBox(
+                  width: 5,
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        DatabaseHelper().getUserData().name,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleSmall
+                      ),
+                      const SizedBox(
+                        height: 3,
+                      ),
+                      Text('@${DatabaseHelper().getUserData().uid.toString()}', style: Theme.of(context).textTheme.bodyMedium,)
+                    ],
+                  ),
+                )
+              ],
+            )
+          ],
+        )),
+      ),
       SizedBox(
         height: MediaQuery.of(context).size.height / 1.5,
         child: ListView(
           children: [
             ListTile(
-              onTap: () => Get.toNamed(Routes.PROFILE, arguments: {
-                'uid': 234687
-              }),
+              onTap: () {},
               leading: const Icon(
-                CupertinoIcons.profile_circled,
+                CupertinoIcons.group_solid,
                 size: 25,
               ),
-              title: const Text('Profile'),
+              title: Text('Followers', style: Theme.of(context).textTheme.labelSmall?.copyWith(fontSize: 12.sp)),
               trailing: const Icon(CupertinoIcons.forward),
             ),
             ListTile(
               onTap: () {},
-              leading: Lottie.asset(AssetManager.JARVIS_ICON,
-                  height: 45, width: 30, fit: BoxFit.cover, repeat: true),
-              title: const Text('Jarvis Ai'),
+              leading: const Icon(
+                Icons.history,
+                size: 25,
+              ),
+              title: Text('Call History', style: Theme.of(context).textTheme.labelSmall?.copyWith(fontSize: 12.sp)),
+              trailing: const Icon(CupertinoIcons.forward),
+            ),
+
+
+            ListTile(
+              onTap: () {
+
+              },
+              leading: const Icon(
+                Icons.screen_share_rounded,
+                size: 25,
+              ),
+              title: Text('Screen Mirror', style: Theme.of(context).textTheme.labelSmall?.copyWith(fontSize: 12.sp)),
+              trailing: const Icon(CupertinoIcons.forward),
+            ),
+
+            ListTile(
+              onTap: () {},
+              leading: const Icon(
+                FontAwesomeIcons.heart,
+                size: 25,
+              ),
+              title: Text('Match', style: Theme.of(context).textTheme.labelSmall?.copyWith(fontSize: 12.sp)),
+              trailing: const Icon(CupertinoIcons.forward),
+            ),
+
+            ListTile(
+              onTap: () {},
+              leading: const Icon(
+                FontAwesomeIcons.robot,
+                size: 25,
+              ),
+              title: Text('Jarvis', style: Theme.of(context).textTheme.labelSmall?.copyWith(fontSize: 12.sp)),
+              trailing: const Icon(CupertinoIcons.forward),
+            ),
+            ListTile(
+              onTap: () {},
+              leading:  const Icon(
+                Icons.ads_click,
+                size: 25,
+              ),
+              title: Text('Branding', style: Theme.of(context).textTheme.labelSmall?.copyWith(fontSize: 12.sp)),
               trailing: const Icon(CupertinoIcons.forward),
             ),
             ListTile(
@@ -81,7 +129,7 @@ class NavigationDrawerView extends GetView {
                 CupertinoIcons.settings,
                 size: 25,
               ),
-              title: const Text('Settings'),
+              title: Text('Settings', style: Theme.of(context).textTheme.labelSmall?.copyWith(fontSize: 12.sp)),
               trailing: const Icon(CupertinoIcons.forward),
             ),
             ListTile(
@@ -90,7 +138,7 @@ class NavigationDrawerView extends GetView {
                 CupertinoIcons.info_circle,
                 size: 25,
               ),
-              title: const Text('About Us'),
+              title: Text('About Us', style: Theme.of(context).textTheme.labelSmall?.copyWith(fontSize: 12.sp)),
               trailing: const Icon(CupertinoIcons.forward),
             ),
             ListTile(
@@ -99,7 +147,7 @@ class NavigationDrawerView extends GetView {
                 CupertinoIcons.doc_text,
                 size: 25,
               ),
-              title: const Text('Terms & Conditions'),
+              title: Text('Terms & Conditions', style: Theme.of(context).textTheme.labelSmall?.copyWith(fontSize: 12.sp)),
               trailing: const Icon(CupertinoIcons.forward),
             ),
             ListTile(
@@ -108,14 +156,16 @@ class NavigationDrawerView extends GetView {
                 Icons.privacy_tip_outlined,
                 size: 25,
               ),
-              title: const Text('Privacy Policy'),
+              title: Text('Privacy Policy', style: Theme.of(context).textTheme.labelSmall?.copyWith(fontSize: 12.sp)),
               trailing: const Icon(CupertinoIcons.forward),
             ),
             ListTile(
               onTap: () {},
-              leading: Lottie.asset(AssetManager.CUSTOMER_SUPPORT_ICON,
-                  height: 30, fit: BoxFit.cover, repeat: true),
-              title: const Text('Support'),
+              leading: const Icon(
+                Icons.headset_mic_rounded,
+                size: 25,
+              ),
+              title: Text('Support', style: Theme.of(context).textTheme.labelSmall?.copyWith(fontSize: 12.sp)),
               trailing: const Icon(CupertinoIcons.forward),
             ),
           ],

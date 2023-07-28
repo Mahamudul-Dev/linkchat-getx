@@ -1,22 +1,35 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
-import 'package:linkchat/app/data/models/models.dart';
-import 'package:linkchat/app/data/demo/demo.dart';
-import 'package:linkchat/app/data/utils/utils.dart';
+import 'package:linkchat/app/database/database.dart';
+import 'package:linkchat/app/modules/followers/controllers/followers_controller.dart';
+import 'package:logger/logger.dart';
+import '../../../data/models/models.dart';
+import '../../../data/demo/demo.dart';
+import '../../../data/utils/utils.dart';
+import 'package:http/http.dart' as http;
 
 class ChatController extends GetxController {
 
 // user activity list section
-  List<UserModel> get activeUser =>
-      profiles.where((element) => element.data!.first.isActive!).toList();
+  List<FollowerModel> activeUser = [];
+
 
 // user chat section
   List<Chat> get chatList => chats.obs;
 
-  String getPlaceHolder(String gender) {
-    if (gender == 'Male') {
-      return placeholderImageMale;
-    } else {
-      return placeholderImageFemale;
-    }
+
+
+  Future<List<FollowerModel>> getAllActiveUsers() async {
+    final userInfo = DatabaseHelper().getLoginInfo();
+    List<FollowerModel> allFollowers = await Get.find<FollowersController>().getFollowers();
+    activeUser = allFollowers.where((element) => element.isActive == true).toList();
+    return activeUser;
+  }
+
+  @override
+  void onInit() {
+    getAllActiveUsers();
+    super.onInit();
   }
 }

@@ -23,13 +23,13 @@ class SettingsView extends GetView<SettingsController> {
             onTap: () => Get.toNamed(Routes.BLOCK_LIST),
             leading: Icon(
               Icons.block_sharp,
-              color: ThemeProvider().isSavedLightMood() ? black : brightWhite,
+              color: ThemeProvider().isSavedLightMood().value ? black : brightWhite,
             ),
             title: Text(
               'Block List',
               style: TextStyle(
                   color:
-                      ThemeProvider().isSavedLightMood() ? black : brightWhite),
+                      ThemeProvider().isSavedLightMood().value ? black : brightWhite),
             ),
             subtitle: Obx(() =>
                 Text('${_blockListController.blockList.length} users blocked')),
@@ -38,7 +38,7 @@ class SettingsView extends GetView<SettingsController> {
                 icon: Icon(
                   Icons.arrow_forward_ios_rounded,
                   color:
-                      ThemeProvider().isSavedLightMood() ? black : brightWhite,
+                      ThemeProvider().isSavedLightMood().value ? black : brightWhite,
                 )),
           ),
           const Divider(),
@@ -46,80 +46,80 @@ class SettingsView extends GetView<SettingsController> {
             onTap: () {},
             leading: Icon(
               Icons.fingerprint_rounded,
-              color: ThemeProvider().isSavedLightMood() ? black : brightWhite,
+              color: ThemeProvider().isSavedLightMood().value ? black : brightWhite,
             ),
             title: Text(
               'Manage Fingerprint',
               style: TextStyle(
                   color:
-                      ThemeProvider().isSavedLightMood() ? black : brightWhite),
+                      ThemeProvider().isSavedLightMood().value ? black : brightWhite),
             ),
             trailing: IconButton(
                 onPressed: () {},
                 icon: Icon(
                   Icons.arrow_forward_ios_rounded,
                   color:
-                      ThemeProvider().isSavedLightMood() ? black : brightWhite,
+                      ThemeProvider().isSavedLightMood().value ? black : brightWhite,
                 )),
           ),
           const Divider(),
           ListTile(
             leading: Icon(
               Icons.storage_rounded,
-              color: ThemeProvider().isSavedLightMood() ? black : brightWhite,
+              color: ThemeProvider().isSavedLightMood().value ? black : brightWhite,
             ),
             title: Text(
               'Storage Settings',
               style: TextStyle(
                   color:
-                      ThemeProvider().isSavedLightMood() ? black : brightWhite),
+                      ThemeProvider().isSavedLightMood().value ? black : brightWhite),
             ),
             trailing: IconButton(
                 onPressed: () {},
                 icon: Icon(
                   Icons.arrow_forward_ios_rounded,
                   color:
-                      ThemeProvider().isSavedLightMood() ? black : brightWhite,
+                      ThemeProvider().isSavedLightMood().value ? black : brightWhite,
                 )),
           ),
           const Divider(),
           ListTile(
             leading: Icon(
               Icons.security_rounded,
-              color: ThemeProvider().isSavedLightMood() ? black : brightWhite,
+              color: ThemeProvider().isSavedLightMood().value ? black : brightWhite,
             ),
             title: Text(
               'Privacy & Security',
               style: TextStyle(
                   color:
-                      ThemeProvider().isSavedLightMood() ? black : brightWhite),
+                      ThemeProvider().isSavedLightMood().value ? black : brightWhite),
             ),
             trailing: IconButton(
                 onPressed: () {},
                 icon: Icon(
                   Icons.arrow_forward_ios_rounded,
                   color:
-                      ThemeProvider().isSavedLightMood() ? black : brightWhite,
+                      ThemeProvider().isSavedLightMood().value ? black : brightWhite,
                 )),
           ),
           const Divider(),
           ListTile(
             leading: Icon(
               Icons.speaker,
-              color: ThemeProvider().isSavedLightMood() ? black : brightWhite,
+              color: ThemeProvider().isSavedLightMood().value ? black : brightWhite,
             ),
             title: Text(
               'Sound & Notifications',
               style: TextStyle(
                   color:
-                      ThemeProvider().isSavedLightMood() ? black : brightWhite),
+                      ThemeProvider().isSavedLightMood().value ? black : brightWhite),
             ),
             trailing: IconButton(
                 onPressed: () {},
                 icon: Icon(
                   Icons.arrow_forward_ios_rounded,
                   color:
-                      ThemeProvider().isSavedLightMood() ? black : brightWhite,
+                      ThemeProvider().isSavedLightMood().value ? black : brightWhite,
                 )),
           ),
           const Divider()

@@ -1,0 +1,45 @@
+{
+  "status": "success",
+  "message": "Data find successfully!",
+  "query": "Elon",
+  "linked" : [
+    {
+      "_id": "64bb13e26746f5ef4fe70cbd",
+      "userName": "Elon Musk",
+      "profilePic": "https://economictimes.indiatimes.com/thumb/msid-96226239,width-1200,height-900,resizemode-4,imgsize-216638/elon-musk-twitter.jpg",
+      "tagLine": "CEO of twitter",
+      "bio": "N/A",
+      "uid": "163455",
+      "country": "America",
+      "isActive": true
+    }
+  ],
+  "followers": [
+    {
+      "_id": "64bb13e26746f5ef4fe70cbd",
+      "userName": "Elon Musk",
+      "profilePic": "https://economictimes.indiatimes.com/thumb/msid-96226239,width-1200,height-900,resizemode-4,imgsize-216638/elon-musk-twitter.jpg",
+      "tagLine": "CEO of twitter",
+      "bio": "N/A",
+      "uid": "163455",
+      "country": "America",
+      "isActive": true
+    }
+  ],
+  "global": [
+    {
+      "_id": "123456789098765",
+      "userName": "Emily Johnson",
+      "uid": "0113456754",
+      "email": "john.doe123@example.com",
+      "profilePic":
+      "https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg",
+      "tagLine":
+      "Life is a journey, not a destination. Embrace the twists and turns, for they shape who we become.",
+      "bio":
+      "Passionate explorer of life's wonders. Nature enthusiast, avid reader, and eternal optimist. Embracing challenges and striving for personal growth. Spreading kindness and positivity wherever I go. Believer in the power of dreams and determined to make them a reality. Advocate for mental health and self-care. Finding joy in the simplest moments. Traveling the world to experience diverse cultures and expand horizons. Aspiring to make a positive impact on the lives of others. Grateful for every opportunity to learn, love, and evolve. Living life with an open heart and a curious mind. Join me on this extraordinary journey!",
+      "country": "Belgium",
+      "isActive": true
+    }
+  ]
+}

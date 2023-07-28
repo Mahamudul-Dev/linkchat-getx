@@ -3,15 +3,22 @@ import 'package:linkchat/app/data/models/models.dart';
 import 'package:linkchat/app/data/demo/demo.dart';
 
 import 'package:flutter/material.dart';
+import 'package:linkchat/app/database/database.dart';
 import 'package:linkchat/app/modules/call_list/views/call_list_view.dart';
 import 'package:linkchat/app/modules/chat/views/chat_view.dart';
 import 'package:linkchat/app/modules/dialer/views/dialer_view.dart';
 import 'package:linkchat/app/modules/random_call/views/random_call_view.dart';
+import 'package:logger/logger.dart';
 
 class HomeController extends GetxController {
   RxInt currentIndex = 0.obs;
 
-  UserModel get currentUser => profiles.first;
+  @override
+  void onInit(){
+    super.onInit();
+    Logger().i(DatabaseHelper().getUserData());
+  }
+
 
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -30,4 +37,5 @@ class HomeController extends GetxController {
   void openNavigationDrawer() {
     scaffoldKey.currentState!.openDrawer();
   }
+
 }

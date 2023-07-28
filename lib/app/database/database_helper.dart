@@ -1,22 +1,49 @@
+//-- This file is created for make operation with ObjectBox database
+//-- All database related CRUD & query operation related code need to be initialize in here
+//-- File created at July 17 2023
+//-- Creator: Mahamudul Hasan
 
-import 'package:path/path.dart' as p;
-import 'package:path_provider/path_provider.dart';
-import '../../objectbox.g.dart';
 
+import 'package:logger/logger.dart';
+
+import '../data/models/models.dart';
+
+import './database.dart';
 
 class DatabaseHelper {
-  /// The Store of this app.
-  late final Store store;
+  // define all required boxes -->
 
-  DatabaseHelper._create(this.store) {
-    // Add any additional setup code, e.g. build queries.
+  final currentUserBox = ObjectBoxSingleton().store.box<ProfileSchema>();
+  final loginInfoBox = ObjectBoxSingleton().store.box<LoginSchema>();
+
+  void saveEmailLoginInfo(EmailLoginResponseModel response){
+    loginInfoBox.removeAll();
+    final data = LoginSchema(serverId: response.id!, userName: response.userName!, email: response.email!, token: response.token!);
+    loginInfoBox.put(data);
   }
 
-  /// Create an instance of ObjectBox to use throughout the app.
-  static Future<DatabaseHelper> create() async {
-    final docsDir = await getApplicationDocumentsDirectory();
-    // Future<Store> openStore() {...} is defined in the generated objectbox.g.dart
-    final store = await openStore(directory: p.join(docsDir.path, "link-database"));
-    return DatabaseHelper._create(store);
+  EmailLoginResponseModel getLoginInfo(){
+    final data = loginInfoBox.getAll();
+    final loginInfo = EmailLoginResponseModel(
+      id: data.first.serverId,
+      userName: data.first.userName,
+      email: data.first.email,
+      token: data.first.token
+    );
+
+    return loginInfo;
   }
+  
+  Future<int> saveUserData(Data user){
+    currentUserBox.removeAll();
+    final userProfile = ProfileSchema(serverId: user.sId!, uid: user.uid, name: user.userName!, email: user.email!, phone: user.userPhone, photo: user.profilePic, tagline: user.tagLine, bio: user.bio, gender: user.gender, country: user.country, followersCount: user.followers?.length, followingCounts: user.following?.length, linkedCounts: user.linked?.length, dob: user.dob, relationshipStatus: user.relationshipStatus, isActive: user.isActive!, lastActive: user.lastActive, createdAt: user.createdAt);
+    final objectId = currentUserBox.put(userProfile);
+    return Future.value(objectId);
+  }
+
+  ProfileSchema getUserData() {
+    final profileBox = currentUserBox.getAll();
+    return profileBox.first;
+  }
+  
 }

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
+import 'package:linkchat/app/data/utils/utils.dart';
 import 'package:linkchat/app/modules/video_call/controllers/video_call_controller.dart';
 import 'package:linkchat/app/modules/video_call/views/video_call_controll_bar_view.dart';
 import 'package:linkchat/app/modules/followers/controllers/followers_controller.dart';
@@ -20,10 +21,10 @@ class VideoCallView extends GetView<VideoCallController> {
         centerTitle: true,
         title: Text(
           _followersController.followers
-              .singleWhere((element) => element.data!.first.uid == uid)
-              .data!.first.userName!,
+              .singleWhere((element) => element.uid == uid)
+              .userName ?? 'N/A',
           style: TextStyle(
-            color: ThemeProvider().isSavedLightMood() ? black : brightWhite,
+            color: ThemeProvider().isSavedLightMood().value ? black : brightWhite,
             fontSize: 19.sp
           ),
         ),
@@ -32,7 +33,7 @@ class VideoCallView extends GetView<VideoCallController> {
           padding: const EdgeInsets.only(left: 20),
           child: CircleAvatar(
             backgroundImage: CachedNetworkImageProvider(_followersController.followers
-                .singleWhere((element) => element.data!.first.uid == uid).data!.first.profilePic!),
+                .singleWhere((element) => element.uid == uid).profilePic ?? PLACEHOLDER_IMAGE),
           ),
         ),
       ),

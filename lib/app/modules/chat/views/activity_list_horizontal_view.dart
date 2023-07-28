@@ -1,12 +1,18 @@
+import 'dart:ffi';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'package:get/get.dart';
-import 'package:linkchat/app/modules/chat/controllers/chat_controller.dart';
-import 'package:linkchat/app/style/style.dart';
-import 'package:linkchat/app/widgets/widgets.dart';
+import 'package:linkchat/app/data/models/models.dart';
 import 'package:lottie/lottie.dart';
+import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
+
+import '../../../data/utils/utils.dart';
+import '../../../modules/chat/controllers/chat_controller.dart';
+import '../../../style/style.dart';
+import '../../../widgets/widgets.dart';
+
 
 class ActivityListHorizontalView extends GetView <ChatController> {
   const ActivityListHorizontalView({Key? key}) : super(key: key);
@@ -17,24 +23,29 @@ class ActivityListHorizontalView extends GetView <ChatController> {
       height: 100,
       padding: const EdgeInsets.symmetric(vertical: 6),
       margin: const EdgeInsets.symmetric(horizontal: 10),
-      child: ListView.separated(
-        itemBuilder: (context, index) {
-          if (index == 10) {
-            return RoundButtonView(
-              widget: Lottie.asset(AssetManager.ARROW_RIGHT_OUTLINE_ANIM,
-                  width: 30),
-            );
-          } else {
-            return buildCircleAvater(index);
-          }
+      child: FutureBuilder(
+        future: controller.getAllActiveUsers(),
+        builder: (context,AsyncSnapshot<List<FollowerModel>> snapshot){
+          return snapshot.hasData
+            ? ListView.separated(
+              itemBuilder: (context, index) {
+                if (index == 10) {
+                  return RoundButtonView(
+                    widget: Lottie.asset(AssetManager.ARROW_RIGHT_OUTLINE_ANIM,
+                        width: 30),
+                  );
+                } else {
+                  return buildCircleAvater(index);
+                }
+              },
+              scrollDirection: Axis.horizontal,
+              physics: const BouncingScrollPhysics(),
+              separatorBuilder: (context, index) => const SizedBox(width: 20),
+              itemCount: snapshot.data!.length >= 5 ? 6 : snapshot.data!.length
+          )
+          : buildCircularShimmer(10);
         },
-        scrollDirection: Axis.horizontal,
-        physics: const BouncingScrollPhysics(),
-        separatorBuilder: (context, index) => const SizedBox(width: 20),
-        itemCount: controller.activeUser.length >= 5
-            ? 6
-            : controller.activeUser.length,
-      ),
+      )
     );
   }
 
@@ -65,11 +76,11 @@ class ActivityListHorizontalView extends GetView <ChatController> {
               CircleAvatar(
                 radius: 30,
                 backgroundColor:
-                    ThemeProvider().isSavedLightMood() ? brightWhite : black,
+                    ThemeProvider().isSavedLightMood().value ? brightWhite : black,
                 backgroundImage: CachedNetworkImageProvider(
                     controller
                         .activeUser[index]
-                        .data!.first.profilePic!),
+                        .profilePic ?? PLACEHOLDER_IMAGE)
               ),
               Align(
                 alignment: Alignment.bottomRight,
@@ -90,9 +101,9 @@ class ActivityListHorizontalView extends GetView <ChatController> {
       SizedBox(
         width: 55,
         child: Text(
-          controller.activeUser[index].data!.first.userName!,
+          controller.activeUser[index].userName ?? 'N/A',
           style: TextStyle(
-              color: ThemeProvider().isSavedLightMood() ? black : brightWhite,
+              color: ThemeProvider().isSavedLightMood().value ? black : brightWhite,
               fontSize: 10.sp),
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
@@ -101,6 +112,32 @@ class ActivityListHorizontalView extends GetView <ChatController> {
       )
     ],
   );
+}
+
+
+Widget buildCircularShimmer(int index){
+    return ListView.separated(
+      itemCount: index,
+      itemBuilder: (context, index){
+        return SizedBox(
+          width: 55,
+          height: 55,
+          child: Shimmer.fromColors(
+            period: const Duration(seconds: 5),
+            baseColor: transparentBlack,
+            highlightColor: darkAsh,
+            child: CircleAvatar(
+              radius: 30,
+              backgroundColor: ThemeProvider().isSavedLightMood().value ? Colors.grey : solidMate,
+            ),
+          ),
+        );
+      },
+      separatorBuilder: (context, index){
+        return const SizedBox(width: 8);
+      },
+      scrollDirection: Axis.horizontal,
+    );
 }
 
 }

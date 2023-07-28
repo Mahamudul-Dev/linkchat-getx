@@ -17,17 +17,23 @@ import '../modules/followers/views/followers_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
+import '../modules/login/email_login/bindings/email_login_binding.dart';
+import '../modules/login/email_login/views/email_login_view.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/message/bindings/message_binding.dart';
 import '../modules/message/views/message_view.dart';
 import '../modules/otp_verification/bindings/otp_verification_binding.dart';
 import '../modules/otp_verification/views/otp_verification_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
+import '../modules/profile/edit_profile/bindings/edit_profile_binding.dart';
+import '../modules/profile/edit_profile/views/edit_profile_view.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/random_call/bindings/random_call_binding.dart';
 import '../modules/random_call/views/random_call_view.dart';
 import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
+import '../modules/search/bindings/search_binding.dart';
+import '../modules/search/views/search_view.dart';
 import '../modules/settings/bindings/settings_binding.dart';
 import '../modules/settings/views/settings_view.dart';
 import '../modules/setup_pin/bindings/setup_pin_binding.dart';
@@ -45,7 +51,8 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static final INITIAL =  AuthService().checkLoggedIn() ? Routes.HOME : Routes.LOGIN;
+  static final INITIAL =
+      AuthService().checkLoggedIn() ? Routes.HOME : Routes.LOGIN;
 
   static final routes = [
     GetPage(
@@ -76,11 +83,25 @@ class AppPages {
       name: _Paths.PROFILE,
       page: () => ProfileView(),
       binding: ProfileBinding(),
+      children: [
+        GetPage(
+          name: _Paths.EDIT_PROFILE,
+          page: () => const EditProfileView(),
+          binding: EditProfileBinding(),
+        ),
+      ],
     ),
     GetPage(
       name: _Paths.LOGIN,
       page: () => const LoginView(),
       binding: LoginBinding(),
+      children: [
+        GetPage(
+          name: _Paths.EMAIL_LOGIN,
+          page: () => const EmailLoginView(),
+          binding: EmailLoginBinding(),
+        ),
+      ],
     ),
     GetPage(
       name: _Paths.MESSAGE,
@@ -136,6 +157,11 @@ class AppPages {
       name: _Paths.OTP_VERIFICATION,
       page: () => const OtpVerificationView(),
       binding: OtpVerificationBinding(),
-    )
+    ),
+    GetPage(
+      name: _Paths.SEARCH,
+      page: () => const SearchView(),
+      binding: SearchBinding(),
+    ),
   ];
 }

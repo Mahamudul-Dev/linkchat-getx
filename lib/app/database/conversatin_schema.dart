@@ -2,7 +2,7 @@ import 'package:objectbox/objectbox.dart';
 
 
 @Entity()
-class Conversation {
+class ConversationSchema {
   @Id()
   int objectId;
   String name;
@@ -10,7 +10,7 @@ class Conversation {
   @Backlink('conversation')
   final participant = ToMany<ChatParticipant>();
 
-  Conversation({this.objectId = 0, required this.name});
+  ConversationSchema({this.objectId = 0, required this.name});
 }
 
 @Entity()
@@ -24,7 +24,7 @@ class ChatParticipant {
   String country;
   bool isActive;
 
-  final conversation = ToOne<Conversation>();
+  final conversation = ToOne<ConversationSchema>();
 
   @Backlink('sender')
   final message = ToMany<Message>();

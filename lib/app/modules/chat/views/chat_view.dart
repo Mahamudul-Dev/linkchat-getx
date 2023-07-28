@@ -28,9 +28,10 @@ class ChatView extends GetView<ChatController> {
                 icon: Icon(
                   Icons.menu,
                   color:
-                      ThemeProvider().isSavedLightMood() ? black : brightWhite,
+                      ThemeProvider().isSavedLightMood().value ? black : brightWhite,
                 )),
             actions: [
+              IconButton(onPressed: () => Get.toNamed(Routes.SEARCH), icon: Obx(() => Icon(Icons.search_rounded, color: ThemeProvider().isSavedLightMood().value ? black : brightWhite,))),
               IconBadge(
                 icon: const Icon(Icons.notifications),
                 itemCount: 6,
