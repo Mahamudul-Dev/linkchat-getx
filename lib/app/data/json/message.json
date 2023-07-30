@@ -1,0 +1,75 @@
+{
+  "status": "success",
+  "message": "Data find successfully!",
+  "data": [
+    {
+      "_id": "64c567f55a14e70467929ada",
+      "userName": "Michael Johnson",
+      "uid": "2468135790",
+      "email": "michael.johnson@example.com",
+      "password": "$2b$10$ZqkUC8MId6LahmYEnTokAOydicJZ1bBO6zJjMVc3.cT4JTF8Jzf3y",
+      "userPhone": "5559876543",
+      "profilePic": "https://img.freepik.com/free-photo/pensive-person-alone-corridor-serious_1262-1042.jpg",
+      "tagLine": "Photographer",
+      "bio": "I'm Michael, a professional photographer capturing moments and creating memories.",
+      "gender": "Male",
+      "country": "United Kingdom",
+      "dob": "1988-08-12",
+      "relationshipStatus": "Single",
+      "lastActive": "2023-07-30",
+      "isActive": true,
+      "linked": [],
+      "followers": [
+        {
+          "_id": "64bb9ee290f0128183273ff7",
+          "uid":"0115537370",
+          "userName": "Mahamudul Hasan",
+          "profilePic": "https://wallpapers.com/images/hd/cool-profile-picture-87h46gcobjl5e4xu.jpg",
+          "tagLine": "I am the CEO",
+          "bio":"This is a bio",
+          "country":"Bangladesh",
+          "isActive":true
+        }
+      ],
+      "following": [
+        {
+          "_id": "64bb9ee290f0128183273ff7",
+          "uid":"0115537370",
+          "userName": "Mahamudul Hasan",
+          "profilePic": "https://wallpapers.com/images/hd/cool-profile-picture-87h46gcobjl5e4xu.jpg",
+          "tagLine": "I am the CEO",
+          "bio":"This is a bio",
+          "country":"Bangladesh",
+          "isActive":true
+        }
+      ],
+      "pendingFollowers": [
+        {
+          "_id": "64bb9ee290f0128183273ff7",
+          "uid":"0115537370",
+          "userName": "Mahamudul Hasan",
+          "profilePic": "https://wallpapers.com/images/hd/cool-profile-picture-87h46gcobjl5e4xu.jpg",
+          "tagLine": "I am the CEO",
+          "bio":"This is a bio",
+          "country":"Bangladesh",
+          "isActive":true
+        }
+      ],
+      "pendingFollowing": [
+        {
+          "_id": "64bb9ee290f0128183273ff7",
+          "uid":"0115537370",
+          "userName": "Mahamudul Hasan",
+          "profilePic": "https://wallpapers.com/images/hd/cool-profile-picture-87h46gcobjl5e4xu.jpg",
+          "tagLine": "I am the CEO",
+          "bio":"This is a bio",
+          "country":"Bangladesh",
+          "isActive":true
+        }
+      ],
+      "createdAt": "2021-07-10",
+      "updatedAt": "N/A",
+      "__v": 0
+    }
+  ]
+}

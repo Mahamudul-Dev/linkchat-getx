@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:icon_badge/icon_badge.dart';
 import 'package:linkchat/app/data/utils/app_strings.dart';
 import 'package:linkchat/app/modules/chat/views/activity_list_horizontal_view.dart';
 import 'package:linkchat/app/modules/chat/views/chat_list_tile_view.dart';
+import 'package:linkchat/app/modules/home/controllers/home_controller.dart';
+import 'package:linkchat/app/modules/search/views/SearchViewDelegate.dart';
 import 'package:linkchat/app/routes/app_pages.dart';
-
 import 'package:linkchat/app/style/style.dart';
 import 'package:linkchat/app/widgets/widgets.dart';
-import 'package:get/get.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:linkchat/app/modules/home/controllers/home_controller.dart';
-import 'package:icon_badge/icon_badge.dart';
 import 'package:lottie/lottie.dart';
 
 import '../controllers/chat_controller.dart';
@@ -19,7 +19,7 @@ class ChatView extends GetView<ChatController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+        appBar: AppBar(
             title: const Text('Chats'),
             leading: IconButton(
                 onPressed: () {
@@ -27,11 +27,20 @@ class ChatView extends GetView<ChatController> {
                 },
                 icon: Icon(
                   Icons.menu,
-                  color:
-                      ThemeProvider().isSavedLightMood().value ? black : brightWhite,
+                  color: ThemeProvider().isSavedLightMood().value
+                      ? black
+                      : brightWhite,
                 )),
             actions: [
-              IconButton(onPressed: () => Get.toNamed(Routes.SEARCH), icon: Obx(() => Icon(Icons.search_rounded, color: ThemeProvider().isSavedLightMood().value ? black : brightWhite,))),
+              IconButton(
+                  onPressed: () => showSearch(
+                      context: context, delegate: SearchViewDelegate()),
+                  icon: Obx(() => Icon(
+                        Icons.search_rounded,
+                        color: ThemeProvider().isSavedLightMood().value
+                            ? black
+                            : brightWhite,
+                      ))),
               IconBadge(
                 icon: const Icon(Icons.notifications),
                 itemCount: 6,
@@ -64,7 +73,8 @@ class ChatView extends GetView<ChatController> {
                         NO_CHAT_MESSAGE,
                         style: TextStyle(
                             color: ash,
-                            fontSize: 16.sp, fontWeight: FontWeight.bold),
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.bold),
                         textAlign: TextAlign.center,
                       )
                     ],
@@ -123,8 +133,8 @@ class ChatView extends GetView<ChatController> {
                 );
         })),
         floatingActionButton: FloatingActionButton.extended(
-          onPressed: () => Get.toNamed(Routes.FOLLOWERS,
-              arguments: {'isChat': true}),
+          onPressed: () =>
+              Get.toNamed(Routes.FOLLOWERS, arguments: {'isChat': true}),
           label: Row(
             children: [
               const Text(
@@ -136,7 +146,6 @@ class ChatView extends GetView<ChatController> {
             ],
           ),
           backgroundColor: accentColor,
-        )
-    );
+        ));
   }
 }

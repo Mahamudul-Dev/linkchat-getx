@@ -32,8 +32,6 @@ import '../modules/random_call/bindings/random_call_binding.dart';
 import '../modules/random_call/views/random_call_view.dart';
 import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
-import '../modules/search/bindings/search_binding.dart';
-import '../modules/search/views/search_view.dart';
 import '../modules/settings/bindings/settings_binding.dart';
 import '../modules/settings/views/settings_view.dart';
 import '../modules/setup_pin/bindings/setup_pin_binding.dart';
@@ -157,11 +155,6 @@ class AppPages {
       name: _Paths.OTP_VERIFICATION,
       page: () => const OtpVerificationView(),
       binding: OtpVerificationBinding(),
-    ),
-    GetPage(
-      name: _Paths.SEARCH,
-      page: () => const SearchView(),
-      binding: SearchBinding(),
-    ),
+    )
   ];
 }

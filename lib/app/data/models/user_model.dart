@@ -1,90 +1,86 @@
 class UserModel {
-  String? status;
-  String? message;
-  List<Data>? data;
-
-  UserModel({this.status, this.message, this.data});
+  UserModel({
+    required this.status,
+    required this.message,
+    required this.data,
+  });
+  late final String status;
+  late final String message;
+  late final List<Data> data;
 
   UserModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    if (json['data'] != null) {
-      data = <Data>[];
-      json['data'].forEach((v) {
-        data!.add(Data.fromJson(v));
-      });
-    }
+    data = List.from(json['data']).map((e) => Data.fromJson(e)).toList();
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['status'] = status;
-    data['message'] = message;
-    if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
-    }
-    return data;
+    final _data = <String, dynamic>{};
+    _data['status'] = status;
+    _data['message'] = message;
+    _data['data'] = data.map((e) => e.toJson()).toList();
+    return _data;
   }
 }
 
 class Data {
-  String? sId;
-  String? userName;
-  String? uid;
-  String? profilePic;
-  String? email;
-  String? password;
-  String? userPhone;
-  String? tagLine;
-  String? bio;
-  String? gender;
-  String? country;
-  String? dob;
-  String? relationshipStatus;
-  String? lastActive;
-  bool? isActive;
-  String? createdAt;
-  String? updatedAt;
-  List<FollowerModel>? linked;
-  List<FollowerModel>? followers;
-  List<FollowerModel>? following;
-  List<FollowerModel>? pendingFollowers;
-  List<FollowerModel>? pendingFollowing;
-  int? iV;
-
-  Data(
-      {this.sId,
-        this.userName,
-        this.uid,
-        this.profilePic,
-        this.email,
-        this.password,
-        this.userPhone,
-        this.tagLine,
-        this.bio,
-        this.gender,
-        this.country,
-        this.dob,
-        this.relationshipStatus,
-        this.lastActive,
-        this.isActive,
-        this.createdAt,
-        this.updatedAt,
-        this.linked,
-        this.followers,
-        this.following,
-        this.pendingFollowers,
-        this.pendingFollowing,
-        this.iV});
+  Data({
+    required this.sId,
+    required this.userName,
+    required this.uid,
+    required this.email,
+    required this.password,
+    required this.userPhone,
+    required this.profilePic,
+    required this.tagLine,
+    required this.bio,
+    required this.gender,
+    required this.country,
+    required this.dob,
+    required this.relationshipStatus,
+    required this.lastActive,
+    required this.isActive,
+    required this.linked,
+    required this.followers,
+    required this.following,
+    required this.pendingFollowers,
+    required this.pendingFollowing,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.v,
+  });
+  late final String sId;
+  late final String userName;
+  late final String uid;
+  late final String email;
+  late final String password;
+  late final String userPhone;
+  late final String profilePic;
+  late final String tagLine;
+  late final String bio;
+  late final String gender;
+  late final String country;
+  late final String dob;
+  late final String relationshipStatus;
+  late final String lastActive;
+  late final bool isActive;
+  late final List<FollowerModel> linked;
+  late final List<FollowerModel> followers;
+  late final List<FollowerModel> following;
+  late final List<FollowerModel> pendingFollowers;
+  late final List<FollowerModel> pendingFollowing;
+  late final String createdAt;
+  late final String updatedAt;
+  late final int v;
 
   Data.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     userName = json['userName'];
     uid = json['uid'];
-    profilePic = json['profilePic'];
     email = json['email'];
     password = json['password'];
     userPhone = json['userPhone'];
+    profilePic = json['profilePic'];
     tagLine = json['tagLine'];
     bio = json['bio'];
     gender = json['gender'];
@@ -93,123 +89,98 @@ class Data {
     relationshipStatus = json['relationshipStatus'];
     lastActive = json['lastActive'];
     isActive = json['isActive'];
+    linked = List.from(json['linked'])
+        .map((e) => FollowerModel.fromJson(e))
+        .toList();
+    followers = List.from(json['followers'])
+        .map((e) => FollowerModel.fromJson(e))
+        .toList();
+    following = List.from(json['following'])
+        .map((e) => FollowerModel.fromJson(e))
+        .toList();
+    pendingFollowers = List.from(json['pendingFollowers'])
+        .map((e) => FollowerModel.fromJson(e))
+        .toList();
+    pendingFollowing = List.from(json['pendingFollowing'])
+        .map((e) => FollowerModel.fromJson(e))
+        .toList();
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
-    if (json['linked'] != null) {
-      linked = <FollowerModel>[];
-      json['linked'].forEach((v) {
-        linked!.add(FollowerModel.fromJson(v));
-      });
-    } else {
-      linked = [];
-    }
-    if (json['followers'] != null) {
-      followers = <FollowerModel>[];
-      json['followers'].forEach((v) {
-        followers!.add(FollowerModel.fromJson(v));
-      });
-    } else {
-      followers = [];
-    }
-    if (json['following'] != null) {
-      following = <FollowerModel>[];
-      json['following'].forEach((v) {
-        following!.add(FollowerModel.fromJson(v));
-      });
-    } else {
-      following = [];
-    }
-    if (json['pendingFollowers'] != null) {
-      pendingFollowers = <FollowerModel>[];
-      json['pendingFollowers'].forEach((v) {
-        pendingFollowers!.add(FollowerModel.fromJson(v));
-      });
-    } else {
-      pendingFollowers = [];
-    }
-    if (json['pendingFollowing'] != null) {
-      pendingFollowing = <FollowerModel>[];
-      json['pendingFollowing'].forEach((v) {
-        pendingFollowing!.add(FollowerModel.fromJson(v));
-      });
-    } else {
-      pendingFollowing = [];
-    }
-    iV = json['__v'];
+    v = json['__v'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['_id'] = sId;
-    data['userName'] = userName;
-    data['uid'] = uid;
-    data['profilePic'] = profilePic;
-    data['email'] = email;
-    data['password'] = password;
-    data['userPhone'] = userPhone;
-    data['tagLine'] = tagLine;
-    data['bio'] = bio;
-    data['gender'] = gender;
-    data['country'] = country;
-    data['dob'] = dob;
-    data['relationshipStatus'] = relationshipStatus;
-    data['lastActive'] = lastActive;
-    data['isActive'] = isActive;
-    data['createdAt'] = createdAt;
-    data['updatedAt'] = updatedAt;
-    if (followers != null) {
-      data['followers'] = followers!.map((v) => v.toJson()).toList();
-    }
-    if (following != null) {
-      data['following'] = following!.map((v) => v.toJson()).toList();
-    }
-    data['__v'] = iV;
-    return data;
+    final _data = <String, dynamic>{};
+    _data['_id'] = sId;
+    _data['userName'] = userName;
+    _data['uid'] = uid;
+    _data['email'] = email;
+    _data['password'] = password;
+    _data['userPhone'] = userPhone;
+    _data['profilePic'] = profilePic;
+    _data['tagLine'] = tagLine;
+    _data['bio'] = bio;
+    _data['gender'] = gender;
+    _data['country'] = country;
+    _data['dob'] = dob;
+    _data['relationshipStatus'] = relationshipStatus;
+    _data['lastActive'] = lastActive;
+    _data['isActive'] = isActive;
+    _data['linked'] = linked;
+    _data['followers'] = followers.map((e) => e.toJson()).toList();
+    _data['following'] = following.map((e) => e.toJson()).toList();
+    _data['pendingFollowers'] =
+        pendingFollowers.map((e) => e.toJson()).toList();
+    _data['pendingFollowing'] =
+        pendingFollowing.map((e) => e.toJson()).toList();
+    _data['createdAt'] = createdAt;
+    _data['updatedAt'] = updatedAt;
+    _data['__v'] = v;
+    return _data;
   }
 }
 
-
 class FollowerModel {
-  String? sId;
-  String? userName;
-  String? profilePic;
-  String? tagLine;
-  String? bio;
-  int? uid;
-  String? country;
-  bool? isActive;
-
-  FollowerModel(
-      {this.sId,
-        this.userName,
-        this.profilePic,
-        this.tagLine,
-        this.bio,
-        this.uid,
-        this.country,
-        this.isActive});
+  FollowerModel({
+    required this.sId,
+    required this.uid,
+    required this.userName,
+    required this.profilePic,
+    required this.tagLine,
+    required this.bio,
+    required this.country,
+    required this.isActive,
+  });
+  late final String sId;
+  late final String uid;
+  late final String userName;
+  late final String profilePic;
+  late final String tagLine;
+  late final String bio;
+  late final String country;
+  late final bool isActive;
 
   FollowerModel.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
+    uid = json['uid'];
     userName = json['userName'];
     profilePic = json['profilePic'];
     tagLine = json['tagLine'];
     bio = json['bio'];
-    uid = json['uid'];
     country = json['country'];
     isActive = json['isActive'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['_id'] = sId;
-    data['userName'] = userName;
-    data['profilePic'] = profilePic;
-    data['tagLine'] = tagLine;
-    data['bio'] = bio;
-    data['uid'] = uid;
-    data['country'] = country;
-    data['isActive'] = isActive;
-    return data;
+    final _data = <String, dynamic>{};
+    _data['_id'] = sId;
+    _data['uid'] = uid;
+    _data['userName'] = userName;
+    _data['profilePic'] = profilePic;
+    _data['tagLine'] = tagLine;
+    _data['bio'] = bio;
+    _data['country'] = country;
+    _data['isActive'] = isActive;
+    return _data;
   }
 }

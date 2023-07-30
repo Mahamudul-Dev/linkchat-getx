@@ -1,62 +1,73 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:linkchat/app/style/style.dart';
-import 'package:linkchat/app/widgets/views/user_list_tile.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:path/path.dart';
 
 import '../../../data/models/search_result_model.dart';
+import '../../../database/cached_db_helper.dart';
+import '../../../style/style.dart';
+import '../../../widgets/widgets.dart';
 import '../controllers/search_controller.dart';
 
-class SearchView extends GetView<SearchViewController> {
-  const SearchView({Key? key}) : super(key: key);
+class SearchViewDelegate extends SearchDelegate<String> {
+  final cachedDb = CachedDbHelper();
+  SearchViewController controller = Get.put(SearchViewController());
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body: Column(
+  ThemeData appBarTheme(BuildContext context) {
+    return Theme.of(context).copyWith(
+        appBarTheme: const AppBarTheme(
+            backgroundColor: black, foregroundColor: brightWhite),
+        inputDecorationTheme:
+            const InputDecorationTheme(border: InputBorder.none));
+  }
+
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    return [
+      IconButton(
+          onPressed: () => query = '',
+          icon: const Icon(
+            Icons.clear,
+            color: brightWhite,
+          ))
+    ];
+  }
+
+  @override
+  Widget? buildLeading(BuildContext context) {
+    return IconButton(
+        onPressed: () => close(context, ''),
+        icon: AnimatedIcon(
+          icon: AnimatedIcons.menu_arrow,
+          progress: transitionAnimation,
+          color: brightWhite,
+        ));
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    return searchView(context);
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    return ListView.builder(
+        itemCount: cachedDb.getSearchSuggestion().length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(cachedDb.getSearchSuggestion()[index]),
+            trailing: const Icon(
+              Icons.call_made_rounded,
+              color: brightWhite,
+            ),
+          );
+        });
+  }
+
+  Widget searchView(BuildContext context) {
+    return Column(
       children: [
-        Obx(() => Container(
-              height: 90.h,
-              width: MediaQuery.of(context).size.width,
-              color:
-                  ThemeProvider().isSavedLightMood().value ? white : solidMate,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  const Spacer(),
-                  Flex(
-                    direction: Axis.horizontal,
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          controller: controller.searchTextController.value,
-                          keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: 'Search Keywords...',
-                              contentPadding: const EdgeInsets.all(20),
-                              hintStyle: Theme.of(context).textTheme.bodyMedium,
-                              suffixIcon: IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(
-                                    Icons.search_rounded,
-                                    color: brightWhite,
-                                  ))),
-                        ),
-                      ),
-                      const Icon(Icons.filter_alt_rounded),
-                      const SizedBox(
-                        width: 8,
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            )),
         Expanded(
             child: Scaffold(
           appBar: TabBar(
@@ -87,23 +98,35 @@ class SearchView extends GetView<SearchViewController> {
           ),
         ))
       ],
-    ));
+    );
   }
 
   Widget _buildGlobalSearchView() {
     return FutureBuilder(
-      future: controller.searchUser(
-          queryText: controller.searchTextController.value.text),
+      future: controller.searchUser(queryText: query),
       builder: (context, AsyncSnapshot<SearchResultModel> snapshot) {
         if (snapshot.hasData) {
+          if (snapshot.data!.global!.isEmpty) {
+            return Center(
+              child: Text(
+                'No Data Found!',
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            );
+          }
           return ListView.builder(
             itemCount: snapshot.data?.global?.length,
             itemBuilder: (context, index) {
               return UserListTile(
-                  profilePic: snapshot.data!.global![index].profilePic!,
-                  userName: snapshot.data!.global![index].userName!,
-                  email: snapshot.data!.global![index].email!,
-                  country: snapshot.data!.global![index].country!);
+                  profilePic: snapshot.data!.global?[index].profilePic,
+                  userName: snapshot.data!.global?[index].userName,
+                  email: snapshot.data!.global?[index].email,
+                  country: snapshot.data!.global?[index].country,
+                  buttonStatus: controller
+                      .getButtonStatus(snapshot.data!.global![index].sId!),
+                  onPresses: () => controller.handleFollow(
+                      snapshot.data!.global![index].sId!,
+                      snapshot.data!.global![index].userName!));
             },
           );
         }
@@ -134,20 +157,31 @@ class SearchView extends GetView<SearchViewController> {
 
   Widget _buildFollowerSearchView() {
     return FutureBuilder(
-      future: controller.searchUser(
-          queryText: controller.searchTextController.value.text),
+      future: controller.searchUser(queryText: query),
       builder: (context, AsyncSnapshot<SearchResultModel> snapshot) {
         if (snapshot.hasData) {
+          if (snapshot.data!.followers!.isEmpty) {
+            return Center(
+              child: Text(
+                'No Data Found!',
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            );
+          }
           return ListView.builder(
             itemCount: snapshot.data?.followers?.length,
             itemBuilder: (context, index) {
               return UserListTile(
-                profilePic: snapshot.data!.followers![index].profilePic!,
-                userName: snapshot.data!.followers![index].userName!,
-                email: snapshot.data!.followers![index].email!,
-                country: snapshot.data!.followers![index].country!,
-                isActive: snapshot.data!.followers![index].isActive!,
-                buttonStatus: controller.getButtonStatus(snapshot.data!.followers![index].sId!).val,
+                profilePic: snapshot.data!.followers?[index].profilePic,
+                userName: snapshot.data!.followers?[index].userName,
+                email: snapshot.data!.followers?[index].email,
+                country: snapshot.data!.followers?[index].country!,
+                isActive: snapshot.data!.followers?[index].isActive ?? false,
+                buttonStatus: controller
+                    .getButtonStatus(snapshot.data!.followers![index].sId!),
+                onPresses: () => controller.handleFollow(
+                    snapshot.data!.followers![index].sId!,
+                    snapshot.data!.followers![index].userName!),
               );
             },
           );
@@ -160,6 +194,7 @@ class SearchView extends GetView<SearchViewController> {
             ),
           );
         }
+
         return Obx(() {
           return controller.isLoading.value
               ? Container(
@@ -179,20 +214,31 @@ class SearchView extends GetView<SearchViewController> {
 
   Widget _buildLinkedSearchView() {
     return FutureBuilder(
-      future: controller.searchUser(
-          queryText: controller.searchTextController.value.text),
+      future: controller.searchUser(queryText: query),
       builder: (context, AsyncSnapshot<SearchResultModel> snapshot) {
         if (snapshot.hasData) {
+          if (snapshot.data!.linked!.isEmpty) {
+            return Center(
+              child: Text(
+                'No Data Found!',
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            );
+          }
           return ListView.builder(
             itemCount: snapshot.data?.linked?.length,
             itemBuilder: (context, index) {
               return UserListTile(
-                profilePic: snapshot.data!.linked![index].profilePic!,
-                userName: snapshot.data!.linked![index].userName!,
-                email: snapshot.data!.linked![index].email!,
-                country: snapshot.data!.linked![index].country!,
-                isActive: snapshot.data!.linked![index].isActive!,
-              );
+                  profilePic: snapshot.data!.linked?[index].profilePic,
+                  userName: snapshot.data!.linked?[index].userName!,
+                  email: snapshot.data!.linked?[index].email,
+                  country: snapshot.data!.linked?[index].country,
+                  isActive: snapshot.data!.linked?[index].isActive ?? false,
+                  buttonStatus: controller
+                      .getButtonStatus(snapshot.data!.linked![index].sId!),
+                  onPresses: () => controller.handleFollow(
+                      snapshot.data!.linked![index].sId!,
+                      snapshot.data!.linked![index].userName!));
             },
           );
         }
@@ -204,6 +250,7 @@ class SearchView extends GetView<SearchViewController> {
             ),
           );
         }
+
         return Obx(() {
           return controller.isLoading.value
               ? Container(
