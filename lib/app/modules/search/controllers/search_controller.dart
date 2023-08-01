@@ -49,7 +49,7 @@ class SearchViewController extends GetxController
     try {
       if (response.statusCode == 200) {
         final currentUser = UserModel.fromJson(jsonDecode(response.body));
-        Logger().i(currentUser.data.first.pendingFollowers.length);
+        Logger().i(currentUser.data.first.pendingLink.length);
         Logger().i(currentUser.data.first.linked.isNotEmpty);
 
         if (currentUser.data.first.linked.isNotEmpty) {
@@ -66,9 +66,9 @@ class SearchViewController extends GetxController
           }
         }
 
-        if (currentUser.data.first.pendingFollowers.isNotEmpty) {
+        if (currentUser.data.first.pendingLink.isNotEmpty) {
           try {
-            user = currentUser.data.first.pendingFollowers
+            user = currentUser.data.first.pendingLink
                 .singleWhere((user) => user.sId == sId);
           } catch (e) {
             user = null;
@@ -76,20 +76,6 @@ class SearchViewController extends GetxController
 
           if (user != null && user.toJson() != {}) {
             buttonStatus = 'Link';
-            return buttonStatus;
-          }
-        }
-
-        if (currentUser.data.first.pendingFollowing.isNotEmpty) {
-          try {
-            user = currentUser.data.first.pendingFollowing
-                .singleWhere((user) => user.sId == sId);
-          } catch (e) {
-            user = null;
-          }
-
-          if (user != null && user.toJson() != {}) {
-            buttonStatus = 'Unfollow';
             return buttonStatus;
           }
         }
@@ -103,6 +89,9 @@ class SearchViewController extends GetxController
 
   Future<String> handleFollow(String sId, String userName) async {
     FollowerModel? user;
+    final data = {
+      "userId": currentUserLoginInfo.id,
+    };
 
     final response = await http.get(
         Uri.parse(BASE_URL + USER + currentUserLoginInfo.id!),
@@ -122,13 +111,25 @@ class SearchViewController extends GetxController
 
           if (user != null && user.toJson() != {}) {
             // TODO: call unlink api
-            return 'Link';
+            try {
+              final response = await dio.post(BASE_URL + UNLINK + sId,
+                  options: Options(
+                      headers: authorization(currentUserLoginInfo.token!)),
+                  data: data);
+              if (response.statusCode == 200) {
+                Get.snackbar('Success!', response.data.toString());
+                return 'Link';
+              }
+            } catch (e) {
+              Logger().e(e);
+              return 'Unlink';
+            }
           }
         }
 
-        if (currentUser.data.first.pendingFollowers.isNotEmpty) {
+        if (currentUser.data.first.pendingLink.isNotEmpty) {
           try {
-            user = currentUser.data.first.pendingFollowers
+            user = currentUser.data.first.pendingLink
                 .singleWhere((user) => user.sId == sId);
           } catch (e) {
             user = null;
@@ -136,30 +137,27 @@ class SearchViewController extends GetxController
 
           if (user != null && user.toJson() != {}) {
             // TODO: call link api
-
-            return 'Unlink';
-          }
-        }
-
-        if (currentUser.data.first.pendingFollowing.isNotEmpty) {
-          try {
-            user = currentUser.data.first.pendingFollowing
-                .singleWhere((user) => user.sId == sId);
-          } catch (e) {
-            user = null;
-          }
-
-          if (user != null && user.toJson() != {}) {
-            // TODO: call unfollow api
-            return 'Follow';
+            try {
+              final response = await dio.post(BASE_URL + MAKE_LINK + sId,
+                  options: Options(
+                      headers: authorization(currentUserLoginInfo.token!)),
+                  data: data);
+              if (response.statusCode == 200) {
+                Get.snackbar('Success!', response.data.toString());
+                return 'Unlink';
+              } else {
+                Get.snackbar('Sorry!', response.data.toString());
+                return 'Link';
+              }
+            } catch (e) {
+              Logger().e(e);
+              return 'Link';
+            }
           }
         }
 
         // TODO: call follow api
-        final data = {
-          "followerId": currentUserLoginInfo.id,
-        };
-        Logger().i('Clicked!');
+
         try {
           final response = await dio.post(BASE_URL + MAKE_FOLLOW + sId,
               options:

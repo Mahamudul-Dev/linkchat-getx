@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:get/get.dart';
 import 'package:linkchat/app/data/models/models.dart';
 import 'package:linkchat/app/data/utils/utils.dart';
@@ -11,6 +10,7 @@ import 'package:linkchat/app/modules/profile/views/profile_card_view.dart';
 import 'package:linkchat/app/style/app_color.dart';
 import 'package:linkchat/app/style/theme_provider.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+
 import './about_card_view.dart';
 
 class FollowerCardView extends GetView<FollowersController> {
@@ -33,7 +33,7 @@ class FollowerCardView extends GetView<FollowersController> {
             }
             if (snapshot.hasData) {
               return GridView.builder(
-                controller: Get.find<ProfileController>().scrollController,
+                  controller: Get.find<ProfileController>().scrollController,
                   scrollDirection: Axis.vertical,
                   itemCount: snapshot.data?.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -70,11 +70,11 @@ class FollowerCardView extends GetView<FollowersController> {
                                       shrinkWrap: true,
                                       children: [
                                         ProfileCardView(
-                                            uid: snapshot.data?[index].uid
+                                            sId: snapshot.data?[index].sId
                                                     .toString() ??
                                                 'N/A'),
                                         AboutCardView(
-                                            uid: snapshot.data?[index].uid
+                                            sId: snapshot.data?[index].sId
                                                     .toString() ??
                                                 'N/A'),
                                       ],

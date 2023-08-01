@@ -7,6 +7,8 @@ import '../../../data/models/search_result_model.dart';
 import '../../../database/cached_db_helper.dart';
 import '../../../style/style.dart';
 import '../../../widgets/widgets.dart';
+import '../../profile/views/about_card_view.dart';
+import '../../profile/views/profile_card_view.dart';
 import '../controllers/search_controller.dart';
 
 class SearchViewDelegate extends SearchDelegate<String> {
@@ -117,16 +119,58 @@ class SearchViewDelegate extends SearchDelegate<String> {
           return ListView.builder(
             itemCount: snapshot.data?.global?.length,
             itemBuilder: (context, index) {
-              return UserListTile(
-                  profilePic: snapshot.data!.global?[index].profilePic,
-                  userName: snapshot.data!.global?[index].userName,
-                  email: snapshot.data!.global?[index].email,
-                  country: snapshot.data!.global?[index].country,
-                  buttonStatus: controller
-                      .getButtonStatus(snapshot.data!.global![index].sId!),
-                  onPresses: () => controller.handleFollow(
-                      snapshot.data!.global![index].sId!,
-                      snapshot.data!.global![index].userName!));
+              return InkWell(
+                onTap: () {
+                  showBottomSheet(
+                    backgroundColor: solidMate,
+                    elevation: 0,
+                    context: context,
+                    enableDrag: true,
+                    shape: const RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(35))),
+                    builder: (context) {
+                      return DraggableScrollableSheet(
+                        initialChildSize: 0.9,
+                        expand: true,
+                        builder: (context, scrollController) {
+                          return Container(
+                              decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(35),
+                                      topRight: Radius.circular(35))),
+                              child: ListView(
+                                controller: scrollController,
+                                shrinkWrap: true,
+                                children: [
+                                  ProfileCardView(
+                                    sId: snapshot.data?.global?[index].sId
+                                            .toString() ??
+                                        'N/A',
+                                    bgColor: solidMate,
+                                  ),
+                                  AboutCardView(
+                                      sId: snapshot.data?.global?[index].sId
+                                              .toString() ??
+                                          'N/A'),
+                                ],
+                              ));
+                        },
+                      );
+                    },
+                  );
+                },
+                child: UserListTile(
+                    profilePic: snapshot.data!.global?[index].profilePic,
+                    userName: snapshot.data!.global?[index].userName,
+                    email: snapshot.data!.global?[index].email,
+                    country: snapshot.data!.global?[index].country,
+                    buttonStatus: controller
+                        .getButtonStatus(snapshot.data!.global![index].sId!),
+                    onPresses: () => controller.handleFollow(
+                        snapshot.data!.global![index].sId!,
+                        snapshot.data!.global![index].userName!)),
+              );
             },
           );
         }

@@ -47,7 +47,7 @@ class ChatView extends GetView<ChatController> {
                 badgeColor: accentColor,
                 itemColor: brightWhite,
                 hideZero: true,
-                onTap: () {},
+                onTap: () => Get.toNamed(Routes.NOTIFICATION),
               ),
             ],
             bottom: const SearchBarView(

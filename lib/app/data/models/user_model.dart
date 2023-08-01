@@ -43,8 +43,7 @@ class Data {
     required this.linked,
     required this.followers,
     required this.following,
-    required this.pendingFollowers,
-    required this.pendingFollowing,
+    required this.pendingLink,
     required this.createdAt,
     required this.updatedAt,
     required this.v,
@@ -67,8 +66,7 @@ class Data {
   late final List<FollowerModel> linked;
   late final List<FollowerModel> followers;
   late final List<FollowerModel> following;
-  late final List<FollowerModel> pendingFollowers;
-  late final List<FollowerModel> pendingFollowing;
+  late final List<FollowerModel> pendingLink;
   late final String createdAt;
   late final String updatedAt;
   late final int v;
@@ -98,10 +96,7 @@ class Data {
     following = List.from(json['following'])
         .map((e) => FollowerModel.fromJson(e))
         .toList();
-    pendingFollowers = List.from(json['pendingFollowers'])
-        .map((e) => FollowerModel.fromJson(e))
-        .toList();
-    pendingFollowing = List.from(json['pendingFollowing'])
+    pendingLink = List.from(json['pendingLink'])
         .map((e) => FollowerModel.fromJson(e))
         .toList();
     createdAt = json['createdAt'];
@@ -129,10 +124,7 @@ class Data {
     _data['linked'] = linked;
     _data['followers'] = followers.map((e) => e.toJson()).toList();
     _data['following'] = following.map((e) => e.toJson()).toList();
-    _data['pendingFollowers'] =
-        pendingFollowers.map((e) => e.toJson()).toList();
-    _data['pendingFollowing'] =
-        pendingFollowing.map((e) => e.toJson()).toList();
+    _data['pendingLink'] = pendingLink.map((e) => e.toJson()).toList();
     _data['createdAt'] = createdAt;
     _data['updatedAt'] = updatedAt;
     _data['__v'] = v;

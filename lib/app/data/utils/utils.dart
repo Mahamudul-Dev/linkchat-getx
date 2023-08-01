@@ -19,8 +19,8 @@ const String UPDATE_PROFILE =
 
 const String MAKE_FOLLOW =
     '/api/v1/user/create_follow/'; // need to put id in parameter for make a follower
-const String LINK_FOLLOWER = '';
-const String UNLINK = '';
+const String MAKE_LINK = '/api/v1/user/add-link/';
+const String UNLINK = '/api/v1/user/unlink/';
 
 Map<String, String> authorization(String token) {
   return {'Authorization': 'Bearer $token'};

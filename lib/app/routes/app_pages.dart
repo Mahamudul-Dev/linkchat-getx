@@ -22,6 +22,8 @@ import '../modules/login/email_login/views/email_login_view.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/message/bindings/message_binding.dart';
 import '../modules/message/views/message_view.dart';
+import '../modules/notification/bindings/notification_binding.dart';
+import '../modules/notification/views/notification_view.dart';
 import '../modules/otp_verification/bindings/otp_verification_binding.dart';
 import '../modules/otp_verification/views/otp_verification_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
@@ -155,6 +157,11 @@ class AppPages {
       name: _Paths.OTP_VERIFICATION,
       page: () => const OtpVerificationView(),
       binding: OtpVerificationBinding(),
-    )
+    ),
+    GetPage(
+      name: _Paths.NOTIFICATION,
+      page: () => const NotificationView(),
+      binding: NotificationBinding(),
+    ),
   ];
 }

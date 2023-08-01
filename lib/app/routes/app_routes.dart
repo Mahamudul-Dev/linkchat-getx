@@ -24,6 +24,7 @@ abstract class Routes {
   static const OTP_VERIFICATION = _Paths.OTP_VERIFICATION;
   static const EMAIL_LOGIN = _Paths.LOGIN + _Paths.EMAIL_LOGIN;
   static const EDIT_PROFILE = _Paths.PROFILE + _Paths.EDIT_PROFILE;
+  static const NOTIFICATION = _Paths.NOTIFICATION;
 }
 
 abstract class _Paths {
@@ -47,4 +48,5 @@ abstract class _Paths {
   static const OTP_VERIFICATION = '/otp-verification';
   static const EMAIL_LOGIN = '/email-login';
   static const EDIT_PROFILE = '/edit-profile';
+  static const NOTIFICATION = '/notification';
 }

@@ -1,18 +1,17 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:linkchat/app/data/utils/utils.dart';
 import 'package:linkchat/app/modules/profile/controllers/profile_controller.dart';
-import 'dart:io';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:http/http.dart' as http;
 
 import '../../../../data/models/models.dart';
 import '../../../../database/database.dart';
-
 
 class EditProfileController extends GetxController {
   /*
@@ -41,7 +40,15 @@ class EditProfileController extends GetxController {
 
   // relationship status selection
   var relationshipStatus = 'N/A'.obs;
-  var relationshipStatusList = ['N/A', 'Single', 'Married', 'Engaged', 'Divorced', 'Widowed', 'Complicated'].obs;
+  var relationshipStatusList = [
+    'N/A',
+    'Single',
+    'Married',
+    'Engaged',
+    'Divorced',
+    'Widowed',
+    'Complicated'
+  ].obs;
 
   Future<void> getImage() async {
     late PermissionStatus status;
@@ -79,9 +86,8 @@ class EditProfileController extends GetxController {
     }
   }
 
-
-  void fillValueFromDatabase(){
-    final dbProfileData =  Get.find<ProfileController>().getProfile;
+  void fillValueFromDatabase() {
+    final dbProfileData = Get.find<ProfileController>().getCurrentProfile;
     nameController.text = dbProfileData.name ?? '';
     taglineController.text = dbProfileData.tagline ?? '';
     dobController.text = dbProfileData.dob ?? '';
@@ -89,11 +95,10 @@ class EditProfileController extends GetxController {
     userEmailController.text = dbProfileData.email;
   }
 
-
   void updateProfile() async {
     isLoading.value = true;
     final userLoginInfo = DatabaseHelper().getLoginInfo();
-    final Map<String,dynamic> data = {
+    final Map<String, dynamic> data = {
       "userName": nameController.text,
       "email": userEmailController.text.trim(),
       "userPhone": userPhoneController.text.trim(),
@@ -104,8 +109,13 @@ class EditProfileController extends GetxController {
       "relationshipStatus": relationshipStatus.value,
       "updatedAt": DateTime.now().toString(),
     };
-    final response = await http.put(Uri.parse(BASE_URL + UPDATE_PROFILE + Get.find<ProfileController>().getProfile.serverId), headers: {'Authorization':'Bearer ${userLoginInfo.token}'}, body: data);
-    if(response.statusCode == 200){
+    final response = await http.put(
+        Uri.parse(BASE_URL +
+            UPDATE_PROFILE +
+            Get.find<ProfileController>().getCurrentProfile.serverId),
+        headers: {'Authorization': 'Bearer ${userLoginInfo.token}'},
+        body: data);
+    if (response.statusCode == 200) {
       final result = Data.fromJson(jsonDecode(response.body));
       DatabaseHelper().saveUserData(result);
       Get.snackbar('Success', 'Profile updated successfully');
