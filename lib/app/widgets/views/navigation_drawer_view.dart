@@ -64,12 +64,25 @@ class NavigationDrawerView extends GetView {
               child: ListView(
                 children: [
                   ListTile(
-                    onTap: () {},
+                    onTap: () => Get.toNamed(Routes.FOLLOWERS),
                     leading: const Icon(
                       CupertinoIcons.group_solid,
                       size: 25,
                     ),
                     title: Text('Followers',
+                        style: Theme.of(context)
+                            .textTheme
+                            .labelSmall
+                            ?.copyWith(fontSize: 12.sp)),
+                  ),
+                  ListTile(
+                    onTap: () =>
+                        Get.toNamed(Routes.LINK_LIST, arguments: {'index': 1}),
+                    leading: const Icon(
+                      Icons.add_link_rounded,
+                      size: 25,
+                    ),
+                    title: Text('Link Requests',
                         style: Theme.of(context)
                             .textTheme
                             .labelSmall

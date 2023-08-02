@@ -19,6 +19,7 @@ import 'app/database/call_schema.dart';
 import 'app/database/conversatin_schema.dart';
 import 'app/database/group_schema.dart';
 import 'app/database/login_schema.dart';
+import 'app/database/notification_schema.dart';
 import 'app/database/profile_schema.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
@@ -506,6 +507,45 @@ final _entities = <ModelEntity>[
             flags: 0)
       ],
       relations: <ModelRelation>[],
+      backlinks: <ModelBacklink>[]),
+  ModelEntity(
+      id: const IdUid(14, 2416490522128037181),
+      name: 'NotificationSchema',
+      lastPropertyId: const IdUid(6, 3525698441092032792),
+      flags: 0,
+      properties: <ModelProperty>[
+        ModelProperty(
+            id: const IdUid(1, 7620610749341795989),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        ModelProperty(
+            id: const IdUid(2, 3658631524649014798),
+            name: 'title',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(3, 5722366499180753080),
+            name: 'message',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(4, 3614555570714528059),
+            name: 'type',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(5, 3151123482919832069),
+            name: 'isRead',
+            type: 1,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(6, 3525698441092032792),
+            name: 'timestamp',
+            type: 9,
+            flags: 0)
+      ],
+      relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[])
 ];
 
@@ -529,11 +569,15 @@ Future<Store> openStore(
 ModelDefinition getObjectBoxModel() {
   final model = ModelInfo(
       entities: _entities,
-      lastEntityId: const IdUid(11, 3855487899131343099),
+      lastEntityId: const IdUid(14, 2416490522128037181),
       lastIndexId: const IdUid(5, 7388689952621531987),
       lastRelationId: const IdUid(0, 0),
       lastSequenceId: const IdUid(0, 0),
-      retiredEntityUids: const [3977552756406304623],
+      retiredEntityUids: const [
+        3977552756406304623,
+        8290035999677532485,
+        6486507496343484250
+      ],
       retiredIndexUids: const [],
       retiredPropertyUids: const [
         1940547757994021903,
@@ -545,7 +589,18 @@ ModelDefinition getObjectBoxModel() {
         2494576464396604690,
         1143237298997700838,
         4033021029115956196,
-        1396412083528255255
+        1396412083528255255,
+        3368525232821352972,
+        1509649339479084451,
+        1951277158389896957,
+        6266399032321463039,
+        3926895407204979270,
+        9115498101495549772,
+        6060480570129414094,
+        4128102831743678793,
+        3324256788288068561,
+        208849621248622089,
+        6869632475233839156
       ],
       retiredRelationUids: const [],
       modelVersion: 5,
@@ -1064,6 +1119,48 @@ ModelDefinition getObjectBoxModel() {
               createdAt: const fb.StringReader(asciiOptimization: true).vTableGetNullable(buffer, rootOffset, 34));
 
           return object;
+        }),
+    NotificationSchema: EntityDefinition<NotificationSchema>(
+        model: _entities[10],
+        toOneRelations: (NotificationSchema object) => [],
+        toManyRelations: (NotificationSchema object) => {},
+        getId: (NotificationSchema object) => object.id,
+        setId: (NotificationSchema object, int id) {
+          object.id = id;
+        },
+        objectToFB: (NotificationSchema object, fb.Builder fbb) {
+          final titleOffset = fbb.writeString(object.title);
+          final messageOffset = fbb.writeString(object.message);
+          final typeOffset = fbb.writeString(object.type);
+          final timestampOffset = fbb.writeString(object.timestamp);
+          fbb.startTable(7);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, titleOffset);
+          fbb.addOffset(2, messageOffset);
+          fbb.addOffset(3, typeOffset);
+          fbb.addBool(4, object.isRead);
+          fbb.addOffset(5, timestampOffset);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+
+          final object = NotificationSchema(
+              id: const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0),
+              title: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 6, ''),
+              message: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 8, ''),
+              type: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 10, ''),
+              isRead: const fb.BoolReader()
+                  .vTableGet(buffer, rootOffset, 12, false),
+              timestamp: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 14, ''));
+
+          return object;
         })
   };
 
@@ -1395,4 +1492,31 @@ class ProfileSchema_ {
   /// see [ProfileSchema.linkedCounts]
   static final linkedCounts =
       QueryIntegerProperty<ProfileSchema>(_entities[9].properties[18]);
+}
+
+/// [NotificationSchema] entity fields to define ObjectBox queries.
+class NotificationSchema_ {
+  /// see [NotificationSchema.id]
+  static final id =
+      QueryIntegerProperty<NotificationSchema>(_entities[10].properties[0]);
+
+  /// see [NotificationSchema.title]
+  static final title =
+      QueryStringProperty<NotificationSchema>(_entities[10].properties[1]);
+
+  /// see [NotificationSchema.message]
+  static final message =
+      QueryStringProperty<NotificationSchema>(_entities[10].properties[2]);
+
+  /// see [NotificationSchema.type]
+  static final type =
+      QueryStringProperty<NotificationSchema>(_entities[10].properties[3]);
+
+  /// see [NotificationSchema.isRead]
+  static final isRead =
+      QueryBooleanProperty<NotificationSchema>(_entities[10].properties[4]);
+
+  /// see [NotificationSchema.timestamp]
+  static final timestamp =
+      QueryStringProperty<NotificationSchema>(_entities[10].properties[5]);
 }

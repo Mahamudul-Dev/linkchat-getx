@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:linkchat/app/data/utils/utils.dart';
 import 'package:linkchat/app/modules/profile/controllers/profile_controller.dart';
+import 'package:linkchat/app/routes/app_pages.dart';
 import 'package:linkchat/app/style/app_color.dart';
 import 'package:linkchat/app/style/theme_provider.dart';
 import 'package:linkchat/app/widgets/views/CircullarShimmer.dart';
@@ -105,31 +106,37 @@ Widget _buildOwnProfile(ProfileController controller, BuildContext context) {
           children: [
             Expanded(
                 flex: 2,
-                child: SizedBox(
-                  height: 35,
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          controller.formatNumber(
-                              controller.getCurrentProfile.linkedCounts ?? 0),
-                          textAlign: TextAlign.center,
-                          style:
-                              Theme.of(context).textTheme.labelMedium?.copyWith(
-                                    color: brightWhite,
-                                  ),
-                        ),
-                        Text('Linked',
+                child: InkWell(
+                  onTap: () =>
+                      Get.toNamed(Routes.LINK_LIST, arguments: {'index': 0}),
+                  child: SizedBox(
+                    height: 35,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            controller.formatNumber(
+                                controller.getCurrentProfile.linkedCounts ?? 0),
                             textAlign: TextAlign.center,
                             style: Theme.of(context)
                                 .textTheme
-                                .labelSmall
+                                .labelMedium
                                 ?.copyWith(
-                                    color: brightWhite,
-                                    fontWeight: FontWeight.normal))
-                      ],
+                                  color: brightWhite,
+                                ),
+                          ),
+                          Text('Linked',
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelSmall
+                                  ?.copyWith(
+                                      color: brightWhite,
+                                      fontWeight: FontWeight.normal))
+                        ],
+                      ),
                     ),
                   ),
                 )),
@@ -140,31 +147,37 @@ Widget _buildOwnProfile(ProfileController controller, BuildContext context) {
             ),
             Expanded(
                 flex: 2,
-                child: SizedBox(
-                  height: 35,
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          controller.formatNumber(
-                              controller.getCurrentProfile.followersCount ?? 0),
-                          textAlign: TextAlign.center,
-                          style:
-                              Theme.of(context).textTheme.labelMedium?.copyWith(
-                                    color: brightWhite,
-                                  ),
-                        ),
-                        Text('Followers',
+                child: InkWell(
+                  onTap: () => Get.toNamed(Routes.FOLLOWERS),
+                  child: SizedBox(
+                    height: 35,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            controller.formatNumber(
+                                controller.getCurrentProfile.followersCount ??
+                                    0),
                             textAlign: TextAlign.center,
                             style: Theme.of(context)
                                 .textTheme
-                                .labelSmall
+                                .labelMedium
                                 ?.copyWith(
-                                    color: brightWhite,
-                                    fontWeight: FontWeight.normal))
-                      ],
+                                  color: brightWhite,
+                                ),
+                          ),
+                          Text('Followers',
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelSmall
+                                  ?.copyWith(
+                                      color: brightWhite,
+                                      fontWeight: FontWeight.normal))
+                        ],
+                      ),
                     ),
                   ),
                 )),

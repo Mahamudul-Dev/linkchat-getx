@@ -2,45 +2,35 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:linkchat/app/data/utils/utils.dart';
 import 'package:logger/logger.dart';
 
-import '../../../data/models/models.dart';
-import '../../../database/database.dart';
+import '../../../data/models/user_model.dart';
+import '../../../data/utils/utils.dart';
+import '../../../database/database_helper.dart';
 
 class FollowersController extends GetxController {
-  RxBool isLoading = false.obs;
-
-  final _currentUserLoginInfo = DatabaseHelper().getLoginInfo();
-
-  // fetch followers list form local database
-  List<FollowerModel> followers = <FollowerModel>[].obs;
+  final dbHelper = DatabaseHelper();
 
   Future<List<FollowerModel>> getFollowers() async {
+    List<FollowerModel> result = [];
     try {
-      isLoading.value = true;
       final response = await http.get(
-          Uri.parse(BASE_URL + USER + _currentUserLoginInfo.id!),
-          headers: authorization(_currentUserLoginInfo.token!));
+          Uri.parse(BASE_URL + USER + dbHelper.getUserData().serverId),
+          headers: authorization(dbHelper.getLoginInfo().token!));
       if (response.statusCode == 200) {
-        final result = UserModel.fromJson(jsonDecode(response.body));
-        Logger().i(response);
-        followers.clear();
-        Logger().i(result.data?.first.toJson());
-        followers.addAll(result.data!.first.followers ?? []);
-        isLoading.value = false;
-        Logger().i(followers.asMap());
-        return followers;
+        final data = UserModel.fromJson(jsonDecode(response.body));
+        if (data.data.first.followers.isNotEmpty) {
+          result = data.data.first.followers;
+          return result;
+        }
+        return result;
       } else {
-        Get.snackbar(
-            'Opps!', 'Please check your network connection & try again');
-        isLoading.value = false;
-        return followers;
+        Get.snackbar('Sorry!', 'Network Error');
+        return result;
       }
     } catch (e) {
-      isLoading.value = false;
       Logger().e(e);
+      return result;
     }
-    return followers;
   }
 }

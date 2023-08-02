@@ -64,7 +64,7 @@ class _UserListTileState extends State<UserListTile> {
         overflow: TextOverflow.ellipsis,
       ),
       subtitle: Text(
-        widget.email ?? '',
+        widget.country ?? '',
         style: Theme.of(context).textTheme.bodyMedium,
       ),
       trailing: ElevatedButton(

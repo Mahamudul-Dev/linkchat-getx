@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:linkchat/app/data/models/models.dart';
-import 'package:linkchat/app/database/database.dart';
-import 'package:linkchat/app/modules/followers/controllers/followers_controller.dart';
 import 'package:linkchat/app/style/style.dart';
 
-class BlockListController extends GetxController with GetSingleTickerProviderStateMixin{
-
-late TabController tabController;
+class BlockListController extends GetxController
+    with GetSingleTickerProviderStateMixin {
+  late TabController tabController;
   RxBool toggleMarkAll = false.obs;
   RxBool isUnBlockUserChecked = false.obs;
   RxBool isBlockUserChecked = false.obs;
@@ -17,27 +15,36 @@ late TabController tabController;
       text: 'Blocked Users',
       icon: Icon(
         Icons.block_rounded,
-        color: ThemeProvider().isSavedLightMood().value ? blackAccent : brightWhite,
+        color: ThemeProvider().isSavedLightMood().value
+            ? blackAccent
+            : brightWhite,
       ),
     ),
     Tab(
       text: 'Followers',
       icon: Icon(
         Icons.people,
-        color: ThemeProvider().isSavedLightMood().value ? blackAccent : brightWhite,
+        color: ThemeProvider().isSavedLightMood().value
+            ? blackAccent
+            : brightWhite,
       ),
     ),
   ];
   List<FollowersCheckObjectModel> blockList = [
-    FollowersCheckObjectModel(serverId: '123456', uid: 345678, userName: 'Mahamudul Hasan', profilePic: 'https://images.pexels.com/photos/17490386/pexels-photo-17490386/free-photo-of-a-portrait-of-a-woman-in-sunlight.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', date: DateTime.now())
+    FollowersCheckObjectModel(
+        serverId: '123456',
+        uid: 345678,
+        userName: 'Mahamudul Hasan',
+        profilePic:
+            'https://images.pexels.com/photos/17490386/pexels-photo-17490386/free-photo-of-a-portrait-of-a-woman-in-sunlight.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+        date: DateTime.now())
   ].obs;
-
-
 
   List<FollowersCheckObjectModel> markedFollowers =
       <FollowersCheckObjectModel>[].obs;
 
-  List<FollowersCheckObjectModel> unMarkedFollowers = <FollowersCheckObjectModel>[].obs;
+  List<FollowersCheckObjectModel> unMarkedFollowers =
+      <FollowersCheckObjectModel>[].obs;
 
   void singleMark(int index, bool? value) {
     if (tabController.index == 0) {
@@ -75,5 +82,4 @@ late TabController tabController;
     tabController = TabController(length: tabs.length, vsync: this);
     super.onInit();
   }
-
 }

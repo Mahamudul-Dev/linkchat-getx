@@ -134,7 +134,7 @@ class ChatView extends GetView<ChatController> {
         })),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () =>
-              Get.toNamed(Routes.FOLLOWERS, arguments: {'isChat': true}),
+              Get.toNamed(Routes.LINK_LIST, arguments: {'isChat': true}),
           label: Row(
             children: [
               const Text(

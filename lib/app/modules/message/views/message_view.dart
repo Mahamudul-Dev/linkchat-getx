@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
+import 'package:get/get.dart';
 import 'package:linkchat/app/data/utils/utils.dart';
 
 import '../../../modules/chat/controllers/chat_controller.dart';
 import '../../../modules/message/views/chat_profile_bar_view.dart';
 import '../../../modules/message/views/send_message_field_view.dart';
 import '../../../style/style.dart';
+import '../../links/controllers/linklist_controller.dart';
 import '../controllers/message_controller.dart';
-import '../../followers/controllers/followers_controller.dart';
 
 class MessageView extends GetView<MessageController> {
   MessageView({Key? key}) : super(key: key);
   final int uid = Get.arguments['uid'];
-  final FollowersController followersController = Get.find<FollowersController>();
+  final LinklistController followersController = Get.find<LinklistController>();
   final ChatController chatController = Get.find<ChatController>();
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,8 @@ class MessageView extends GetView<MessageController> {
               })(),
               itemBuilder: (context, index) {
                 // ignore: unrelated_type_equality_checks
-                if (chatController.chatList.singleWhere((element) => element.uid == uid) ==
+                if (chatController.chatList
+                        .singleWhere((element) => element.uid == uid) ==
                     false) {
                   // Render the center widget for the first item when no element is found
                   return const Text('Say Hello...');

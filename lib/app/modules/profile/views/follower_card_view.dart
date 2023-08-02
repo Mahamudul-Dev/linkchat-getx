@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:linkchat/app/data/models/models.dart';
 import 'package:linkchat/app/data/utils/utils.dart';
-import 'package:linkchat/app/modules/followers/controllers/followers_controller.dart';
 import 'package:linkchat/app/modules/profile/controllers/profile_controller.dart';
 import 'package:linkchat/app/modules/profile/views/profile_card_view.dart';
 import 'package:linkchat/app/style/app_color.dart';
@@ -12,6 +11,7 @@ import 'package:linkchat/app/style/theme_provider.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import './about_card_view.dart';
+import '../../followers/controllers/followers_controller.dart';
 
 class FollowerCardView extends GetView<FollowersController> {
   const FollowerCardView({Key? key}) : super(key: key);
@@ -116,19 +116,15 @@ class FollowerCardView extends GetView<FollowersController> {
                   });
             }
 
-            return Obx(() {
-              return controller.isLoading.value
-                  ? Container(
-                      color: ThemeProvider().isSavedLightMood().value
-                          ? brightWhite
-                          : solidMate,
-                      child: Center(
-                        child: LoadingAnimationWidget.inkDrop(
-                            color: accentColor, size: 50.w),
-                      ),
-                    )
-                  : const SizedBox.shrink();
-            });
+            return Container(
+              color: ThemeProvider().isSavedLightMood().value
+                  ? brightWhite
+                  : solidMate,
+              child: Center(
+                child: LoadingAnimationWidget.inkDrop(
+                    color: accentColor, size: 50.w),
+              ),
+            );
           },
         ));
   }

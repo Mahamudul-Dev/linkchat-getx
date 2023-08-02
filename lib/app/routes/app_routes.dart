@@ -9,7 +9,6 @@ abstract class Routes {
   static const CALL = _Paths.CALL;
   static const CHAT = _Paths.CHAT;
   static const DIALER = _Paths.DIALER;
-  static const FOLLOWERS = _Paths.FOLLOWERS;
   static const PROFILE = _Paths.PROFILE;
   static const LOGIN = _Paths.LOGIN;
   static const MESSAGE = _Paths.MESSAGE;
@@ -25,6 +24,8 @@ abstract class Routes {
   static const EMAIL_LOGIN = _Paths.LOGIN + _Paths.EMAIL_LOGIN;
   static const EDIT_PROFILE = _Paths.PROFILE + _Paths.EDIT_PROFILE;
   static const NOTIFICATION = _Paths.NOTIFICATION;
+  static const LINK_LIST = _Paths.LINK_LIST;
+  static const FOLLOWERS = _Paths.FOLLOWERS;
 }
 
 abstract class _Paths {
@@ -33,7 +34,6 @@ abstract class _Paths {
   static const CALL = '/call';
   static const CHAT = '/chat';
   static const DIALER = '/dialer';
-  static const FOLLOWERS = '/followers';
   static const PROFILE = '/profile';
   static const LOGIN = '/login';
   static const MESSAGE = '/message';
@@ -49,4 +49,6 @@ abstract class _Paths {
   static const EMAIL_LOGIN = '/email-login';
   static const EDIT_PROFILE = '/edit-profile';
   static const NOTIFICATION = '/notification';
+  static const LINK_LIST = '/linklist';
+  static const FOLLOWERS = '/followers';
 }

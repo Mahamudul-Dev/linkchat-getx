@@ -163,7 +163,6 @@ class SearchViewDelegate extends SearchDelegate<String> {
                 child: UserListTile(
                     profilePic: snapshot.data!.global?[index].profilePic,
                     userName: snapshot.data!.global?[index].userName,
-                    email: snapshot.data!.global?[index].email,
                     country: snapshot.data!.global?[index].country,
                     buttonStatus: controller
                         .getButtonStatus(snapshot.data!.global![index].sId!),

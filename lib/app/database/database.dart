@@ -5,3 +5,4 @@ export './profile_schema.dart';
 export './objectbox_singleton.dart';
 export './database_helper.dart';
 export './login_schema.dart';
+export './notification_schema.dart';

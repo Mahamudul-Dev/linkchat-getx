@@ -16,6 +16,8 @@ import '../modules/followers/bindings/followers_binding.dart';
 import '../modules/followers/views/followers_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
+import '../modules/links/bindings/linklist_binding.dart';
+import '../modules/links/views/linklist_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/email_login/bindings/email_login_binding.dart';
 import '../modules/login/email_login/views/email_login_view.dart';
@@ -58,11 +60,11 @@ class AppPages {
     GetPage(
         name: _Paths.HOME,
         page: () => const HomeView(),
-        bindings: [HomeBinding(), FollowersBinding()]),
+        bindings: [HomeBinding(), LinklistBinding()]),
     GetPage(
       name: _Paths.CALL,
       page: () => const CallListView(),
-      bindings: [CallListBinding(), FollowersBinding()],
+      bindings: [CallListBinding(), LinklistBinding()],
     ),
     GetPage(
       name: _Paths.CHAT,
@@ -75,9 +77,9 @@ class AppPages {
       binding: DialerBinding(),
     ),
     GetPage(
-      name: _Paths.FOLLOWERS,
-      page: () => FollowersView(),
-      binding: FollowersBinding(),
+      name: _Paths.LINK_LIST,
+      page: () => LinklistView(),
+      binding: LinklistBinding(),
     ),
     GetPage(
       name: _Paths.PROFILE,
@@ -115,7 +117,7 @@ class AppPages {
         SettingsBinding(),
         BlockListBinding(),
         SetupPinBinding(),
-        FollowersBinding()
+        LinklistBinding()
       ],
     ),
     GetPage(
@@ -136,7 +138,7 @@ class AppPages {
     GetPage(
       name: _Paths.BLOCK_LIST,
       page: () => BlockListView(),
-      bindings: [BlockListBinding(), FollowersBinding()],
+      bindings: [BlockListBinding(), LinklistBinding()],
     ),
     GetPage(
       name: _Paths.SETUP_PIN,
@@ -162,6 +164,11 @@ class AppPages {
       name: _Paths.NOTIFICATION,
       page: () => const NotificationView(),
       binding: NotificationBinding(),
+    ),
+    GetPage(
+      name: _Paths.FOLLOWERS,
+      page: () => const FollowersView(),
+      binding: FollowersBinding(),
     ),
   ];
 }

@@ -59,7 +59,6 @@ class ProfileController extends GetxController {
             (element) => element.sId == dbHelper.getUserData().serverId);
       } catch (e) {
         linkedFollower = null;
-        Logger().e(e);
       }
       if (linkedFollower != null && linkedFollower.toJson() != {}) {
         return Future.value(true);
