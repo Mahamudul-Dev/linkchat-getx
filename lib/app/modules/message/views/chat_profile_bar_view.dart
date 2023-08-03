@@ -1,24 +1,31 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:get/get.dart';
 import 'package:linkchat/app/routes/app_pages.dart';
 import 'package:linkchat/app/style/style.dart';
 
 class ChatProfileBarView extends GetView {
-  const ChatProfileBarView({Key? key, required this.profilePic, required this.name, required this.tagLine, required this.isActive, required this.uid,}) : super(key: key);
+  const ChatProfileBarView({
+    Key? key,
+    required this.profilePic,
+    required this.name,
+    required this.tagLine,
+    required this.isActive,
+    required this.uid,
+  }) : super(key: key);
   final String profilePic;
   final String name;
   final String tagLine;
   final bool isActive;
-  final int uid;
+  final String uid;
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
       expandedHeight: 130,
       floating: true,
-      backgroundColor: ThemeProvider().isSavedLightMood().value ? brightWhite : black,
+      backgroundColor:
+          ThemeProvider().isSavedLightMood().value ? brightWhite : black,
       title: Text(name),
       actions: [
         IconButton(
@@ -26,7 +33,9 @@ class ChatProfileBarView extends GetView {
             icon: Icon(
               Icons.menu_rounded,
               size: 25.w,
-              color: ThemeProvider().isSavedLightMood().value ? black : brightWhite,
+              color: ThemeProvider().isSavedLightMood().value
+                  ? black
+                  : brightWhite,
             ))
       ],
       flexibleSpace: Align(
@@ -51,8 +60,9 @@ class ChatProfileBarView extends GetView {
                       ),
                     ]),
                     child: CircleAvatar(
-                      backgroundColor:
-                          ThemeProvider().isSavedLightMood().value ? white : black,
+                      backgroundColor: ThemeProvider().isSavedLightMood().value
+                          ? white
+                          : black,
                       radius: 30.w,
                       backgroundImage: CachedNetworkImageProvider(profilePic),
                     ),
@@ -102,8 +112,8 @@ class ChatProfileBarView extends GetView {
                     ),
                   ),
                   IconButton(
-                    onPressed: () => Get.toNamed(Routes.VIDEO_CALL,
-                        arguments: {'uid': uid}),
+                    onPressed: () =>
+                        Get.toNamed(Routes.VIDEO_CALL, arguments: {'uid': uid}),
                     icon: Icon(
                       Icons.video_call_rounded,
                       color: ThemeProvider().isSavedLightMood().value

@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:linkchat/app/data/models/models.dart';
+import 'package:linkchat/app/routes/app_pages.dart';
 import 'package:linkchat/app/widgets/views/CircullarShimmer.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../../data/utils/utils.dart';
 import '../../../modules/chat/controllers/chat_controller.dart';
 import '../../../style/style.dart';
 import '../../../widgets/widgets.dart';
@@ -71,14 +71,17 @@ class ActivityListHorizontalView extends GetView<ChatController> {
             ),
             child: Stack(
               children: [
-                CircleAvatar(
-                    radius: 30,
-                    backgroundColor: ThemeProvider().isSavedLightMood().value
-                        ? brightWhite
-                        : black,
-                    backgroundImage: CachedNetworkImageProvider(
-                        controller.activeUser[index].profilePic ??
-                            PLACEHOLDER_IMAGE)),
+                InkWell(
+                  onTap: () => Get.toNamed(Routes.MESSAGE,
+                      arguments: {'sId': controller.activeUser[index].sId}),
+                  child: CircleAvatar(
+                      radius: 30,
+                      backgroundColor: ThemeProvider().isSavedLightMood().value
+                          ? brightWhite
+                          : black,
+                      backgroundImage: CachedNetworkImageProvider(
+                          controller.activeUser[index].profilePic)),
+                ),
                 Align(
                   alignment: Alignment.bottomRight,
                   child: Container(

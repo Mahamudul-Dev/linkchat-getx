@@ -37,22 +37,22 @@ class DatabaseHelper {
   Future<int> saveUserData(Data user) {
     currentUserBox.removeAll();
     final userProfile = ProfileSchema(
-        serverId: user.sId!,
+        serverId: user.sId,
         uid: user.uid,
-        name: user.userName!,
-        email: user.email!,
+        name: user.userName,
+        email: user.email,
         phone: user.userPhone,
         photo: user.profilePic,
         tagline: user.tagLine,
         bio: user.bio,
         gender: user.gender,
         country: user.country,
-        followersCount: user.followers?.length,
-        followingCounts: user.following?.length,
-        linkedCounts: user.linked?.length,
+        followersCount: user.followers.length,
+        followingCounts: user.following.length,
+        linkedCounts: user.linked.length,
         dob: user.dob,
         relationshipStatus: user.relationshipStatus,
-        isActive: user.isActive!,
+        isActive: user.isActive,
         lastActive: user.lastActive,
         createdAt: user.createdAt);
     final objectId = currentUserBox.put(userProfile);
