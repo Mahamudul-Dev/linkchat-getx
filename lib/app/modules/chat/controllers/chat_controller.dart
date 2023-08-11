@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:get/get.dart';
@@ -12,6 +13,7 @@ import '../../../data/utils/utils.dart';
 class ChatController extends GetxController {
 // user activity list section
   List<FollowerModel> activeUser = [];
+  RxList<ConversationSchema> conversations = <ConversationSchema>[].obs;
 
 // user chat section
   List<Chat> get chatList => chats.obs;
@@ -40,9 +42,14 @@ class ChatController extends GetxController {
     }
   }
 
+  void getConversation() async {
+    conversations.addAll(dbHelper.getConversation());
+  }
+
   @override
   void onInit() {
     getAllActiveUsers();
+    getConversation();
     super.onInit();
   }
 }

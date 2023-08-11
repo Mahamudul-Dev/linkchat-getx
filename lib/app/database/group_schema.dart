@@ -5,7 +5,7 @@ class Participant {
   @Id()
   int objectId;
   String serverId;
-  int uid;
+  String uid;
   String name;
   String photo;
   String tagline;
@@ -28,7 +28,6 @@ class Participant {
   });
 }
 
-
 @Entity()
 class GroupSchema {
   @Id()
@@ -43,8 +42,8 @@ class GroupSchema {
 
   GroupSchema(
       {this.objectId = 0,
-        required this.groupId,
-        required this.name,
-        required this.photo,
-        required this.createdAt});
+      required this.groupId,
+      required this.name,
+      required this.photo,
+      required this.createdAt});
 }

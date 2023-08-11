@@ -18,47 +18,50 @@ class NavigationDrawerView extends GetView {
           GestureDetector(
             onTap: () => Get.toNamed(Routes.PROFILE,
                 arguments: {'sId': DatabaseHelper().getUserData().serverId}),
-            child: DrawerHeader(
-                child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 35.w,
-                      backgroundColor: darkAsh,
-                      backgroundImage: CachedNetworkImageProvider(
-                          DatabaseHelper().getUserData().photo ??
-                              PLACEHOLDER_IMAGE),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Text(DatabaseHelper().getUserData().name,
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context).textTheme.titleSmall),
-                          const SizedBox(
-                            height: 3,
-                          ),
-                          Text(
-                            '@${DatabaseHelper().getUserData().uid.toString()}',
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          )
-                        ],
+            child: Container(
+              padding: const EdgeInsets.all(15.0),
+              height: 130.h,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 35.w,
+                        backgroundColor: darkAsh,
+                        backgroundImage: CachedNetworkImageProvider(
+                            DatabaseHelper().getUserData().photo ??
+                                PLACEHOLDER_IMAGE),
                       ),
-                    )
-                  ],
-                )
-              ],
-            )),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Text(DatabaseHelper().getUserData().name,
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context).textTheme.titleSmall),
+                            const SizedBox(
+                              height: 3,
+                            ),
+                            Text(
+                              '@${DatabaseHelper().getUserData().uid.toString()}',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height / 1.5,
+            height: MediaQuery.of(context).size.height * 0.8,
             child: ListView(
               children: [
                 ListTile(

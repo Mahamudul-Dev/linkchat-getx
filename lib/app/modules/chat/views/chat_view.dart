@@ -10,6 +10,7 @@ import 'package:linkchat/app/modules/search/views/SearchViewDelegate.dart';
 import 'package:linkchat/app/routes/app_pages.dart';
 import 'package:linkchat/app/style/style.dart';
 import 'package:linkchat/app/widgets/widgets.dart';
+import 'package:logger/logger.dart';
 import 'package:lottie/lottie.dart';
 
 import '../controllers/chat_controller.dart';
@@ -62,7 +63,7 @@ class ChatView extends GetView<ChatController> {
             )
           ];
         }, body: Obx(() {
-          return controller.chatList.isEmpty
+          return controller.conversations.isEmpty
               ? Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -80,61 +81,70 @@ class ChatView extends GetView<ChatController> {
                     ],
                   ),
                 )
-              : ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: controller.chatList.length,
-                  itemBuilder: (context, index) {
-                    return Dismissible(
-                      key: Key(index.toString()),
-                      direction: DismissDirection.endToStart,
-                      confirmDismiss: (direction) async {
-                        bool dismiss = false;
-                        await showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: const Text(
-                                    "Are you sure you want to delete the item"),
-                                actions: [
-                                  TextButton(
-                                      onPressed: () {
-                                        dismiss = true;
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Text("Yes")),
-                                  TextButton(
-                                      onPressed: () {
-                                        dismiss = false;
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Text("No")),
-                                ],
-                              );
-                            });
-                        return dismiss;
-                      },
-                      background: Container(
-                        color: Colors.red,
-                        child: const Align(
-                          alignment: Alignment.centerRight,
-                          child: Icon(
-                            Icons.delete,
-                            color: Colors.white,
+              : Obx(() => ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: controller.conversations.length,
+                    itemBuilder: (context, index) {
+                      return Dismissible(
+                        key: Key(index.toString()),
+                        direction: DismissDirection.endToStart,
+                        confirmDismiss: (direction) async {
+                          bool dismiss = false;
+                          await showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const Text(
+                                      "Are you sure you want to delete the item"),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          dismiss = true;
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text("Yes")),
+                                    TextButton(
+                                        onPressed: () {
+                                          dismiss = false;
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text("No")),
+                                  ],
+                                );
+                              });
+                          return dismiss;
+                        },
+                        background: Container(
+                          color: Colors.red,
+                          child: const Align(
+                            alignment: Alignment.centerRight,
+                            child: Icon(
+                              Icons.delete,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                      ),
-                      onDismissed: (diresction) =>
-                          Get.snackbar('Deleted', 'Chat Deleted Successfully'),
-                      child: ChatListTileView(
-                        index: index,
-                      ),
-                    );
-                  },
-                );
+                        onDismissed: (diresction) => Get.snackbar(
+                            'Deleted', 'Chat Deleted Successfully'),
+                        child: ChatListTileView(
+                          conversationName: '',
+                          time: controller.conversations[index].participant
+                              .singleWhere((element) =>
+                                  element.serverId !=
+                                  controller.dbHelper.getUserData().serverId)
+                              .message
+                              .last
+                              .timestamp,
+                        ),
+                      );
+                    },
+                  ));
         })),
         floatingActionButton: FloatingActionButton.extended(
-          onPressed: () =>
-              Get.toNamed(Routes.LINK_LIST, arguments: {'isChat': true}),
+          onPressed: () {
+            Logger().i(controller.conversations.length);
+          },
+          // Get.toNamed(Routes.LINK_LIST, arguments: {'isChat': true}),
           label: Row(
             children: [
               const Text(

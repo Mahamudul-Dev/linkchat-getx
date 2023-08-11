@@ -1,13 +1,11 @@
 import 'package:objectbox/objectbox.dart';
 
-
 @Entity()
 class ConversationSchema {
   @Id()
   int objectId;
   String name;
 
-  @Backlink('conversation')
   final participant = ToMany<ChatParticipant>();
 
   ConversationSchema({this.objectId = 0, required this.name});
@@ -18,26 +16,23 @@ class ChatParticipant {
   @Id()
   int objectId;
   String serverId;
-  int uid;
+  String uid;
   String name;
   String photo;
   String country;
-  bool isActive;
 
-  final conversation = ToOne<ConversationSchema>();
+  @Backlink('participant')
+  final conversation = ToMany<ConversationSchema>();
 
-  @Backlink('sender')
   final message = ToMany<Message>();
 
-  ChatParticipant({
-    this.objectId = 0,
-    required this.serverId,
-    required this.uid,
-    required this.name,
-    required this.photo,
-    required this.country,
-    required this.isActive
-  });
+  ChatParticipant(
+      {this.objectId = 0,
+      required this.serverId,
+      required this.uid,
+      required this.name,
+      required this.photo,
+      required this.country});
 }
 
 @Entity()

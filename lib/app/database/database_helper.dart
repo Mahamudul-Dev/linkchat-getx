@@ -3,8 +3,11 @@
 //-- File created at July 17 2023
 //-- Creator: Mahamudul Hasan
 
+import 'package:logger/logger.dart';
+
 import './database.dart';
-import '../data/models/models.dart';
+import '../data/models/email_login_response_model.dart';
+import '../data/models/user_model.dart';
 
 class DatabaseHelper {
   // define all required boxes -->
@@ -12,6 +15,9 @@ class DatabaseHelper {
   final currentUserBox = ObjectBoxSingleton().store.box<ProfileSchema>();
   final loginInfoBox = ObjectBoxSingleton().store.box<LoginSchema>();
   final notificationBox = ObjectBoxSingleton().store.box<NotificationSchema>();
+  final conversationBox = ObjectBoxSingleton().store.box<ConversationSchema>();
+  final chatParticipantBox = ObjectBoxSingleton().store.box<ChatParticipant>();
+  final messageBox = ObjectBoxSingleton().store.box<Message>();
 
   void saveEmailLoginInfo(EmailLoginResponseModel response) {
     loginInfoBox.removeAll();
@@ -66,5 +72,23 @@ class DatabaseHelper {
 
   void saveNotification(NotificationSchema notificationSchema) {
     notificationBox.put(notificationSchema);
+  }
+
+  Future<void> saveConversation(ConversationSchema conversation,
+      List<ChatParticipant> participants, List<Message> messages) async {
+    await chatParticipantBox
+        .putManyAsync(participants)
+        .then((value) => Logger().d(chatParticipantBox.getAll()));
+    await messageBox
+        .putManyAsync(messages)
+        .then((value) => Logger().d(messageBox.getAll()));
+    await conversationBox.putAsync(conversation).then((value) {
+      Logger().i(value);
+      Logger().d(conversationBox.getAll());
+    });
+  }
+
+  List<ConversationSchema> getConversation() {
+    return conversationBox.query().build().find();
   }
 }

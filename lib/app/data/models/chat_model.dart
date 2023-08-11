@@ -30,16 +30,14 @@ class Chat {
 }
 
 class Message {
-  int id;
-  int uid;
+  int sId;
   String message;
   DateTime timeStamp;
-  bool isSent;
+  bool isViewed;
 
   Message(
-      {required this.id,
-      required this.uid,
+      {required this.sId,
       required this.message,
       required this.timeStamp,
-      required this.isSent});
+      this.isViewed = false});
 }

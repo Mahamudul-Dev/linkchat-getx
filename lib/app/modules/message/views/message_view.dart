@@ -4,22 +4,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:linkchat/app/modules/chat/controllers/chat_controller.dart';
+import 'package:linkchat/app/modules/message/views/chat_input_field.dart';
+import 'package:linkchat/app/modules/message/views/text_message.dart';
 import 'package:linkchat/app/style/app_color.dart';
 import 'package:linkchat/app/widgets/widgets.dart';
 
-import '../../links/controllers/linklist_controller.dart';
 import '../controllers/message_controller.dart';
 
 class MessageView extends GetView<MessageController> {
   MessageView({Key? key}) : super(key: key);
-  final String? _sId = Get.arguments['sId'];
-  final LinklistController _linklistController = Get.find<LinklistController>();
+  final String sId = Get.arguments['conversation'];
   final ChatController _chatController = Get.find<ChatController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildHeaderBar(_chatController, _sId!, context),
-      body: Container(),
+      appBar: _buildHeaderBar(_chatController, sId, context),
+      body: Column(
+        children: [
+          Expanded(
+              child: Obx(() => ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: controller.dummySms.length,
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  itemBuilder: (context, index) {
+                    return TextMessage(message: controller.dummySms[index]);
+                  }))),
+          const ChatInputField()
+        ],
+      ),
     );
   }
 }
