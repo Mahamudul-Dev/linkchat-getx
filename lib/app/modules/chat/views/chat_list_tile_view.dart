@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:linkchat/app/data/utils/utils.dart';
 import 'package:linkchat/app/modules/chat/controllers/chat_controller.dart';
-import 'package:timeago/timeago.dart' as timeago;
+
 
 class ChatListTileView extends GetView<ChatController> {
   const ChatListTileView(
@@ -17,8 +17,8 @@ class ChatListTileView extends GetView<ChatController> {
       : super(key: key);
   final String conversationName;
   final String? profilePic;
-  final String? lastMessage;
-  final DateTime time;
+  final Widget? lastMessage;
+  final Widget time;
   final int? unReadeCount;
   final void Function()? onTap;
   @override
@@ -27,17 +27,15 @@ class ChatListTileView extends GetView<ChatController> {
       title: Text(
         conversationName,
         overflow: TextOverflow.ellipsis,
+        style: Theme.of(context).textTheme.labelMedium,
       ),
       onTap: onTap,
-      subtitle: Text(lastMessage ?? ''),
+      subtitle: lastMessage,
       leading: CircleAvatar(
         backgroundImage:
             CachedNetworkImageProvider(profilePic ?? PLACEHOLDER_IMAGE),
       ),
-      trailing: Text(
-        timeago.format(time),
-        style: const TextStyle(fontSize: 10),
-      ),
+      trailing: time
     );
   }
 }

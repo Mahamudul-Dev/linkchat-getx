@@ -3,15 +3,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:icon_badge/icon_badge.dart';
 import 'package:linkchat/app/data/utils/app_strings.dart';
+import 'package:linkchat/app/database/database.dart';
 import 'package:linkchat/app/modules/chat/views/activity_list_horizontal_view.dart';
 import 'package:linkchat/app/modules/chat/views/chat_list_tile_view.dart';
 import 'package:linkchat/app/modules/home/controllers/home_controller.dart';
 import 'package:linkchat/app/modules/search/views/SearchViewDelegate.dart';
 import 'package:linkchat/app/routes/app_pages.dart';
 import 'package:linkchat/app/style/style.dart';
+import 'package:linkchat/app/widgets/views/CircullarShimmer.dart';
+import 'package:linkchat/app/widgets/views/SquareShimmer.dart';
 import 'package:linkchat/app/widgets/widgets.dart';
 import 'package:logger/logger.dart';
 import 'package:lottie/lottie.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 import '../controllers/chat_controller.dart';
 
@@ -81,68 +85,124 @@ class ChatView extends GetView<ChatController> {
                     ],
                   ),
                 )
-              : Obx(() => ListView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: controller.conversations.length,
-                    itemBuilder: (context, index) {
-                      return Dismissible(
-                        key: Key(index.toString()),
-                        direction: DismissDirection.endToStart,
-                        confirmDismiss: (direction) async {
-                          bool dismiss = false;
-                          await showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  title: const Text(
-                                      "Are you sure you want to delete the item"),
-                                  actions: [
-                                    TextButton(
-                                        onPressed: () {
-                                          dismiss = true;
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text("Yes")),
-                                    TextButton(
-                                        onPressed: () {
-                                          dismiss = false;
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text("No")),
-                                  ],
-                                );
-                              });
-                          return dismiss;
-                        },
-                        background: Container(
-                          color: Colors.red,
-                          child: const Align(
-                            alignment: Alignment.centerRight,
-                            child: Icon(
-                              Icons.delete,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        onDismissed: (diresction) => Get.snackbar(
-                            'Deleted', 'Chat Deleted Successfully'),
-                        child: ChatListTileView(
-                          conversationName: '',
-                          time: controller.conversations[index].participant
-                              .singleWhere((element) =>
-                                  element.serverId !=
-                                  controller.dbHelper.getUserData().serverId)
-                              .message
-                              .last
-                              .timestamp,
-                        ),
-                      );
-                    },
-                  ));
+              : FutureBuilder(
+                  future: controller.getConversation(),
+                  builder: (context,
+                      AsyncSnapshot<List<ConversationSchema>> snapshot) {
+                    if (snapshot.hasData) {
+                      return Obx(() {
+                        return ListView.builder(
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: controller.conversations.length,
+                          itemBuilder: (context, index) {
+                            return Dismissible(
+                                key: Key(index.toString()),
+                                direction: DismissDirection.endToStart,
+                                confirmDismiss: (direction) async {
+                                  bool dismiss = false;
+                                  await showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: const Text(
+                                              "Are you sure you want to delete the item"),
+                                          actions: [
+                                            TextButton(
+                                                onPressed: () {
+                                                  dismiss = true;
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Text("Yes")),
+                                            TextButton(
+                                                onPressed: () {
+                                                  dismiss = false;
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Text("No")),
+                                          ],
+                                        );
+                                      });
+                                  return dismiss;
+                                },
+                                background: Container(
+                                  color: Colors.red,
+                                  child: const Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Icon(
+                                      Icons.delete,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                                onDismissed: (diresction) => Get.snackbar(
+                                    'Deleted', 'Chat Deleted Successfully'),
+                                child: ChatListTileView(
+                                  onTap: () =>
+                                      Get.toNamed(Routes.MESSAGE, arguments: {
+                                    'sId': snapshot.data?[index].participant
+                                        .singleWhere((element) =>
+                                            element.serverId !=
+                                            controller.dbHelper
+                                                .getUserData()
+                                                .serverId)
+                                        .serverId
+                                  }),
+                                  profilePic: snapshot.data?[index].participant
+                                      .singleWhere((element) =>
+                                          element.serverId !=
+                                          controller.dbHelper
+                                              .getUserData()
+                                              .serverId)
+                                      .photo,
+                                  conversationName: snapshot.data![index].name,
+                                  lastMessage: Obx(() => Text(
+                                        controller.conversations[index].messages
+                                                .last?.content ??
+                                            '',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium
+                                            ?.copyWith(color: Colors.grey),
+                                        overflow: TextOverflow.ellipsis,
+                                      )),
+                                  // lastMessage: snapshot.data![index].messages.last.content,
+                                  time: Obx(
+                                    () => Text(
+                                      timeago.format(DateTime.parse(controller
+                                              .conversations[index]
+                                              .messages
+                                              .last
+                                              ?.createdAt ??
+                                          '')),
+                                      style: const TextStyle(fontSize: 10),
+                                    ),
+                                  ),
+                                ));
+
+                            // Text(lastMessage ?? '', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey), overflow: TextOverflow.ellipsis,)
+                          },
+                        );
+                      });
+                    } else {
+                      return ListView.builder(itemBuilder: (context, index) {
+                        return ListTile(
+                          leading: const CircularShimmer(),
+                          title: SquareShimmer(
+                              height: 30,
+                              width: MediaQuery.of(context).size.width),
+                          subtitle: SquareShimmer(
+                              height: 20,
+                              width: MediaQuery.of(context).size.width),
+                        );
+                      });
+                    }
+                  },
+                );
         })),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            Logger().i(controller.conversations.length);
+            Logger().i(
+                'Conversation: ${DatabaseHelper().getConversation().first.name}');
           },
           // Get.toNamed(Routes.LINK_LIST, arguments: {'isChat': true}),
           label: Row(

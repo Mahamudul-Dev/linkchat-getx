@@ -6,7 +6,8 @@ import '../../../style/style.dart';
 import '../controllers/message_controller.dart';
 
 class ChatInputField extends GetView<MessageController> {
-  const ChatInputField({Key? key}) : super(key: key);
+  const ChatInputField({Key? key, required this.receiverId}) : super(key: key);
+  final String receiverId;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -66,7 +67,7 @@ class ChatInputField extends GetView<MessageController> {
             ),
             Obx(() => controller.textMessage.value.isNotEmpty
                 ? IconButton(
-                    onPressed: () => controller.sendMessage(),
+                    onPressed: () => controller.sendMessage(receiverId),
                     icon: const Icon(
                       Icons.send,
                       color: brightWhite,

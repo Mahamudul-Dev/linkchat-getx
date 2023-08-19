@@ -3,8 +3,12 @@
 //-- File created at July 17 2023
 //-- Creator: Mahamudul Hasan
 
+import 'package:linkchat/app/data/utils/utils.dart';
+import 'package:linkchat/app/modules/profile/controllers/profile_controller.dart';
+import 'package:linkchat/app/services/socket_io_service.dart';
 import 'package:logger/logger.dart';
 
+import '../../objectbox.g.dart';
 import './database.dart';
 import '../data/models/email_login_response_model.dart';
 import '../data/models/user_model.dart';
@@ -18,6 +22,8 @@ class DatabaseHelper {
   final conversationBox = ObjectBoxSingleton().store.box<ConversationSchema>();
   final chatParticipantBox = ObjectBoxSingleton().store.box<ChatParticipant>();
   final messageBox = ObjectBoxSingleton().store.box<Message>();
+
+  ConversationSchema? conversationSchema;
 
   void saveEmailLoginInfo(EmailLoginResponseModel response) {
     loginInfoBox.removeAll();
@@ -74,21 +80,70 @@ class DatabaseHelper {
     notificationBox.put(notificationSchema);
   }
 
-  Future<void> saveConversation(ConversationSchema conversation,
-      List<ChatParticipant> participants, List<Message> messages) async {
-    await chatParticipantBox
-        .putManyAsync(participants)
-        .then((value) => Logger().d(chatParticipantBox.getAll()));
-    await messageBox
-        .putManyAsync(messages)
-        .then((value) => Logger().d(messageBox.getAll()));
-    await conversationBox.putAsync(conversation).then((value) {
-      Logger().i(value);
-      Logger().d(conversationBox.getAll());
+  Future<void> saveConversation(String sId, Message message) async {
+
+    final profile = ProfileController();
+    UserModel? pUser;
+
+    SocketIOService.socket.emit('', (data) {
+
     });
+
+    try {
+      await profile.getProfileDetails(sId).then((profile) => pUser = profile);
+      if(pUser != null){
+        try{
+          conversationSchema = conversationBox.query(ConversationSchema_.receiverServerId.equals(pUser!.data.first.sId)).build().find().first;
+        } catch (e){
+          Logger().e(e);
+        }
+
+        final receiver = ChatParticipant(serverId: sId, uid: pUser!.data.first.uid, name: pUser!.data.first.userName, photo: pUser!.data.first.profilePic, country: pUser!.data.first.country);
+        final sender = ChatParticipant(serverId: getUserData().serverId, uid: getUserData().uid ?? '', name: getUserData().name, photo: getUserData().photo?? PLACEHOLDER_IMAGE, country: getUserData().country ?? 'Unknown');
+
+
+        if(conversationSchema == null){
+          // save new conversation to database
+          conversationSchema = ConversationSchema(name: pUser!.data.first.userName, receiverServerId: pUser!.data.first.sId);
+          message.sender.target = sender;
+          message.conversation.target = conversationSchema;
+          receiver.conversation.add(conversationSchema!);
+          sender.conversation.add(conversationSchema!);
+          conversationSchema?.receiver.target = receiver;
+          conversationSchema?.messages.add(message);
+
+          chatParticipantBox.putMany([receiver, sender]);
+          messageBox.put(message);
+          conversationBox.put(conversationSchema!);
+        } else {
+          // update existing conversation
+          message.sender.target = sender;
+          message.conversation.target = conversationSchema;
+          conversationSchema?.messages.add(message);
+          messageBox.put(message);
+          conversationBox.put(conversationSchema!);
+        }
+
+      }
+    } catch(e){
+      Logger().e(e);
+    }
   }
 
   List<ConversationSchema> getConversation() {
     return conversationBox.query().build().find();
+  }
+
+  ConversationSchema? getSingleConversation(String sId){
+
+    ConversationSchema? schema;
+
+    try{
+      schema = conversationBox.query(ConversationSchema_.receiverServerId.equals(sId)).build().find().first;
+    } catch(e){
+      Logger().e(e);
+    }
+
+    return schema;
   }
 }

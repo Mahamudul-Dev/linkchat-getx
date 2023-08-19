@@ -10,24 +10,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d2113f26-4f8c-4ce9-a58a-4217f0c471bd" name="Changes" comment="17-07-2023">
-      <change afterPath="$PROJECT_DIR$/lib/app/data/demo/demo_message.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/app/modules/message/views/text_message.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app/data/models/chat_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/data/models/chat_model.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/app/database/conversatin_schema.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/database/conversatin_schema.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/app/database/database_helper.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/database/database_helper.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app/database/group_schema.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/database/group_schema.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/app/modules/chat/controllers/chat_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/chat/controllers/chat_controller.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/app/modules/chat/views/chat_list_tile_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/chat/views/chat_list_tile_view.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/app/modules/chat/views/chat_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/chat/views/chat_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/modules/followers/bindings/followers_binding.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/followers/bindings/followers_binding.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/app/modules/message/controllers/message_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/message/controllers/message_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/modules/message/views/chat_input_field.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/message/views/chat_input_field.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/app/modules/message/views/message_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/message/views/message_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app/modules/message/views/send_message_field_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/message/views/chat_input_field.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app/widgets/views/navigation_drawer_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/widgets/views/navigation_drawer_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/widgets/views/SquareShimmer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/widgets/views/SquareShimmer.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/objectbox-model.json" beforeDir="false" afterPath="$PROJECT_DIR$/lib/objectbox-model.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/objectbox.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/objectbox.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,13 +63,15 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;com.google.services.firebase.aqiPopupShown&quot;: &quot;true&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
     &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Volumes/CTO/projects/link-getx-pattern/linkchat&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
     &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
 }</component>

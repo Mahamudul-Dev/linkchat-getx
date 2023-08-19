@@ -4,15 +4,16 @@ import 'package:shimmer/shimmer.dart';
 import '../../style/style.dart';
 
 class SquareShimmer extends StatelessWidget {
-  SquareShimmer({super.key, required this.height, required this.width});
+  const SquareShimmer({super.key, required this.height, required this.width});
 
   final double height;
   final double width;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       width: width,
+      margin: const EdgeInsets.symmetric(vertical: 3),
       height: height,
       child: Shimmer.fromColors(
         period: const Duration(seconds: 5),

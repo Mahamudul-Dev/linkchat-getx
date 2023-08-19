@@ -5,10 +5,20 @@ class ConversationSchema {
   @Id()
   int objectId;
   String name;
+  String receiverServerId;
+
 
   final participant = ToMany<ChatParticipant>();
+  final messages = ToMany<Message>();
+  final receiver = ToOne<ChatParticipant>();
+  final sender = ToOne<ChatParticipant>();
 
-  ConversationSchema({this.objectId = 0, required this.name});
+
+  ConversationSchema({
+    this.objectId = 0,
+    required this.name,
+    required this.receiverServerId,
+  });
 }
 
 @Entity()
@@ -42,18 +52,17 @@ class Message {
   String content;
   List<String> attachment;
   String receiverId;
-  String? groupId;
   @Property(type: PropertyType.date)
   DateTime timestamp;
 
   final sender = ToOne<ChatParticipant>();
+  final conversation = ToOne<ConversationSchema>();
 
   Message({
     this.objectId = 0,
     required this.content,
     required this.attachment,
     required this.receiverId,
-    this.groupId,
     required this.timestamp,
   });
 }
