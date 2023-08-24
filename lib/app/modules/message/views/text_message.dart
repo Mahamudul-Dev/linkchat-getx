@@ -29,7 +29,7 @@ class TextMessage extends GetView<MessageController> {
                     ? accentColor
                     : blackAccent),
             child: ReadMoreText(
-              message.content,
+              message.message,
               trimLines: 10,
               colorClickableText: brightWhite,
               trimMode: TrimMode.Line,

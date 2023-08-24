@@ -4,6 +4,7 @@
 //-- Creator: Mahamudul Hasan
 
 import 'package:linkchat/app/data/utils/utils.dart';
+import 'package:linkchat/app/modules/message/controllers/message_controller.dart';
 import 'package:linkchat/app/modules/profile/controllers/profile_controller.dart';
 import 'package:linkchat/app/services/socket_io_service.dart';
 import 'package:logger/logger.dart';
@@ -80,31 +81,29 @@ class DatabaseHelper {
     notificationBox.put(notificationSchema);
   }
 
-  Future<void> saveConversation(String sId, Message message) async {
+  Future<void> saveConversation(Message message) async {
 
     final profile = ProfileController();
-    UserModel? pUser;
-
-    SocketIOService.socket.emit('', (data) {
-
-    });
+    UserModel? senderProfile;
+    UserModel? receiverProfile;
 
     try {
-      await profile.getProfileDetails(sId).then((profile) => pUser = profile);
-      if(pUser != null){
+      await profile.getProfileDetails(message.senderServerId).then((profile) => senderProfile = profile);
+      await profile.getProfileDetails(message.receiverId).then((profile) => receiverProfile = profile);
+      if(senderProfile != null && receiverProfile!=null){
         try{
-          conversationSchema = conversationBox.query(ConversationSchema_.receiverServerId.equals(pUser!.data.first.sId)).build().find().first;
+          conversationSchema = conversationBox.query(ConversationSchema_.receiverServerId.equals(receiverProfile!.data.first.sId) | ConversationSchema_.creatorServerId.equals(receiverProfile!.data.first.sId)).build().find().first;
         } catch (e){
           Logger().e(e);
         }
 
-        final receiver = ChatParticipant(serverId: sId, uid: pUser!.data.first.uid, name: pUser!.data.first.userName, photo: pUser!.data.first.profilePic, country: pUser!.data.first.country);
-        final sender = ChatParticipant(serverId: getUserData().serverId, uid: getUserData().uid ?? '', name: getUserData().name, photo: getUserData().photo?? PLACEHOLDER_IMAGE, country: getUserData().country ?? 'Unknown');
+        final receiver = ChatParticipant(serverId: receiverProfile!.data.first.sId, uid: receiverProfile!.data.first.uid, name: receiverProfile!.data.first.userName, photo: receiverProfile!.data.first.profilePic, country: receiverProfile!.data.first.country);
+        final sender = ChatParticipant(serverId: senderProfile!.data.first.sId, uid: senderProfile!.data.first.uid, name: senderProfile!.data.first.userName, photo: senderProfile!.data.first.profilePic, country: senderProfile!.data.first.country);
 
 
         if(conversationSchema == null){
           // save new conversation to database
-          conversationSchema = ConversationSchema(name: pUser!.data.first.userName, receiverServerId: pUser!.data.first.sId);
+          conversationSchema = ConversationSchema(name: receiverProfile!.data.first.sId == getUserData().serverId ? senderProfile!.data.first.userName : receiverProfile!.data.first.userName, receiverServerId: receiverProfile!.data.first.sId, creatorServerId: senderProfile!.data.first.sId);
           message.sender.target = sender;
           message.conversation.target = conversationSchema;
           receiver.conversation.add(conversationSchema!);
@@ -137,7 +136,7 @@ class DatabaseHelper {
   ConversationSchema? getSingleConversation(String sId){
 
     ConversationSchema? schema;
-
+    
     try{
       schema = conversationBox.query(ConversationSchema_.receiverServerId.equals(sId)).build().find().first;
     } catch(e){
@@ -146,4 +145,18 @@ class DatabaseHelper {
 
     return schema;
   }
+
+  // Stream<List<Message>>? streamSingleConversation (String sId){
+  //   try{
+  //     final query = messageBox.query(Message_.senderServerId.equals(sId));
+  //     return query.watch(triggerImmediately: true).map((event) {
+  //       Logger().i(event.find()[0].message);
+  //       MessageController.messages.addAll(event.find());
+  //       return event.find();
+  //     });
+  //   } catch(e){
+  //     Logger().e(e);
+  //     return null;
+  //   }
+  // }
 }

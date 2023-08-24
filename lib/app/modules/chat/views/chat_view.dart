@@ -9,6 +9,7 @@ import 'package:linkchat/app/modules/chat/views/chat_list_tile_view.dart';
 import 'package:linkchat/app/modules/home/controllers/home_controller.dart';
 import 'package:linkchat/app/modules/search/views/SearchViewDelegate.dart';
 import 'package:linkchat/app/routes/app_pages.dart';
+import 'package:linkchat/app/services/socket_io_service.dart';
 import 'package:linkchat/app/style/style.dart';
 import 'package:linkchat/app/widgets/views/CircullarShimmer.dart';
 import 'package:linkchat/app/widgets/views/SquareShimmer.dart';
@@ -157,8 +158,7 @@ class ChatView extends GetView<ChatController> {
                                   conversationName: snapshot.data![index].name,
                                   lastMessage: Obx(() => Text(
                                         controller.conversations[index].messages
-                                                .last?.content ??
-                                            '',
+                                                .last?.message.text ?? '',
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium
@@ -201,8 +201,9 @@ class ChatView extends GetView<ChatController> {
         })),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            Logger().i(
-                'Conversation: ${DatabaseHelper().getConversation().first.name}');
+            SocketIOService.playNotificationSound();
+            // Logger().i(
+            //     'Conversation: ${DatabaseHelper().getConversation().first.name}');
           },
           // Get.toNamed(Routes.LINK_LIST, arguments: {'isChat': true}),
           label: Row(

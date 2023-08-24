@@ -44,6 +44,7 @@ dependencies:
   socket_io_client: 2.0.3+1
   custom_refresh_indicator: 2.2.1
   readmore: 2.2.0
+  audioplayers: 5.1.0
   flutter: 
     sdk: flutter
 
@@ -58,5 +59,6 @@ flutter:
   assets: 
     - assets/anim/
     - assets/images/
+    - assets/sounds/
   uses-material-design: true
 

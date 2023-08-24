@@ -101,7 +101,7 @@ class ActivityListHorizontalView extends GetView<ChatController> {
         SizedBox(
           width: 55,
           child: Text(
-            controller.activeUser[index].userName ?? 'N/A',
+            controller.activeUser[index].userName,
             style: TextStyle(
                 color: ThemeProvider().isSavedLightMood().value
                     ? black

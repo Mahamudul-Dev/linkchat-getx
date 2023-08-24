@@ -201,7 +201,7 @@ final _entities = <ModelEntity>[
   ModelEntity(
       id: const IdUid(5, 241382573815167930),
       name: 'ConversationSchema',
-      lastPropertyId: const IdUid(6, 717894289451612690),
+      lastPropertyId: const IdUid(7, 1943698581527289964),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
@@ -231,6 +231,11 @@ final _entities = <ModelEntity>[
         ModelProperty(
             id: const IdUid(6, 717894289451612690),
             name: 'receiverServerId',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(7, 1943698581527289964),
+            name: 'creatorServerId',
             type: 9,
             flags: 0)
       ],
@@ -319,7 +324,7 @@ final _entities = <ModelEntity>[
   ModelEntity(
       id: const IdUid(9, 5455480206673954344),
       name: 'Message',
-      lastPropertyId: const IdUid(8, 3205434007979054371),
+      lastPropertyId: const IdUid(11, 7922525775862496372),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
@@ -327,16 +332,6 @@ final _entities = <ModelEntity>[
             name: 'objectId',
             type: 6,
             flags: 1),
-        ModelProperty(
-            id: const IdUid(2, 1418101217173326350),
-            name: 'content',
-            type: 9,
-            flags: 0),
-        ModelProperty(
-            id: const IdUid(3, 763328914994575963),
-            name: 'attachment',
-            type: 30,
-            flags: 0),
         ModelProperty(
             id: const IdUid(4, 2131472258927401882),
             name: 'receiverId',
@@ -352,7 +347,7 @@ final _entities = <ModelEntity>[
             name: 'senderId',
             type: 11,
             flags: 520,
-            indexId: const IdUid(4, 3056382524223612382),
+            indexId: const IdUid(231, 6232202586320496522),
             relationTarget: 'ChatParticipant'),
         ModelProperty(
             id: const IdUid(8, 3205434007979054371),
@@ -360,7 +355,22 @@ final _entities = <ModelEntity>[
             type: 11,
             flags: 520,
             indexId: const IdUid(6, 4554127117470876231),
-            relationTarget: 'ConversationSchema')
+            relationTarget: 'ConversationSchema'),
+        ModelProperty(
+            id: const IdUid(9, 4425213859307120780),
+            name: 'message',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(10, 1415091777293012764),
+            name: 'attachments',
+            type: 30,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(11, 7922525775862496372),
+            name: 'senderServerId',
+            type: 9,
+            flags: 0)
       ],
       relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[]),
@@ -591,7 +601,7 @@ ModelDefinition getObjectBoxModel() {
   final model = ModelInfo(
       entities: _entities,
       lastEntityId: const IdUid(14, 2416490522128037181),
-      lastIndexId: const IdUid(52, 1317434651527616172),
+      lastIndexId: const IdUid(231, 6232202586320496522),
       lastRelationId: const IdUid(3, 2620262529029878770),
       lastSequenceId: const IdUid(0, 0),
       retiredEntityUids: const [
@@ -644,7 +654,186 @@ ModelDefinition getObjectBoxModel() {
         1838624535796568167,
         3869215398161143280,
         1795721970642340366,
-        8702013239861873242
+        8702013239861873242,
+        3056382524223612382,
+        5464886435212517678,
+        4600959385867446919,
+        5513868670587319976,
+        4161604413459510654,
+        5995612740830153353,
+        5124449385335898448,
+        1319054544057919665,
+        1243685534462097074,
+        1668436982078682583,
+        7758261339477649915,
+        4402479438763492429,
+        2303916076093842129,
+        1565454249872785913,
+        863402559607546700,
+        8886099104200328600,
+        328895410800951455,
+        1768878649988543601,
+        793678647903360958,
+        8169075159474952978,
+        5418202864313483426,
+        1524451712388036558,
+        7661687506643918387,
+        3854764754409573799,
+        3130525767309929674,
+        4823284250693059137,
+        5568513987622571787,
+        1906944384556122215,
+        6505279246481497852,
+        5281359248745871887,
+        5098346990623734741,
+        5035713181796327826,
+        2786133613353987796,
+        4067701061647405103,
+        2793364255922634643,
+        1566229536417694414,
+        7143304948340689401,
+        498666569583199985,
+        3733112263922839151,
+        6166446805375187445,
+        5972480908832391899,
+        7416970345331606424,
+        2766703191984781347,
+        7494034695537464324,
+        5484923676120396454,
+        6058911229358260842,
+        6488904658767472281,
+        2876523549081709157,
+        2233957560630799567,
+        723445780290301350,
+        9045983943110186002,
+        5164230883235057470,
+        9015505902188171249,
+        6049758188537089019,
+        3810890244059863024,
+        8124736568534693356,
+        5578381304515317521,
+        1610920627184123623,
+        2054105631734115916,
+        2319301732923202698,
+        2169034667978219132,
+        5772498994911058534,
+        6663713072372267668,
+        3932018119533957895,
+        3099344776108092228,
+        2933697541820691013,
+        5960463979160656474,
+        3070393305600153260,
+        7313773350347445362,
+        4713522800140986691,
+        6647884677699129618,
+        4608121496890028066,
+        8978819625351449937,
+        39232617353435149,
+        4151183212278237276,
+        1690693975119917,
+        3464634772383411990,
+        5907176939279313836,
+        882997284617830645,
+        7288686464347052758,
+        2315652296631647504,
+        757490513621788374,
+        3726286440344457498,
+        9037447816006901672,
+        7493776666750308362,
+        3687780086866422612,
+        1121619158614908381,
+        8371750874565946794,
+        6172018561316330708,
+        9004155771080329392,
+        1370312472278933944,
+        5653598627718152138,
+        6889093584403078980,
+        2259230896517940498,
+        4437218325285536212,
+        5453941441300015474,
+        3513024834458240596,
+        3000497707620258440,
+        3979640321791712643,
+        9022695493764630268,
+        4024373695668105538,
+        1952377929936471479,
+        7103210436587282157,
+        7281439318017923801,
+        2176244592735248017,
+        1809634355577661237,
+        2900783155947435557,
+        4352608544741236247,
+        4858276744401948659,
+        2297832783845082028,
+        4283577268599714884,
+        3093645530091483647,
+        3929424321856014446,
+        5946918908776491149,
+        2900924167399253258,
+        8331539449182496003,
+        8373578557751807756,
+        6441108433481632989,
+        3765436322490157769,
+        3500609072559274989,
+        6713998338678610518,
+        4812337770318391914,
+        1544514792841126737,
+        9081164588854413835,
+        4898610661735031088,
+        8236028520467384564,
+        2772450256407846673,
+        6798814420383935905,
+        4556562361144787086,
+        6157221726757133893,
+        2649672300865891137,
+        1453494562091765250,
+        162433678742081497,
+        7283899274857164475,
+        6620330045411480745,
+        3358711834194979149,
+        5720555092142235161,
+        2941481925598487830,
+        4724708096619696843,
+        1718266324597427885,
+        4784434328614627183,
+        676571618969052851,
+        2477719424282406275,
+        6924035566976568359,
+        4057480164711968631,
+        2370550436258345749,
+        6655009241632958101,
+        3964423467320461234,
+        5680568543332998227,
+        1946378025862497550,
+        6996414058568498658,
+        2933343782348855186,
+        1425036704736371896,
+        1049229005743159141,
+        5196524357911883718,
+        1170999330528583987,
+        3306440370557297418,
+        4773285643255452356,
+        1067873647385294623,
+        5246388491894115573,
+        5297056270469218333,
+        222406465711850569,
+        1695960925350903746,
+        5225112480468324888,
+        3481757343700253010,
+        5091339751839315492,
+        5436336418079307099,
+        5319000345298592590,
+        7877233604147078167,
+        3588466486482650693,
+        952644247338855235,
+        7353376777479671097,
+        5576956268293324137,
+        8304249686627103624,
+        4746092456248847578,
+        4021518056548335044,
+        4781877547955821760,
+        2838934925364725543,
+        7546796124900903253
       ],
       retiredPropertyUids: const [
         1940547757994021903,
@@ -671,7 +860,9 @@ ModelDefinition getObjectBoxModel() {
         2455297688511611595,
         4874490736886662106,
         1243619455991991212,
-        5097900525242399794
+        5097900525242399794,
+        1418101217173326350,
+        763328914994575963
       ],
       retiredRelationUids: const [],
       modelVersion: 5,
@@ -883,12 +1074,14 @@ ModelDefinition getObjectBoxModel() {
           final nameOffset = fbb.writeString(object.name);
           final receiverServerIdOffset =
               fbb.writeString(object.receiverServerId);
-          fbb.startTable(7);
+          final creatorServerIdOffset = fbb.writeString(object.creatorServerId);
+          fbb.startTable(8);
           fbb.addInt64(0, object.objectId);
           fbb.addOffset(1, nameOffset);
           fbb.addInt64(3, object.receiver.targetId);
           fbb.addInt64(4, object.sender.targetId);
           fbb.addOffset(5, receiverServerIdOffset);
+          fbb.addOffset(6, creatorServerIdOffset);
           fbb.finish(fbb.endTable());
           return object.objectId;
         },
@@ -902,7 +1095,9 @@ ModelDefinition getObjectBoxModel() {
               name: const fb.StringReader(asciiOptimization: true)
                   .vTableGet(buffer, rootOffset, 6, ''),
               receiverServerId: const fb.StringReader(asciiOptimization: true)
-                  .vTableGet(buffer, rootOffset, 14, ''));
+                  .vTableGet(buffer, rootOffset, 14, ''),
+              creatorServerId: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 16, ''));
           object.receiver.targetId =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0);
           object.receiver.attach(store);
@@ -1014,18 +1209,20 @@ ModelDefinition getObjectBoxModel() {
           object.objectId = id;
         },
         objectToFB: (Message object, fb.Builder fbb) {
-          final contentOffset = fbb.writeString(object.content);
-          final attachmentOffset = fbb.writeList(
-              object.attachment.map(fbb.writeString).toList(growable: false));
           final receiverIdOffset = fbb.writeString(object.receiverId);
-          fbb.startTable(9);
+          final messageOffset = fbb.writeString(object.message);
+          final attachmentsOffset = fbb.writeList(
+              object.attachments.map(fbb.writeString).toList(growable: false));
+          final senderServerIdOffset = fbb.writeString(object.senderServerId);
+          fbb.startTable(12);
           fbb.addInt64(0, object.objectId);
-          fbb.addOffset(1, contentOffset);
-          fbb.addOffset(2, attachmentOffset);
           fbb.addOffset(3, receiverIdOffset);
           fbb.addInt64(5, object.timestamp.millisecondsSinceEpoch);
           fbb.addInt64(6, object.sender.targetId);
           fbb.addInt64(7, object.conversation.targetId);
+          fbb.addOffset(8, messageOffset);
+          fbb.addOffset(9, attachmentsOffset);
+          fbb.addOffset(10, senderServerIdOffset);
           fbb.finish(fbb.endTable());
           return object.objectId;
         },
@@ -1036,14 +1233,16 @@ ModelDefinition getObjectBoxModel() {
           final object = Message(
               objectId:
                   const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0),
-              content: const fb.StringReader(asciiOptimization: true)
-                  .vTableGet(buffer, rootOffset, 6, ''),
-              attachment: const fb.ListReader<String>(
+              message: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 20, ''),
+              attachments: const fb.ListReader<String>(
                       fb.StringReader(asciiOptimization: true),
                       lazy: false)
-                  .vTableGet(buffer, rootOffset, 8, []),
+                  .vTableGet(buffer, rootOffset, 22, []),
               receiverId: const fb.StringReader(asciiOptimization: true)
                   .vTableGet(buffer, rootOffset, 10, ''),
+              senderServerId: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 24, ''),
               timestamp: DateTime.fromMillisecondsSinceEpoch(
                   const fb.Int64Reader().vTableGet(buffer, rootOffset, 14, 0)));
           object.sender.targetId =
@@ -1388,6 +1587,10 @@ class ConversationSchema_ {
   static final receiverServerId =
       QueryStringProperty<ConversationSchema>(_entities[4].properties[4]);
 
+  /// see [ConversationSchema.creatorServerId]
+  static final creatorServerId =
+      QueryStringProperty<ConversationSchema>(_entities[4].properties[5]);
+
   /// see [ConversationSchema.participant]
   static final participant =
       QueryRelationToMany<ConversationSchema, ChatParticipant>(
@@ -1450,29 +1653,33 @@ class Message_ {
   static final objectId =
       QueryIntegerProperty<Message>(_entities[7].properties[0]);
 
-  /// see [Message.content]
-  static final content =
-      QueryStringProperty<Message>(_entities[7].properties[1]);
-
-  /// see [Message.attachment]
-  static final attachment =
-      QueryStringVectorProperty<Message>(_entities[7].properties[2]);
-
   /// see [Message.receiverId]
   static final receiverId =
-      QueryStringProperty<Message>(_entities[7].properties[3]);
+      QueryStringProperty<Message>(_entities[7].properties[1]);
 
   /// see [Message.timestamp]
   static final timestamp =
-      QueryIntegerProperty<Message>(_entities[7].properties[4]);
+      QueryIntegerProperty<Message>(_entities[7].properties[2]);
 
   /// see [Message.sender]
   static final sender =
-      QueryRelationToOne<Message, ChatParticipant>(_entities[7].properties[5]);
+      QueryRelationToOne<Message, ChatParticipant>(_entities[7].properties[3]);
 
   /// see [Message.conversation]
   static final conversation = QueryRelationToOne<Message, ConversationSchema>(
-      _entities[7].properties[6]);
+      _entities[7].properties[4]);
+
+  /// see [Message.message]
+  static final message =
+      QueryStringProperty<Message>(_entities[7].properties[5]);
+
+  /// see [Message.attachments]
+  static final attachments =
+      QueryStringVectorProperty<Message>(_entities[7].properties[6]);
+
+  /// see [Message.senderServerId]
+  static final senderServerId =
+      QueryStringProperty<Message>(_entities[7].properties[7]);
 }
 
 /// [Participant] entity fields to define ObjectBox queries.

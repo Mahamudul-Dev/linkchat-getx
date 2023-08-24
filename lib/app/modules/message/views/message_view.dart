@@ -8,8 +8,6 @@ import 'package:linkchat/app/modules/chat/controllers/chat_controller.dart';
 import 'package:linkchat/app/modules/message/views/chat_input_field.dart';
 import 'package:linkchat/app/modules/message/views/text_message.dart';
 import 'package:linkchat/app/style/app_color.dart';
-
-import '../../links/controllers/linklist_controller.dart';
 import '../controllers/message_controller.dart';
 
 class MessageView extends StatefulWidget {
@@ -30,25 +28,37 @@ class _MessageViewState extends State<MessageView> {
   void initState() {
     // TODO: implement initState
     controller.getMessage(DatabaseHelper().getSingleConversation(sId));
+    // controller.scrollToBottom();
+    // SocketIOService.socket.on('privateMessage', (data) {
+    //   controller.getMessage(controller.dbHelper.getSingleConversation(sId));
+    // });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: _buildHeaderBar(_chatController, sId, context),
       body: Column(
         children: [
-          Obx(() => controller.messages.value.isNotEmpty ? Expanded(
-              child: Obx(() => ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: controller.messages.value.length,
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  itemBuilder: (context, index) {
-                    return TextMessage(message: controller.messages.value[index]);
-                  }))) : const Expanded(child: Center(child: Text('No Chat'),))),
-          ChatInputField(receiverId: sId,)
+          Obx(() {
+            if (MessageController.messages.isNotEmpty) {
+              return Expanded(
+                child: Obx(() => ListView.builder(
+                        controller: controller.scrollController,
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: MessageController.messages.length,
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        itemBuilder: (context, index) {
+                          return TextMessage(message: MessageController.messages[index]);
+                        },
+                      ))
+              );
+            } else {
+              return const Expanded(child: Center(child: Text('No Chat')));
+            }
+          }),
+          ChatInputField(receiverId: sId),
         ],
       ),
     );
@@ -94,8 +104,19 @@ AppBar _buildHeaderBar(
       ],
     ),
     actions: [
-      IconButton(onPressed: (){}, icon: const Icon(CupertinoIcons.phone, color: accentColor,)),
-      IconButton(onPressed: (){}, icon: const Icon(CupertinoIcons.video_camera, color: accentColor, size: 30,))
+      IconButton(
+          onPressed: () {},
+          icon: const Icon(
+            CupertinoIcons.phone,
+            color: accentColor,
+          )),
+      IconButton(
+          onPressed: () {},
+          icon: const Icon(
+            CupertinoIcons.video_camera,
+            color: accentColor,
+            size: 30,
+          ))
     ],
   );
 }

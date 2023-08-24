@@ -7,7 +7,6 @@ import 'package:get_storage/get_storage.dart';
 import './app/database/database.dart';
 import './app/style/style.dart';
 import 'app/routes/app_pages.dart';
-import 'app/services/socket_io_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,7 +17,6 @@ void main() async {
           ThemeProvider().isSavedLightMood().value ? brightWhite : solidMate));
   await ObjectBoxSingleton().initObjectBox();
   await GetStorage.init();
-  SocketIOService.initSocket();
   runApp(const Link());
 }
 

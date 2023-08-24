@@ -8,6 +8,7 @@ import 'package:linkchat/app/modules/random_call/views/random_call_view.dart';
 import 'package:logger/logger.dart';
 
 import '../../../database/cached_db_helper.dart';
+import '../../../services/socket_io_service.dart';
 
 class HomeController extends GetxController {
   RxInt currentIndex = 0.obs;
@@ -16,6 +17,7 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    SocketIOService.initSocket();
     Logger().i(DatabaseHelper().getUserData());
     Logger().i(helper.getSearchSuggestion());
   }

@@ -204,20 +204,19 @@ class RegisterController extends GetxController {
           "updatedAt" : DateTime.now().toString()
         };
 
-
         try {
           final response = await http.post(Uri.parse(BASE_URL + REGISTER), body: user);
           if (response.statusCode == 200) {
-            Logger().i(response.body);
+            Logger().i('Line 211: ${response.body}');
             final result = NewUserRegResModel.fromJson(jsonDecode(response.body));
             DatabaseHelper().saveEmailLoginInfo(EmailLoginResponseModel(id: result.newUser!.sId, userName: result.newUser!.userName, email: result.newUser!.email, token: result.token));
             final userInfo = DatabaseHelper().getLoginInfo();
 
-            final getUserResponse = await http.get(Uri.parse(BASE_URL+USER+result.newUser!.sId!), headers: {'Authorization':'Bearer ${userInfo.token}'});
-            Logger().e(getUserResponse.body);
+            final getUserResponse = await http.get(Uri.parse(BASE_URL+USER+result.newUser!.sId!), headers: {'Authorization':'Bearer ${userInfo.token}', 'Content-Type':'application/json'});
+            Logger().e('Line 217: ${getUserResponse.body}');
             final userData = UserModel.fromJson(jsonDecode(getUserResponse.body));
-            Logger().e(jsonDecode(getUserResponse.body));
-            DatabaseHelper().saveUserData(userData.data!.first);
+            Logger().e('Line 219: ${jsonDecode(userData.data.first.toJson().toString())}');
+            DatabaseHelper().saveUserData(userData.data.first);
 
               Get.offAllNamed(Routes.HOME);
           } else {

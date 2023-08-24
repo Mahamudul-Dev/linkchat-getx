@@ -45,13 +45,14 @@ class ChatController extends GetxController {
   Future<List<ConversationSchema>> getConversation() async {
     conversations.clear();
     final conversationBox = dbHelper.conversationBox.query().build().find();
+    Logger().i(conversationBox.length);
     for (var i = 0; i < conversationBox.length; i++) {
-      RxList<MessageModel> messages = <MessageModel>[].obs;
+      RxList<ReceiveMessageModel> messages = <ReceiveMessageModel>[].obs;
       List<ChatParticipantModel> participants = [];
-      for (var j = 0; j < conversationBox[i].messages.length; i++) {
-        messages.add(MessageModel(content: conversationBox[i].messages[j].content, attachments: conversationBox[i].messages[j].attachment, users: [Users(sender: conversationBox[i].messages[j].sender.target!.serverId, receiver: conversationBox[i].messages[j].receiverId)], createdAt: conversationBox[i].messages[j].timestamp.toString(), updatedAt: conversationBox[i].messages[j].timestamp.toString()));
+      for (var j = 0; j < conversationBox[i].messages.length; j++) {
+        messages.add(ReceiveMessageModel(message: MessageModel(text: conversationBox[i].messages[j].message), attachments: conversationBox[i].messages[j].attachments, users: [conversationBox[i].messages[j].sender.target!.serverId, conversationBox[i].messages[j].receiverId], createdAt: conversationBox[i].messages[j].timestamp.toString(), updatedAt: conversationBox[i].messages[j].timestamp.toString(), receiver: conversationBox[i].messages[j].receiverId, sender: conversationBox[i].messages[j].sender.target!.serverId));
       }
-      for (var k = 0; k < conversationBox[i].participant.length; i++) {
+      for (var k = 0; k < conversationBox[i].participant.length; k++) {
         participants.add(ChatParticipantModel(serverId: conversationBox[i].participant[k].serverId, uid: conversationBox[i].participant[k].uid, name: conversationBox[i].participant[k].name, photo: conversationBox[i].participant[k].photo, country: conversationBox[i].participant[k].country));
       }
       conversations.add(ConversationModel(conversationTitle: conversationBox[i].name, messages: messages, receiver: ChatParticipantModel(serverId: conversationBox[i].receiver.target!.serverId, uid: conversationBox[i].receiver.target!.uid, name: conversationBox[i].receiver.target!.name, photo: conversationBox[i].receiver.target!.photo, country: conversationBox[i].receiver.target!.country), participant: participants));

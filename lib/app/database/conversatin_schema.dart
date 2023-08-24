@@ -6,6 +6,7 @@ class ConversationSchema {
   int objectId;
   String name;
   String receiverServerId;
+  String creatorServerId;
 
 
   final participant = ToMany<ChatParticipant>();
@@ -18,6 +19,7 @@ class ConversationSchema {
     this.objectId = 0,
     required this.name,
     required this.receiverServerId,
+    required this.creatorServerId,
   });
 }
 
@@ -49,20 +51,21 @@ class ChatParticipant {
 class Message {
   @Id()
   int objectId;
-  String content;
-  List<String> attachment;
+  String message;
+  List<String> attachments;
   String receiverId;
+  String senderServerId;
   @Property(type: PropertyType.date)
   DateTime timestamp;
-
   final sender = ToOne<ChatParticipant>();
   final conversation = ToOne<ConversationSchema>();
 
   Message({
     this.objectId = 0,
-    required this.content,
-    required this.attachment,
+    required this.message,
+    required this.attachments,
     required this.receiverId,
+    required this.senderServerId,
     required this.timestamp,
   });
 }
