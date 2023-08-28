@@ -9,7 +9,7 @@ import '../../../database/conversatin_schema.dart';
 class TextMessage extends GetView<MessageController> {
   const TextMessage({super.key, required this.message});
 
-  final Message message;
+  final MessageSchema message;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class TextMessage extends GetView<MessageController> {
                     ? accentColor
                     : blackAccent),
             child: ReadMoreText(
-              message.message,
+              message.content,
               trimLines: 10,
               colorClickableText: brightWhite,
               trimMode: TrimMode.Line,

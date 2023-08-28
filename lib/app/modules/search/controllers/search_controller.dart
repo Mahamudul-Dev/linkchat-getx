@@ -132,7 +132,7 @@ class SearchViewController extends GetxController
           try {
             user = currentUser.data.first.pendingLink
                 .singleWhere((user) => user.sId == sId);
-            Logger().e(user.userName ?? 'n/a');
+            Logger().e(user.userName);
           } catch (e) {
             user = null;
             Logger().e(user?.userName ?? 'n/a');

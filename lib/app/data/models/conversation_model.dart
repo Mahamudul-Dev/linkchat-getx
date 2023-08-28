@@ -25,7 +25,6 @@ class ChatParticipantModel {
 class ReceiveMessageModel {
   ReceiveMessageModel({
     required this.message,
-    required this.attachments,
     required this.users,
     required this.sender,
     required this.receiver,
@@ -33,7 +32,6 @@ class ReceiveMessageModel {
     required this.updatedAt,
   });
   late final MessageModel message;
-  late final List<String> attachments;
   late final List<String> users;
   late final String sender;
   late final String receiver;
@@ -42,7 +40,6 @@ class ReceiveMessageModel {
   
   ReceiveMessageModel.fromJson(Map<String, dynamic> json){
     message = MessageModel.fromJson(json['message']);
-    attachments = List.castFrom<dynamic, String>(json['attachments']);
     users = List.castFrom<dynamic, String>(json['users']);
     sender = json['sender'];
     receiver = json['receiver'];
@@ -53,7 +50,6 @@ class ReceiveMessageModel {
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['message'] = message.toJson();
-    _data['attachments'] = attachments;
     _data['users'] = users;
     _data['sender'] = sender;
     _data['receiver'] = receiver;
@@ -66,36 +62,20 @@ class ReceiveMessageModel {
 class MessageModel {
   MessageModel({
     required this.text,
+    required this.attachments
   });
   late final String text;
+  late final List<String> attachments;
   
   MessageModel.fromJson(Map<String, dynamic> json){
     text = json['text'];
+    attachments = List.castFrom<dynamic, String>(json['attachments']);
   }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['text'] = text;
+    _data['attachments'] = attachments;
     return _data;
-  }
-}
-
-
-class SendMessageModel {
-  final String message;
-  final String from;
-  final String to;
-
-  SendMessageModel({
-    required this.message,
-    required this.from,
-    required this.to,
-  });
-  Map<String, dynamic> toJson() {
-    return {
-      'message': message,
-      'from': from,
-      'to': to,
-    };
   }
 }

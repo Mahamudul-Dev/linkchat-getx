@@ -50,7 +50,7 @@ class ChatController extends GetxController {
       RxList<ReceiveMessageModel> messages = <ReceiveMessageModel>[].obs;
       List<ChatParticipantModel> participants = [];
       for (var j = 0; j < conversationBox[i].messages.length; j++) {
-        messages.add(ReceiveMessageModel(message: MessageModel(text: conversationBox[i].messages[j].message), attachments: conversationBox[i].messages[j].attachments, users: [conversationBox[i].messages[j].sender.target!.serverId, conversationBox[i].messages[j].receiverId], createdAt: conversationBox[i].messages[j].timestamp.toString(), updatedAt: conversationBox[i].messages[j].timestamp.toString(), receiver: conversationBox[i].messages[j].receiverId, sender: conversationBox[i].messages[j].sender.target!.serverId));
+        messages.add(ReceiveMessageModel(message: MessageModel(text: conversationBox[i].messages[j].content, attachments: conversationBox[i].messages[j].attachments), users: [conversationBox[i].messages[j].sender.target!.serverId, conversationBox[i].messages[j].receiverId], createdAt: conversationBox[i].messages[j].timestamp.toString(), updatedAt: conversationBox[i].messages[j].timestamp.toString(), receiver: conversationBox[i].messages[j].receiverId, sender: conversationBox[i].messages[j].sender.target!.serverId));
       }
       for (var k = 0; k < conversationBox[i].participant.length; k++) {
         participants.add(ChatParticipantModel(serverId: conversationBox[i].participant[k].serverId, uid: conversationBox[i].participant[k].uid, name: conversationBox[i].participant[k].name, photo: conversationBox[i].participant[k].photo, country: conversationBox[i].participant[k].country));

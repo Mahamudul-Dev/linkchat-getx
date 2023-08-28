@@ -88,7 +88,7 @@ class EditProfileController extends GetxController {
 
   void fillValueFromDatabase() {
     final dbProfileData = Get.find<ProfileController>().getCurrentProfile;
-    nameController.text = dbProfileData.name ?? '';
+    nameController.text = dbProfileData.name;
     taglineController.text = dbProfileData.tagline ?? '';
     dobController.text = dbProfileData.dob ?? '';
     userPhoneController.text = dbProfileData.phone ?? '';

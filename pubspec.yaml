@@ -45,6 +45,7 @@ dependencies:
   custom_refresh_indicator: 2.2.1
   readmore: 2.2.0
   audioplayers: 5.1.0
+  flutter_local_notifications: 15.1.1
   flutter: 
     sdk: flutter
 

@@ -9,12 +9,12 @@ import 'package:linkchat/app/modules/chat/views/chat_list_tile_view.dart';
 import 'package:linkchat/app/modules/home/controllers/home_controller.dart';
 import 'package:linkchat/app/modules/search/views/SearchViewDelegate.dart';
 import 'package:linkchat/app/routes/app_pages.dart';
+import 'package:linkchat/app/services/notification_service.dart';
 import 'package:linkchat/app/services/socket_io_service.dart';
 import 'package:linkchat/app/style/style.dart';
 import 'package:linkchat/app/widgets/views/CircullarShimmer.dart';
 import 'package:linkchat/app/widgets/views/SquareShimmer.dart';
 import 'package:linkchat/app/widgets/widgets.dart';
-import 'package:logger/logger.dart';
 import 'package:lottie/lottie.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -201,7 +201,7 @@ class ChatView extends GetView<ChatController> {
         })),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            SocketIOService.playNotificationSound();
+            NotificationService().showNotification('Alu Boti', 'How are you?', 'Link Message', 'New Message Got From Alu Boti');
             // Logger().i(
             //     'Conversation: ${DatabaseHelper().getConversation().first.name}');
           },

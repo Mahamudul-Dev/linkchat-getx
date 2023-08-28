@@ -124,51 +124,6 @@
       "relations": []
     },
     {
-      "id": "4:3005949712864049444",
-      "lastPropertyId": "8:4874490736886662106",
-      "name": "ChatParticipant",
-      "properties": [
-        {
-          "id": "1:932641310886436310",
-          "name": "objectId",
-          "type": 6,
-          "flags": 1
-        },
-        {
-          "id": "2:6528678748578015085",
-          "name": "serverId",
-          "type": 9
-        },
-        {
-          "id": "3:9070953604391940254",
-          "name": "uid",
-          "type": 9
-        },
-        {
-          "id": "4:5383221522041537598",
-          "name": "name",
-          "type": 9
-        },
-        {
-          "id": "5:2035639595563473522",
-          "name": "photo",
-          "type": 9
-        },
-        {
-          "id": "6:7023928527219399143",
-          "name": "country",
-          "type": 9
-        }
-      ],
-      "relations": [
-        {
-          "id": "1:4368858483896849393",
-          "name": "message",
-          "targetId": "9:5455480206673954344"
-        }
-      ]
-    },
-    {
       "id": "5:241382573815167930",
       "lastPropertyId": "7:1943698581527289964",
       "name": "ConversationSchema",
@@ -190,7 +145,7 @@
           "type": 11,
           "flags": 520,
           "indexId": "52:1317434651527616172",
-          "relationTarget": "ChatParticipant"
+          "relationTarget": "ChatParticipantSchema"
         },
         {
           "id": "5:3098353836203783620",
@@ -198,7 +153,7 @@
           "type": 11,
           "flags": 520,
           "indexId": "9:7228823448480574248",
-          "relationTarget": "ChatParticipant"
+          "relationTarget": "ChatParticipantSchema"
         },
         {
           "id": "6:717894289451612690",
@@ -215,12 +170,12 @@
         {
           "id": "2:1453234831726152621",
           "name": "participant",
-          "targetId": "4:3005949712864049444"
+          "targetId": "15:8236344597648704801"
         },
         {
           "id": "3:2620262529029878770",
           "name": "messages",
-          "targetId": "9:5455480206673954344"
+          "targetId": "16:5851263566708360614"
         }
       ]
     },
@@ -287,61 +242,6 @@
         {
           "id": "5:4179011985071333843",
           "name": "token",
-          "type": 9
-        }
-      ],
-      "relations": []
-    },
-    {
-      "id": "9:5455480206673954344",
-      "lastPropertyId": "11:7922525775862496372",
-      "name": "Message",
-      "properties": [
-        {
-          "id": "1:3684769037409589763",
-          "name": "objectId",
-          "type": 6,
-          "flags": 1
-        },
-        {
-          "id": "4:2131472258927401882",
-          "name": "receiverId",
-          "type": 9
-        },
-        {
-          "id": "6:3140033746209948533",
-          "name": "timestamp",
-          "type": 10
-        },
-        {
-          "id": "7:8725436463030515952",
-          "name": "senderId",
-          "type": 11,
-          "flags": 520,
-          "indexId": "231:6232202586320496522",
-          "relationTarget": "ChatParticipant"
-        },
-        {
-          "id": "8:3205434007979054371",
-          "name": "conversationId",
-          "type": 11,
-          "flags": 520,
-          "indexId": "6:4554127117470876231",
-          "relationTarget": "ConversationSchema"
-        },
-        {
-          "id": "9:4425213859307120780",
-          "name": "message",
-          "type": 9
-        },
-        {
-          "id": "10:1415091777293012764",
-          "name": "attachments",
-          "type": 30
-        },
-        {
-          "id": "11:7922525775862496372",
-          "name": "senderServerId",
           "type": 9
         }
       ],
@@ -551,18 +451,120 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "15:8236344597648704801",
+      "lastPropertyId": "6:1537830211112011451",
+      "name": "ChatParticipantSchema",
+      "properties": [
+        {
+          "id": "1:978295983920119737",
+          "name": "objectId",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1669034472868393253",
+          "name": "serverId",
+          "type": 9
+        },
+        {
+          "id": "3:5812343171646084391",
+          "name": "uid",
+          "type": 9
+        },
+        {
+          "id": "4:8315316310159761607",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "5:5557719075621523680",
+          "name": "photo",
+          "type": 9
+        },
+        {
+          "id": "6:1537830211112011451",
+          "name": "country",
+          "type": 9
+        }
+      ],
+      "relations": [
+        {
+          "id": "4:8728464135176249566",
+          "name": "messageSchema",
+          "targetId": "16:5851263566708360614"
+        }
+      ]
+    },
+    {
+      "id": "16:5851263566708360614",
+      "lastPropertyId": "8:2945247421937844412",
+      "name": "MessageSchema",
+      "properties": [
+        {
+          "id": "1:1902434872232199560",
+          "name": "objectId",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3824546953454373703",
+          "name": "content",
+          "type": 9
+        },
+        {
+          "id": "3:6736262266120509196",
+          "name": "attachments",
+          "type": 30
+        },
+        {
+          "id": "4:3967602314183792768",
+          "name": "receiverId",
+          "type": 9
+        },
+        {
+          "id": "5:7989480927266323016",
+          "name": "senderServerId",
+          "type": 9
+        },
+        {
+          "id": "6:468755570519685774",
+          "name": "timestamp",
+          "type": 10
+        },
+        {
+          "id": "7:4576777640620912042",
+          "name": "senderId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "232:4809294257170137409",
+          "relationTarget": "ChatParticipantSchema"
+        },
+        {
+          "id": "8:2945247421937844412",
+          "name": "conversationId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "233:748356168204910255",
+          "relationTarget": "ConversationSchema"
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "14:2416490522128037181",
-  "lastIndexId": "231:6232202586320496522",
-  "lastRelationId": "3:2620262529029878770",
+  "lastEntityId": "16:5851263566708360614",
+  "lastIndexId": "233:748356168204910255",
+  "lastRelationId": "4:8728464135176249566",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
   "retiredEntityUids": [
     3977552756406304623,
     8290035999677532485,
-    6486507496343484250
+    6486507496343484250,
+    3005949712864049444,
+    5455480206673954344
   ],
   "retiredIndexUids": [
     3816903183955956055,
@@ -817,7 +819,21 @@
     1243619455991991212,
     5097900525242399794,
     1418101217173326350,
-    763328914994575963
+    763328914994575963,
+    932641310886436310,
+    6528678748578015085,
+    9070953604391940254,
+    5383221522041537598,
+    2035639595563473522,
+    7023928527219399143,
+    3684769037409589763,
+    2131472258927401882,
+    3140033746209948533,
+    8725436463030515952,
+    3205434007979054371,
+    4425213859307120780,
+    1415091777293012764,
+    7922525775862496372
   ],
   "retiredRelationUids": [],
   "version": 1

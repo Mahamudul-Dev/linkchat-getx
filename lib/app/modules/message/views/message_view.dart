@@ -45,7 +45,7 @@ class _MessageViewState extends State<MessageView> {
             if (MessageController.messages.isNotEmpty) {
               return Expanded(
                 child: Obx(() => ListView.builder(
-                        controller: controller.scrollController,
+                        controller: MessageController.scrollController,
                         physics: const BouncingScrollPhysics(),
                         itemCount: MessageController.messages.length,
                         padding: const EdgeInsets.symmetric(horizontal: 10),

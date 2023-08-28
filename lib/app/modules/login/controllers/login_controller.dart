@@ -41,7 +41,7 @@ class LoginController extends GetxController {
             if(response.statusCode == 200){
               final data = UserModel.fromJson(jsonDecode(response.body));
               Logger().e(data.toJson());
-              DatabaseHelper().saveUserData(data.data!.first);
+              DatabaseHelper().saveUserData(data.data.first);
               isLoading.value = false;
               Get.offAllNamed(Routes.HOME);
 

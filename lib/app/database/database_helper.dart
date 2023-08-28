@@ -3,10 +3,7 @@
 //-- File created at July 17 2023
 //-- Creator: Mahamudul Hasan
 
-import 'package:linkchat/app/data/utils/utils.dart';
-import 'package:linkchat/app/modules/message/controllers/message_controller.dart';
 import 'package:linkchat/app/modules/profile/controllers/profile_controller.dart';
-import 'package:linkchat/app/services/socket_io_service.dart';
 import 'package:logger/logger.dart';
 
 import '../../objectbox.g.dart';
@@ -21,8 +18,8 @@ class DatabaseHelper {
   final loginInfoBox = ObjectBoxSingleton().store.box<LoginSchema>();
   final notificationBox = ObjectBoxSingleton().store.box<NotificationSchema>();
   final conversationBox = ObjectBoxSingleton().store.box<ConversationSchema>();
-  final chatParticipantBox = ObjectBoxSingleton().store.box<ChatParticipant>();
-  final messageBox = ObjectBoxSingleton().store.box<Message>();
+  final chatParticipantBox = ObjectBoxSingleton().store.box<ChatParticipantSchema>();
+  final messageBox = ObjectBoxSingleton().store.box<MessageSchema>();
 
   ConversationSchema? conversationSchema;
 
@@ -81,7 +78,7 @@ class DatabaseHelper {
     notificationBox.put(notificationSchema);
   }
 
-  Future<void> saveConversation(Message message) async {
+  Future<void> saveConversation(MessageSchema message) async {
 
     final profile = ProfileController();
     UserModel? senderProfile;
@@ -97,8 +94,8 @@ class DatabaseHelper {
           Logger().e(e);
         }
 
-        final receiver = ChatParticipant(serverId: receiverProfile!.data.first.sId, uid: receiverProfile!.data.first.uid, name: receiverProfile!.data.first.userName, photo: receiverProfile!.data.first.profilePic, country: receiverProfile!.data.first.country);
-        final sender = ChatParticipant(serverId: senderProfile!.data.first.sId, uid: senderProfile!.data.first.uid, name: senderProfile!.data.first.userName, photo: senderProfile!.data.first.profilePic, country: senderProfile!.data.first.country);
+        final receiver = ChatParticipantSchema(serverId: receiverProfile!.data.first.sId, uid: receiverProfile!.data.first.uid, name: receiverProfile!.data.first.userName, photo: receiverProfile!.data.first.profilePic, country: receiverProfile!.data.first.country);
+        final sender = ChatParticipantSchema(serverId: senderProfile!.data.first.sId, uid: senderProfile!.data.first.uid, name: senderProfile!.data.first.userName, photo: senderProfile!.data.first.profilePic, country: senderProfile!.data.first.country);
 
 
         if(conversationSchema == null){

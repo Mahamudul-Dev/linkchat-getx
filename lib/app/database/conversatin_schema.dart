@@ -9,10 +9,10 @@ class ConversationSchema {
   String creatorServerId;
 
 
-  final participant = ToMany<ChatParticipant>();
-  final messages = ToMany<Message>();
-  final receiver = ToOne<ChatParticipant>();
-  final sender = ToOne<ChatParticipant>();
+  final participant = ToMany<ChatParticipantSchema>();
+  final messages = ToMany<MessageSchema>();
+  final receiver = ToOne<ChatParticipantSchema>();
+  final sender = ToOne<ChatParticipantSchema>();
 
 
   ConversationSchema({
@@ -24,7 +24,7 @@ class ConversationSchema {
 }
 
 @Entity()
-class ChatParticipant {
+class ChatParticipantSchema {
   @Id()
   int objectId;
   String serverId;
@@ -36,9 +36,9 @@ class ChatParticipant {
   @Backlink('participant')
   final conversation = ToMany<ConversationSchema>();
 
-  final message = ToMany<Message>();
+  final messageSchema = ToMany<MessageSchema>();
 
-  ChatParticipant(
+  ChatParticipantSchema(
       {this.objectId = 0,
       required this.serverId,
       required this.uid,
@@ -48,21 +48,21 @@ class ChatParticipant {
 }
 
 @Entity()
-class Message {
+class MessageSchema {
   @Id()
   int objectId;
-  String message;
+  String content;
   List<String> attachments;
   String receiverId;
   String senderServerId;
   @Property(type: PropertyType.date)
   DateTime timestamp;
-  final sender = ToOne<ChatParticipant>();
+  final sender = ToOne<ChatParticipantSchema>();
   final conversation = ToOne<ConversationSchema>();
 
-  Message({
+  MessageSchema({
     this.objectId = 0,
-    required this.message,
+    required this.content,
     required this.attachments,
     required this.receiverId,
     required this.senderServerId,

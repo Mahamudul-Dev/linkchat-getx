@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:linkchat/app/data/models/conversation_model.dart';
 import 'package:logger/logger.dart';
@@ -11,12 +12,12 @@ class MessageController extends GetxController {
   final dbHelper = DatabaseHelper();
   Rx<TextEditingController> textMessageController = TextEditingController().obs;
   RxString textMessage = ''.obs;
-  ScrollController scrollController = ScrollController();
+  static ScrollController scrollController = ScrollController();
 
-  static RxList<Message> messages = <Message>[].obs;
+  static RxList<MessageSchema> messages = <MessageSchema>[].obs;
   Stream<ConversationSchema>? conversationStream;
 
-  bool isOwnMessage(Message message) {
+  bool isOwnMessage(MessageSchema message) {
     if (message.receiverId == dbHelper.getUserData().serverId) {
       return false;
     }
@@ -24,16 +25,17 @@ class MessageController extends GetxController {
   }
 
   void sendMessage(String receiverId) {
-    final sendMessage = ReceiveMessageModel(message: MessageModel(text: textMessageController.value.text), attachments: [], users: [dbHelper.getUserData().serverId, receiverId], sender: dbHelper.getUserData().serverId, receiver: receiverId, createdAt: DateTime.now().toString(), updatedAt: DateTime.now().toString());
+    final sendMessage = ReceiveMessageModel(message: MessageModel(text: textMessageController.value.text, attachments: []), users: [dbHelper.getUserData().serverId, receiverId], sender: dbHelper.getUserData().serverId, receiver: receiverId, createdAt: DateTime.now().toString(), updatedAt: DateTime.now().toString());
     //SocketIOService.socket.emit('privateMessage',sendMessage.toJson());
     Logger().i(sendMessage.toJson());
     SocketIOService.socket.emit('privateMessage', sendMessage.toJson());
-    final message = Message(message: textMessageController.value.text, attachments: [], receiverId: receiverId, timestamp: DateTime.now(), senderServerId: dbHelper.getUserData().serverId); 
+    final message = MessageSchema(content: textMessageController.value.text, attachments: [], receiverId: receiverId, timestamp: DateTime.now(), senderServerId: dbHelper.getUserData().serverId); 
     dbHelper.saveConversation(message);
     messages.add(message);
+    
     textMessageController.value.clear();
     textMessage.value = '';
-    // scrollToBottom();
+    scrollToBottom();
   }
 
   void getMessage(ConversationSchema? conversationSchema) {
@@ -44,11 +46,17 @@ class MessageController extends GetxController {
     }
     }
 
-  // void scrollToBottom() {
-  //   scrollController.animateTo(
-  //     scrollController.position.maxScrollExtent,
-  //     duration: const Duration(milliseconds: 300),
-  //     curve: Curves.easeOut,
-  //   );
-  // }
+  static void scrollToBottom() {
+  if (scrollController.hasClients) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      scrollController.jumpTo(scrollController.position.maxScrollExtent);
+    });
+  }
+}
+
+@override
+  void onInit() {
+    scrollToBottom();
+    super.onInit();
+  }
 }
