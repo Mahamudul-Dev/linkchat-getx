@@ -10,7 +10,6 @@ import 'package:linkchat/app/modules/home/controllers/home_controller.dart';
 import 'package:linkchat/app/modules/search/views/SearchViewDelegate.dart';
 import 'package:linkchat/app/routes/app_pages.dart';
 import 'package:linkchat/app/services/notification_service.dart';
-import 'package:linkchat/app/services/socket_io_service.dart';
 import 'package:linkchat/app/style/style.dart';
 import 'package:linkchat/app/widgets/views/CircullarShimmer.dart';
 import 'package:linkchat/app/widgets/views/SquareShimmer.dart';
@@ -68,7 +67,7 @@ class ChatView extends GetView<ChatController> {
             )
           ];
         }, body: Obx(() {
-          return controller.conversations.isEmpty
+          return ChatController.conversations.isEmpty
               ? Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -94,7 +93,7 @@ class ChatView extends GetView<ChatController> {
                       return Obx(() {
                         return ListView.builder(
                           physics: const BouncingScrollPhysics(),
-                          itemCount: controller.conversations.length,
+                          itemCount: ChatController.conversations.length,
                           itemBuilder: (context, index) {
                             return Dismissible(
                                 key: Key(index.toString()),
@@ -157,8 +156,9 @@ class ChatView extends GetView<ChatController> {
                                       .photo,
                                   conversationName: snapshot.data![index].name,
                                   lastMessage: Obx(() => Text(
-                                        controller.conversations[index].messages
-                                                .last?.message.text ?? '',
+                                        ChatController.conversations[index]
+                                                .messages.last?.message.text ??
+                                            '',
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium
@@ -168,12 +168,10 @@ class ChatView extends GetView<ChatController> {
                                   // lastMessage: snapshot.data![index].messages.last.content,
                                   time: Obx(
                                     () => Text(
-                                      timeago.format(DateTime.parse(controller
-                                              .conversations[index]
-                                              .messages
-                                              .last
-                                              ?.createdAt ??
-                                          '')),
+                                      timeago.format(DateTime.parse(
+                                          ChatController.conversations[index]
+                                                  .messages.last?.createdAt ??
+                                              '')),
                                       style: const TextStyle(fontSize: 10),
                                     ),
                                   ),
@@ -201,7 +199,8 @@ class ChatView extends GetView<ChatController> {
         })),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            NotificationService().showNotification('Alu Boti', 'How are you?', 'Link Message', 'New Message Got From Alu Boti');
+            NotificationService().showNotification('Alu Boti', 'How are you?',
+                'Link Message', 'New Message Got From Alu Boti');
             // Logger().i(
             //     'Conversation: ${DatabaseHelper().getConversation().first.name}');
           },

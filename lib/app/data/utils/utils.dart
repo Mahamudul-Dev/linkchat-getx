@@ -6,7 +6,7 @@ const String placeholderImageFemale =
     'https://www.parkamerica.net/wp-content/uploads/2020/12/placeholder-profile-female.jpg';
 
 // apis
-const String BASE_URL = 'https://chat.linkfy.org';
+const String BASE_URL = 'http://chat.linkfy.org:1212';
 const String REGISTER = '/api/v1/user/register'; // for register new user
 const String LOGIN = '/api/v1/user/login'; // for login a user
 const String USER = '/api/v1/user/'; // need to put user id in parameter
@@ -21,9 +21,11 @@ const String MAKE_FOLLOW =
     '/api/v1/user/create_follow/'; // need to put id in parameter for make a follower
 const String MAKE_LINK = '/api/v1/user/add_link/';
 const String UNLINK = '/api/v1/user/unlink/';
+const String GET_MATCH =
+    '/api/v1/match'; // need to put id in body for finding match profiles
 
 Map<String, String> authorization(String token) {
   return {'Authorization': 'Bearer $token'};
 }
 
-const String SOCKET_CONNECTION_URL = '';
+const String SOCKET_CONNECTION_URL = 'http://linkfysocket.linkfy.org:3434';

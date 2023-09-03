@@ -26,6 +26,8 @@ abstract class Routes {
   static const NOTIFICATION = _Paths.NOTIFICATION;
   static const LINK_LIST = _Paths.LINK_LIST;
   static const FOLLOWERS = _Paths.FOLLOWERS;
+  static const MATCH = _Paths.MATCH;
+  static const ROOM_CHAT = _Paths.ROOM_CHAT;
 }
 
 abstract class _Paths {
@@ -51,4 +53,6 @@ abstract class _Paths {
   static const NOTIFICATION = '/notification';
   static const LINK_LIST = '/linklist';
   static const FOLLOWERS = '/followers';
+  static const MATCH = '/match';
+  static const ROOM_CHAT = '/room-chat';
 }

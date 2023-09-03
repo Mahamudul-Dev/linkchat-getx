@@ -9,6 +9,7 @@ import 'package:logger/logger.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../data/models/conversation_model.dart';
+import '../data/utils/utils.dart';
 import '../modules/profile/controllers/profile_controller.dart';
 
 class SocketIOService {
@@ -20,7 +21,7 @@ class SocketIOService {
   static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   static final dbHelper = DatabaseHelper();
-  static IO.Socket socket = IO.io('http://linkfysocket.linkfy.org:3434', <String, dynamic>{
+  static IO.Socket socket = IO.io(SOCKET_CONNECTION_URL, <String, dynamic>{
     'transports': ['websocket'],
   },);
   

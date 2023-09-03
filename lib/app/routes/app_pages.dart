@@ -22,6 +22,8 @@ import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/email_login/bindings/email_login_binding.dart';
 import '../modules/login/email_login/views/email_login_view.dart';
 import '../modules/login/views/login_view.dart';
+import '../modules/match/bindings/match_binding.dart';
+import '../modules/match/views/match_view.dart';
 import '../modules/message/bindings/message_binding.dart';
 import '../modules/message/views/message_view.dart';
 import '../modules/notification/bindings/notification_binding.dart';
@@ -36,6 +38,8 @@ import '../modules/random_call/bindings/random_call_binding.dart';
 import '../modules/random_call/views/random_call_view.dart';
 import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
+import '../modules/room_chat/bindings/room_chat_binding.dart';
+import '../modules/room_chat/views/room_chat_view.dart';
 import '../modules/settings/bindings/settings_binding.dart';
 import '../modules/settings/views/settings_view.dart';
 import '../modules/setup_pin/bindings/setup_pin_binding.dart';
@@ -169,6 +173,16 @@ class AppPages {
       name: _Paths.FOLLOWERS,
       page: () => const FollowersView(),
       binding: FollowersBinding(),
+    ),
+    GetPage(
+      name: _Paths.MATCH,
+      page: () => const MatchView(),
+      binding: MatchBinding(),
+    ),
+    GetPage(
+      name: _Paths.ROOM_CHAT,
+      page: () => const RoomChatView(),
+      binding: RoomChatBinding(),
     ),
   ];
 }

@@ -44,16 +44,17 @@ class _MessageViewState extends State<MessageView> {
           Obx(() {
             if (MessageController.messages.isNotEmpty) {
               return Expanded(
-                child: Obx(() => ListView.builder(
+                  child: Obx(() => ListView.builder(
+                        reverse: false,
                         controller: MessageController.scrollController,
                         physics: const BouncingScrollPhysics(),
                         itemCount: MessageController.messages.length,
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         itemBuilder: (context, index) {
-                          return TextMessage(message: MessageController.messages[index]);
+                          return TextMessage(
+                              message: MessageController.messages[index]);
                         },
-                      ))
-              );
+                      )));
             } else {
               return const Expanded(child: Center(child: Text('No Chat')));
             }

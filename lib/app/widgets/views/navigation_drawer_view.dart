@@ -102,7 +102,7 @@ class NavigationDrawerView extends GetView {
                           ?.copyWith(fontSize: 12.sp)),
                 ),
                 ListTile(
-                  onTap: () {},
+                  onTap: () => Get.toNamed(Routes.MATCH),
                   leading: const Icon(
                     CupertinoIcons.heart_circle_fill,
                     size: 25,

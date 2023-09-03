@@ -5,6 +5,7 @@ import 'package:linkchat/app/modules/call_list/views/call_list_view.dart';
 import 'package:linkchat/app/modules/chat/views/chat_view.dart';
 import 'package:linkchat/app/modules/dialer/views/dialer_view.dart';
 import 'package:linkchat/app/modules/random_call/views/random_call_view.dart';
+import 'package:linkchat/app/modules/room_chat/views/room_chat_view.dart';
 import 'package:logger/logger.dart';
 
 import '../../../database/cached_db_helper.dart';
@@ -26,7 +27,7 @@ class HomeController extends GetxController {
 
   final List<Widget> pages = [
     const ChatView(),
-    const CallListView(),
+    const RoomChatView(),
     const RandomCallView(),
     const DialerView()
   ];
