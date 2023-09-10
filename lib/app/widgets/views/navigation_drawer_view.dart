@@ -8,6 +8,8 @@ import 'package:linkchat/app/database/database.dart';
 import 'package:linkchat/app/routes/app_pages.dart';
 import 'package:linkchat/app/style/style.dart';
 
+import '../../database/helpers/helpers.dart';
+
 class NavigationDrawerView extends GetView {
   const NavigationDrawerView({Key? key}) : super(key: key);
   @override
@@ -17,7 +19,7 @@ class NavigationDrawerView extends GetView {
         children: [
           GestureDetector(
             onTap: () => Get.toNamed(Routes.PROFILE,
-                arguments: {'sId': DatabaseHelper().getUserData().serverId}),
+                arguments: {'sId': AccountHelper.getUserData().serverId}),
             child: Container(
               padding: const EdgeInsets.all(15.0),
               height: 130.h,
@@ -31,7 +33,7 @@ class NavigationDrawerView extends GetView {
                         radius: 35.w,
                         backgroundColor: darkAsh,
                         backgroundImage: CachedNetworkImageProvider(
-                            DatabaseHelper().getUserData().photo ??
+                            AccountHelper.getUserData().photo ??
                                 PLACEHOLDER_IMAGE),
                       ),
                       const SizedBox(
@@ -41,14 +43,14 @@ class NavigationDrawerView extends GetView {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            Text(DatabaseHelper().getUserData().name,
+                            Text(AccountHelper.getUserData().name,
                                 overflow: TextOverflow.ellipsis,
                                 style: Theme.of(context).textTheme.titleSmall),
                             const SizedBox(
                               height: 3,
                             ),
                             Text(
-                              '@${DatabaseHelper().getUserData().uid.toString()}',
+                              '@${AccountHelper.getUserData().uid.toString()}',
                               style: Theme.of(context).textTheme.bodyMedium,
                             )
                           ],

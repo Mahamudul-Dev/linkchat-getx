@@ -5,7 +5,7 @@ import 'package:logger/logger.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../data/models/models.dart';
-import '../../../database/database.dart';
+import '../../../database/helpers/helpers.dart';
 import '../../../routes/app_pages.dart';
 import '../../../data/utils/utils.dart';
 import '../../../data/utils/app_strings.dart';
@@ -34,7 +34,7 @@ class LoginController extends GetxController {
           final json = jsonDecode(response.body);
           final result = EmailLoginResponseModel.fromJson(json);
           Logger().e(result);
-          DatabaseHelper().saveEmailLoginInfo(result);
+          AccountHelper.saveEmailLoginInfo(result);
           try {
             final response = await http.get(
                 Uri.parse(BASE_URL + USER + result.id.toString()),
@@ -43,7 +43,7 @@ class LoginController extends GetxController {
             if (response.statusCode == 200) {
               final data = UserModel.fromJson(jsonDecode(response.body));
               Logger().e(data.toJson());
-              DatabaseHelper().saveUserData(data.data.first);
+              AccountHelper.saveUserData(data.data.first);
               isLoading.value = false;
               Get.offAllNamed(Routes.HOME);
             } else {

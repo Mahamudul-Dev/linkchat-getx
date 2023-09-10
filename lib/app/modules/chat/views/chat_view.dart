@@ -17,6 +17,7 @@ import 'package:linkchat/app/widgets/widgets.dart';
 import 'package:lottie/lottie.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
+import '../../../database/helpers/helpers.dart';
 import '../controllers/chat_controller.dart';
 
 class ChatView extends GetView<ChatController> {
@@ -142,7 +143,7 @@ class ChatView extends GetView<ChatController> {
                                     'sId': snapshot.data?[index].participant
                                         .singleWhere((element) =>
                                             element.serverId !=
-                                            controller.dbHelper
+                                                AccountHelper
                                                 .getUserData()
                                                 .serverId)
                                         .serverId
@@ -150,8 +151,7 @@ class ChatView extends GetView<ChatController> {
                                   profilePic: snapshot.data?[index].participant
                                       .singleWhere((element) =>
                                           element.serverId !=
-                                          controller.dbHelper
-                                              .getUserData()
+                                              AccountHelper.getUserData()
                                               .serverId)
                                       .photo,
                                   conversationName: snapshot.data![index].name,

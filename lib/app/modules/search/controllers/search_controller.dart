@@ -10,6 +10,7 @@ import 'package:linkchat/app/database/database.dart';
 import 'package:logger/logger.dart';
 
 import '../../../data/models/models.dart';
+import '../../../database/helpers/helpers.dart';
 
 class SearchViewController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -20,14 +21,12 @@ class SearchViewController extends GetxController
 
   final dio = Dio();
 
-  final dbHelper = DatabaseHelper();
-
   Future<SearchResultModel> searchUser({String queryText = ''}) async {
-    final body = {'_id': dbHelper.getUserData().serverId, 'query': queryText};
+    final body = {'_id': AccountHelper.getUserData().serverId, 'query': queryText};
     final response = await dio.get(BASE_URL + SEARCH,
         data: body,
         options:
-            Options(headers: authorization(dbHelper.getLoginInfo().token!)));
+            Options(headers: authorization(AccountHelper.getLoginInfo().token!)));
     final data = SearchResultModel.fromJson(response.data);
 
     if (response.statusCode == 200) {
@@ -43,8 +42,8 @@ class SearchViewController extends GetxController
     FollowerModel? user;
 
     final response = await http.get(
-        Uri.parse(BASE_URL + USER + dbHelper.getUserData().serverId),
-        headers: authorization(dbHelper.getLoginInfo().token ?? ''));
+        Uri.parse(BASE_URL + USER + AccountHelper.getUserData().serverId),
+        headers: authorization(AccountHelper.getLoginInfo().token ?? ''));
 
     try {
       if (response.statusCode == 200) {
@@ -90,17 +89,17 @@ class SearchViewController extends GetxController
   Future<String> handleFollow(String sId, String userName) async {
     FollowerModel? user;
     final data = {
-      "userId": dbHelper.getUserData().serverId,
+      "userId": AccountHelper.getUserData().serverId,
     };
 
     final response = await http.get(
-        Uri.parse(BASE_URL + USER + dbHelper.getUserData().serverId),
-        headers: authorization(dbHelper.getLoginInfo().token ?? ''));
+        Uri.parse(BASE_URL + USER + AccountHelper.getUserData().serverId),
+        headers: authorization(AccountHelper.getLoginInfo().token ?? ''));
 
     try {
       if (response.statusCode == 200) {
         final currentUser = UserModel.fromJson(jsonDecode(response.body));
-        dbHelper.saveUserData(currentUser.data.first);
+        AccountHelper.saveUserData(currentUser.data.first);
 
         if (currentUser.data.first.linked.isNotEmpty) {
           try {
@@ -115,7 +114,7 @@ class SearchViewController extends GetxController
             try {
               final response = await dio.post(BASE_URL + UNLINK + sId,
                   options: Options(
-                      headers: authorization(dbHelper.getLoginInfo().token!)),
+                      headers: authorization(AccountHelper.getLoginInfo().token!)),
                   data: data);
               if (response.statusCode == 200) {
                 Get.snackbar('Success!', response.data.toString());
@@ -143,7 +142,7 @@ class SearchViewController extends GetxController
             try {
               final response = await dio.put(BASE_URL + MAKE_LINK + sId,
                   options: Options(
-                      headers: authorization(dbHelper.getLoginInfo().token!)),
+                      headers: authorization(AccountHelper.getLoginInfo().token!)),
                   data: data);
               if (response.statusCode == 200) {
                 Get.snackbar('Success!', response.data.toString());
@@ -163,7 +162,7 @@ class SearchViewController extends GetxController
         try {
           final response = await dio.post(BASE_URL + MAKE_FOLLOW + sId,
               options: Options(
-                  headers: authorization(dbHelper.getLoginInfo().token!)),
+                  headers: authorization(AccountHelper.getLoginInfo().token!)),
               data: data);
 
           if (response.statusCode == 200) {

@@ -17,6 +17,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:image_picker/image_picker.dart';
 import '../../../data/utils/app_strings.dart';
+import '../../../database/helpers/helpers.dart';
 import '../../../modules/register/views/email_view.dart';
 import '../../../modules/register/views/name_view.dart';
 import '../../../modules/register/views/pin_view.dart';
@@ -208,14 +209,14 @@ class RegisterController extends GetxController {
           if (response.statusCode == 200) {
             Logger().i('Line 211: ${response.body}');
             final result = NewUserRegResModel.fromJson(jsonDecode(response.body));
-            DatabaseHelper().saveEmailLoginInfo(EmailLoginResponseModel(id: result.newUser!.sId, userName: result.newUser!.userName, email: result.newUser!.email, token: result.token));
-            final userInfo = DatabaseHelper().getLoginInfo();
+            AccountHelper.saveEmailLoginInfo(EmailLoginResponseModel(id: result.newUser!.sId, userName: result.newUser!.userName, email: result.newUser!.email, token: result.token));
+            final userInfo = AccountHelper.getLoginInfo();
 
             final getUserResponse = await http.get(Uri.parse(BASE_URL+USER+result.newUser!.sId!), headers: {'Authorization':'Bearer ${userInfo.token}', 'Content-Type':'application/json'});
             Logger().e('Line 217: ${getUserResponse.body}');
             final userData = UserModel.fromJson(jsonDecode(getUserResponse.body));
             Logger().e('Line 219: ${jsonDecode(userData.data.first.toJson().toString())}');
-            DatabaseHelper().saveUserData(userData.data.first);
+            AccountHelper.saveUserData(userData.data.first);
 
               Get.offAllNamed(Routes.HOME);
           } else {

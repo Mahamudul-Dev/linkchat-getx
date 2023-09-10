@@ -19,7 +19,7 @@ class FollowersView extends GetView<FollowersController> {
         appBar: AppBar(title: const Text('Followers')),
         body: FutureBuilder(
           future: controller.getFollowers(),
-          builder: (context, AsyncSnapshot<List<FollowerModel>> snapshot) {
+          builder: (context, AsyncSnapshot<List<ShortProfile>> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return ListView.builder(
                 itemBuilder: (context, index) {
@@ -77,13 +77,13 @@ class FollowersView extends GetView<FollowersController> {
                                   shrinkWrap: true,
                                   children: [
                                     ProfileCardView(
-                                      sId: snapshot.data?[index].sId
+                                      sId: snapshot.data?[index].id
                                               .toString() ??
                                           'N/A',
                                       bgColor: solidMate,
                                     ),
                                     AboutCardView(
-                                        sId: snapshot.data?[index].sId
+                                        sId: snapshot.data?[index].id
                                                 .toString() ??
                                             'N/A'),
                                   ],
@@ -94,7 +94,7 @@ class FollowersView extends GetView<FollowersController> {
                     );
                   },
                   child: FollowerListTileView(
-                    serverId: snapshot.data![index].sId,
+                    serverId: snapshot.data![index].id,
                     userName: snapshot.data?[index].userName ?? '',
                     profilePic:
                         snapshot.data?[index].profilePic ?? PLACEHOLDER_IMAGE,

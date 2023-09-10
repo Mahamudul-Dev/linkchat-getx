@@ -34,24 +34,24 @@ class EditTextFieldView extends GetView {
       onChanged: onChanged,
       style: Theme.of(context).textTheme.bodyMedium,
       decoration: InputDecoration(
-        icon: Icon(iconData, color: accentColor),
+        icon: Icon(iconData, color: white),
         hintText: hintText,
-        focusedBorder: UnderlineInputBorder(
+        focusedBorder: const UnderlineInputBorder(
           borderSide: BorderSide(
-            color: ThemeProvider().isSavedLightMood().value ? accentColor : white,
+            color: white,
             width: 2
           )
         ),
-        enabledBorder: UnderlineInputBorder(
+        enabledBorder: const UnderlineInputBorder(
           borderSide: BorderSide(
-            color: ThemeProvider().isSavedLightMood().value ? accentColor : white,
+            color: white,
             width: 1
           )
         ),
         
         suffixIcon: suffixIcon,
         labelText: labelText,
-        labelStyle: TextStyle(color: ThemeProvider().isSavedLightMood().value ? accentColor : white)
+        labelStyle: const TextStyle(color: white)
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'package:linkchat/app/modules/call_list/controllers/call_list_controller.
 import 'package:linkchat/app/modules/chat/controllers/chat_controller.dart';
 import 'package:linkchat/app/modules/dialer/controllers/dialer_controller.dart';
 import 'package:linkchat/app/modules/random_call/controllers/random_call_controller.dart';
+import 'package:linkchat/app/modules/room_chat/controllers/room_chat_controller.dart';
 
 import '../../profile/controllers/profile_controller.dart';
 import '../controllers/home_controller.dart';
@@ -22,8 +23,8 @@ class HomeBinding extends Bindings {
       () => ProfileController(),
     );
 
-    Get.lazyPut<CallListController>(
-      () => CallListController(),
+    Get.lazyPut<RoomChatController>(
+      () => RoomChatController(),
     );
 
     Get.lazyPut<RandomCallController>(

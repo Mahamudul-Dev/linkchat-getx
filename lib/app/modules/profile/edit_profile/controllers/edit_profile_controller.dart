@@ -12,6 +12,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../data/models/models.dart';
 import '../../../../database/database.dart';
+import '../../../../database/helpers/helpers.dart';
 
 class EditProfileController extends GetxController {
   /*
@@ -97,7 +98,7 @@ class EditProfileController extends GetxController {
 
   void updateProfile() async {
     isLoading.value = true;
-    final userLoginInfo = DatabaseHelper().getLoginInfo();
+    final userLoginInfo = AccountHelper.getLoginInfo();
     final Map<String, dynamic> data = {
       "userName": nameController.text,
       "email": userEmailController.text.trim(),
@@ -116,8 +117,8 @@ class EditProfileController extends GetxController {
         headers: {'Authorization': 'Bearer ${userLoginInfo.token}'},
         body: data);
     if (response.statusCode == 200) {
-      final result = Data.fromJson(jsonDecode(response.body));
-      DatabaseHelper().saveUserData(result);
+      final result = UserData.fromJson(jsonDecode(response.body));
+      AccountHelper.saveUserData(result);
       Get.snackbar('Success', 'Profile updated successfully');
       isLoading.value = false;
     } else {

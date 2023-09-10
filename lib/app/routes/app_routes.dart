@@ -28,6 +28,8 @@ abstract class Routes {
   static const FOLLOWERS = _Paths.FOLLOWERS;
   static const MATCH = _Paths.MATCH;
   static const ROOM_CHAT = _Paths.ROOM_CHAT;
+  static const ROOM_EXPLORE = _Paths.ROOM_EXPLORE;
+  static const ROOM_CONVERSATION = _Paths.ROOM_CONVERSATION;
 }
 
 abstract class _Paths {
@@ -55,4 +57,6 @@ abstract class _Paths {
   static const FOLLOWERS = '/followers';
   static const MATCH = '/match';
   static const ROOM_CHAT = '/room-chat';
+  static const ROOM_EXPLORE = '/room-explore';
+  static const ROOM_CONVERSATION = '/room-conversation';
 }

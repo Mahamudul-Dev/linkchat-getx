@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:linkchat/app/modules/profile/controllers/profile_controller.dart';
 
 import '../../../style/style.dart';
 import '../controllers/message_controller.dart';
@@ -53,7 +54,7 @@ class ChatInputField extends GetView<MessageController> {
                     );
                   })),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () => controller.getAttachment('mahamudul.dev@gmail.com'),
                     icon: const Icon(
                       Icons.attach_file_rounded,
                       color: accentColor,

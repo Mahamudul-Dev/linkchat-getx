@@ -5,9 +5,10 @@ import 'package:get/get.dart';
 import '../../style/style.dart';
 
 class SearchBarView extends GetView implements PreferredSizeWidget{
-  const SearchBarView({Key? key, required this.height, required this.hint}) : super(key: key);
+  const SearchBarView({Key? key, required this.height, required this.hint, this.onChanged}) : super(key: key);
   final double height;
   final String hint;
+  final void Function(String)? onChanged;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,6 +27,7 @@ class SearchBarView extends GetView implements PreferredSizeWidget{
           color: ThemeProvider().isSavedLightMood().value ? white : darkAsh,
           borderRadius: BorderRadius.circular(15)),
       child: TextField(
+        onChanged: onChanged,
         style: TextStyle(
             fontSize: 16.sp,
             color: ThemeProvider().isSavedLightMood().value ? black : white),

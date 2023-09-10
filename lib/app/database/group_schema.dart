@@ -1,7 +1,7 @@
 import 'package:objectbox/objectbox.dart';
 
 @Entity()
-class Participant {
+class RoomParticipantSchema {
   @Id()
   int objectId;
   String serverId;
@@ -13,9 +13,11 @@ class Participant {
   bool isActive;
   String lastActive;
 
-  final group = ToOne<GroupSchema>();
+  final room = ToOne<RoomSchema>();
+  @Backlink('sender')
+  final roomMessage = ToMany<RoomMessage>();
 
-  Participant({
+  RoomParticipantSchema({
     this.objectId = 0,
     required this.serverId,
     required this.uid,
@@ -29,7 +31,7 @@ class Participant {
 }
 
 @Entity()
-class GroupSchema {
+class RoomSchema {
   @Id()
   int objectId;
   String groupId;
@@ -37,13 +39,38 @@ class GroupSchema {
   String photo;
   @Property(type: PropertyType.date)
   DateTime createdAt;
-  @Backlink('group')
-  final participants = ToMany<Participant>();
+  @Backlink('room')
+  final participants = ToMany<RoomParticipantSchema>();
+  @Backlink('room')
+  final roomMessage = ToMany<RoomMessage>();
 
-  GroupSchema(
+  RoomSchema(
       {this.objectId = 0,
       required this.groupId,
       required this.name,
       required this.photo,
       required this.createdAt});
+}
+
+@Entity()
+class RoomMessage {
+  @Id()
+  int objectId;
+  String content;
+  List<String> attachments;
+  String receiverId;
+  String senderServerId;
+  @Property(type: PropertyType.date)
+  DateTime timestamp;
+  final sender = ToOne<RoomParticipantSchema>();
+  final room = ToOne<RoomSchema>();
+
+  RoomMessage({
+    this.objectId = 0,
+    required this.content,
+    required this.attachments,
+    required this.receiverId,
+    required this.senderServerId,
+    required this.timestamp,
+  });
 }

@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:linkchat/app/modules/room_chat/views/room_conversation_view.dart';
 
 import '../modules/audio_call/bindings/audio_call_binding.dart';
 import '../modules/audio_call/views/audio_call_view.dart';
@@ -40,6 +41,8 @@ import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
 import '../modules/room_chat/bindings/room_chat_binding.dart';
 import '../modules/room_chat/views/room_chat_view.dart';
+import '../modules/room_explore/bindings/room_explore_binding.dart';
+import '../modules/room_explore/views/room_explore_view.dart';
 import '../modules/settings/bindings/settings_binding.dart';
 import '../modules/settings/views/settings_view.dart';
 import '../modules/setup_pin/bindings/setup_pin_binding.dart';
@@ -182,6 +185,16 @@ class AppPages {
     GetPage(
       name: _Paths.ROOM_CHAT,
       page: () => const RoomChatView(),
+      binding: RoomChatBinding(),
+    ),
+    GetPage(
+      name: _Paths.ROOM_EXPLORE,
+      page: () => const RoomExploreView(),
+      binding: RoomExploreBinding(),
+    ),
+    GetPage(
+      name: _Paths.ROOM_CONVERSATION,
+      page: () => const RoomConversationView(),
       binding: RoomChatBinding(),
     ),
   ];

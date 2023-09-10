@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d3fccf76-e8ac-4be8-9db7-8cf5270335a8" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../lib/app/database/helpers/accounts_helper.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/app/database/helpers/helpers.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/app/database/helpers/notifications_helper.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/app/database/helpers/p2p_call_helper.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/app/database/helpers/p2p_chat_helper.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/app/database/helpers/room_chat_helper.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/app/modules/room_chat/controllers/room_conversation_controller.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/app/modules/room_chat/views/new_room_sheet.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/app/modules/room_chat/views/room_card.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/app/modules/room_chat/views/room_chat_input_field.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/app/modules/room_chat/views/room_chat_tail.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/app/modules/room_chat/views/room_conversation_view.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/app/modules/room_explore/bindings/room_explore_binding.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/app/modules/room_explore/controllers/room_explore_controller.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/app/modules/room_explore/views/room_explore_view.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/app/services/google_drive_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/app/data/models/user_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/app/data/models/user_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/app/database/database.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/app/database/database.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/app/database/database_helper.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/app/database/group_schema.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/app/database/group_schema.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/app/modules/chat/controllers/chat_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/app/modules/chat/controllers/chat_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/app/modules/chat/views/chat_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/app/modules/chat/views/chat_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/app/modules/followers/controllers/followers_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/app/modules/followers/controllers/followers_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/app/modules/home/bindings/home_binding.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/app/modules/home/bindings/home_binding.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/app/modules/home/controllers/home_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/app/modules/home/controllers/home_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/app/modules/links/controllers/linklist_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/app/modules/links/controllers/linklist_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/app/modules/login/controllers/login_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/app/modules/login/controllers/login_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/app/modules/match/controllers/match_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/app/modules/match/controllers/match_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/app/modules/match/views/match_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/app/modules/match/views/match_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/app/modules/message/controllers/message_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/app/modules/message/controllers/message_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/app/modules/message/views/message_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/app/modules/message/views/message_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/app/modules/profile/controllers/profile_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/app/modules/profile/controllers/profile_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/app/modules/profile/edit_profile/controllers/edit_profile_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/app/modules/profile/edit_profile/controllers/edit_profile_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/app/modules/register/controllers/register_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/app/modules/register/controllers/register_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/app/modules/room_chat/bindings/room_chat_binding.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/app/modules/room_chat/bindings/room_chat_binding.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/app/modules/room_chat/controllers/room_chat_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/app/modules/room_chat/controllers/room_chat_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/app/modules/room_chat/views/room_chat_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/app/modules/room_chat/views/room_chat_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/app/modules/search/controllers/search_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/app/modules/search/controllers/search_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/app/routes/app_pages.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/app/routes/app_pages.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/app/routes/app_routes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/app/routes/app_routes.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/app/services/auth_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/app/services/auth_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/app/services/socket_io_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/app/services/socket_io_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/app/widgets/views/edit_text_field_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/app/widgets/views/edit_text_field_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/app/widgets/views/navigation_drawer_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/app/widgets/views/navigation_drawer_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/app/widgets/views/search_bar_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/app/widgets/views/search_bar_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/objectbox-model.json" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/objectbox-model.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/objectbox.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/objectbox.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../linkchat.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../linkchat.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../pubspec.yaml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[HID6ONAA7S9S45VK]" />
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$/app">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="android" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="2V7LCI1YXvH9TpjCL7tKgklVMKC" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "show.migrate.to.gradle.popup": "false"
+  }
+}]]></component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="gradle signinreport" />
+      <command value="gradle signinReport" />
+    </option>
+  </component>
+  <component name="RunManager" selected="Gradle.android [signinReport]">
+    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
+      <module name="android.app.main" />
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ALL_USERS" value="false" />
+      <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
+      <option name="CLEAR_APP_STORAGE" value="false" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+      <option name="DEBUGGER_TYPE" value="Auto" />
+      <Auto>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+        <option name="ATTACH_ON_WAIT_FOR_DEBUGGER" value="false" />
+        <option name="DEBUG_SANDBOX_SDK" value="false" />
+      </Auto>
+      <Hybrid>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+        <option name="ATTACH_ON_WAIT_FOR_DEBUGGER" value="false" />
+        <option name="DEBUG_SANDBOX_SDK" value="false" />
+      </Hybrid>
+      <Java>
+        <option name="ATTACH_ON_WAIT_FOR_DEBUGGER" value="false" />
+        <option name="DEBUG_SANDBOX_SDK" value="false" />
+      </Java>
+      <Native>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+        <option name="ATTACH_ON_WAIT_FOR_DEBUGGER" value="false" />
+        <option name="DEBUG_SANDBOX_SDK" value="false" />
+      </Native>
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Java/Kotlin Method Sample (legacy)" />
+        <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
+        <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
+      <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="android [signinReport]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="signinReport" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="android [signinreport]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="signinreport" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.android [signinReport]" />
+        <item itemvalue="Gradle.android [signinreport]" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d3fccf76-e8ac-4be8-9db7-8cf5270335a8" name="Changes" comment="" />
+      <created>1694182044621</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1694182044621</updated>
+    </task>
+    <servers />
+  </component>
+</project>

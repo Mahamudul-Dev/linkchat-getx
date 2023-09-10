@@ -1,31 +1,59 @@
+import 'dart:convert';
+
 class UserModel {
+  String status;
+  String message;
+  List<FullProfile> data;
+
   UserModel({
     required this.status,
     required this.message,
     required this.data,
   });
-  late final String status;
-  late final String message;
-  late final List<Data> data;
 
-  UserModel.fromJson(Map<String, dynamic> json) {
-    status = json['status'];
-    message = json['message'];
-    data = List.from(json['data']).map((e) => Data.fromJson(e)).toList();
-  }
+  factory UserModel.fromRawJson(String str) => UserModel.fromJson(json.decode(str));
 
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['status'] = status;
-    _data['message'] = message;
-    _data['data'] = data.map((e) => e.toJson()).toList();
-    return _data;
-  }
+  String toRawJson() => json.encode(toJson());
+
+  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
+    status: json["status"],
+    message: json["message"],
+    data: List<FullProfile>.from(json["data"].map((x) => FullProfile.fromJson(x))),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "status": status,
+    "message": message,
+    "data": List<dynamic>.from(data.map((x) => x.toJson())),
+  };
 }
 
-class Data {
-  Data({
-    required this.sId,
+class FullProfile {
+  String id;
+  String userName;
+  String uid;
+  String email;
+  String password;
+  String userPhone;
+  String profilePic;
+  String tagLine;
+  String bio;
+  String gender;
+  String country;
+  DateTime dob;
+  String relationshipStatus;
+  String lastActive;
+  bool isActive;
+  List<Linked> linked;
+  List<ShortProfile> followers;
+  List<ShortProfile> following;
+  List<ShortProfile> pendingLink;
+  String createdAt;
+  DateTime updatedAt;
+  int v;
+
+  FullProfile({
+    required this.id,
     required this.userName,
     required this.uid,
     required this.email,
@@ -48,262 +76,159 @@ class Data {
     required this.updatedAt,
     required this.v,
   });
-  late final String sId;
-  late final String userName;
-  late final String uid;
-  late final String email;
-  late final String password;
-  late final String userPhone;
-  late final String profilePic;
-  late final String tagLine;
-  late final String bio;
-  late final String gender;
-  late final String country;
-  late final String dob;
-  late final String relationshipStatus;
-  late final String lastActive;
-  late final bool isActive;
-  late final List<FollowerModel> linked;
-  late final List<FollowerModel> followers;
-  late final List<FollowerModel> following;
-  late final List<FollowerModel> pendingLink;
-  late final String createdAt;
-  late final String updatedAt;
-  late final int v;
 
-  Data.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
-    userName = json['userName'];
-    uid = json['uid'];
-    email = json['email'];
-    password = json['password'];
-    userPhone = json['userPhone'];
-    profilePic = json['profilePic'];
-    tagLine = json['tagLine'];
-    bio = json['bio'];
-    gender = json['gender'];
-    country = json['country'];
-    dob = json['dob'];
-    relationshipStatus = json['relationshipStatus'];
-    lastActive = json['lastActive'];
-    isActive = json['isActive'];
-    linked = List.from(json['linked'])
-        .map((e) => FollowerModel.fromJson(e))
-        .toList();
-    followers = List.from(json['followers'])
-        .map((e) => FollowerModel.fromJson(e))
-        .toList();
-    following = List.from(json['following'])
-        .map((e) => FollowerModel.fromJson(e))
-        .toList();
-    pendingLink = List.from(json['pendingLink'])
-        .map((e) => FollowerModel.fromJson(e))
-        .toList();
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
-    v = json['__v'];
-  }
+  factory FullProfile.fromRawJson(String str) => FullProfile.fromJson(json.decode(str));
 
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['_id'] = sId;
-    _data['userName'] = userName;
-    _data['uid'] = uid;
-    _data['email'] = email;
-    _data['password'] = password;
-    _data['userPhone'] = userPhone;
-    _data['profilePic'] = profilePic;
-    _data['tagLine'] = tagLine;
-    _data['bio'] = bio;
-    _data['gender'] = gender;
-    _data['country'] = country;
-    _data['dob'] = dob;
-    _data['relationshipStatus'] = relationshipStatus;
-    _data['lastActive'] = lastActive;
-    _data['isActive'] = isActive;
-    _data['linked'] = linked;
-    _data['followers'] = followers.map((e) => e.toJson()).toList();
-    _data['following'] = following.map((e) => e.toJson()).toList();
-    _data['pendingLink'] = pendingLink.map((e) => e.toJson()).toList();
-    _data['createdAt'] = createdAt;
-    _data['updatedAt'] = updatedAt;
-    _data['__v'] = v;
-    return _data;
-  }
+  String toRawJson() => json.encode(toJson());
+
+  factory FullProfile.fromJson(Map<String, dynamic> json) => FullProfile(
+    id: json["_id"],
+    userName: json["userName"],
+    uid: json["uid"],
+    email: json["email"],
+    password: json["password"],
+    userPhone: json["userPhone"],
+    profilePic: json["profilePic"],
+    tagLine: json["tagLine"],
+    bio: json["bio"],
+    gender: json["gender"],
+    country: json["country"],
+    dob: DateTime.parse(json["dob"]),
+    relationshipStatus: json["relationshipStatus"],
+    lastActive: json["lastActive"],
+    isActive: json["isActive"],
+    linked: List<Linked>.from(json["linked"].map((x) => Linked.fromJson(x))),
+    followers: List<ShortProfile>.from(json["followers"].map((x) => ShortProfile.fromJson(x))),
+    following: List<ShortProfile>.from(json["following"].map((x) => ShortProfile.fromJson(x))),
+    pendingLink: List<ShortProfile>.from(json["pendingLink"].map((x) => ShortProfile.fromJson(x))),
+    createdAt: json["createdAt"],
+    updatedAt: DateTime.parse(json["updatedAt"]),
+    v: json["__v"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "_id": id,
+    "userName": userName,
+    "uid": uid,
+    "email": email,
+    "password": password,
+    "userPhone": userPhone,
+    "profilePic": profilePic,
+    "tagLine": tagLine,
+    "bio": bio,
+    "gender": gender,
+    "country": country,
+    "dob": "${dob.year.toString().padLeft(4, '0')}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}",
+    "relationshipStatus": relationshipStatus,
+    "lastActive": lastActive,
+    "isActive": isActive,
+    "linked": List<dynamic>.from(linked.map((x) => x.toJson())),
+    "followers": List<dynamic>.from(followers.map((x) => x)),
+    "following": List<dynamic>.from(following.map((x) => x.toJson())),
+    "pendingLink": List<dynamic>.from(pendingLink.map((x) => x.toJson())),
+    "createdAt": createdAt,
+    "updatedAt": updatedAt.toIso8601String(),
+    "__v": v,
+  };
 }
 
-class FollowerModel {
-  FollowerModel({
-    required this.sId,
-    required this.uid,
+class ShortProfile {
+  String id;
+  String userName;
+  String email;
+  String profilePic;
+  String tagLine;
+  String bio;
+  String uid;
+  String country;
+  bool isActive;
+
+  ShortProfile({
+    required this.id,
     required this.userName,
+    required this.email,
     required this.profilePic,
     required this.tagLine,
     required this.bio,
+    required this.uid,
     required this.country,
     required this.isActive,
   });
-  late final String sId;
-  late final String uid;
-  late final String userName;
-  late final String profilePic;
-  late final String tagLine;
-  late final String bio;
-  late final String country;
-  late final bool isActive;
 
-  FollowerModel.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
-    uid = json['uid'];
-    userName = json['userName'];
-    profilePic = json['profilePic'];
-    tagLine = json['tagLine'];
-    bio = json['bio'];
-    country = json['country'];
-    isActive = json['isActive'];
-  }
+  factory ShortProfile.fromRawJson(String str) => ShortProfile.fromJson(json.decode(str));
 
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['_id'] = sId;
-    _data['uid'] = uid;
-    _data['userName'] = userName;
-    _data['profilePic'] = profilePic;
-    _data['tagLine'] = tagLine;
-    _data['bio'] = bio;
-    _data['country'] = country;
-    _data['isActive'] = isActive;
-    return _data;
-  }
+  String toRawJson() => json.encode(toJson());
+
+  factory ShortProfile.fromJson(Map<String, dynamic> json) => ShortProfile(
+    id: json["_id"],
+    userName: json["userName"],
+    email: json["email"],
+    profilePic: json["profilePic"],
+    tagLine: json["tagLine"],
+    bio: json["bio"],
+    uid: json["uid"],
+    country: json["country"],
+    isActive: json["isActive"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "_id": id,
+    "userName": userName,
+    "email": email,
+    "profilePic": profilePic,
+    "tagLine": tagLine,
+    "bio": bio,
+    "uid": uid,
+    "country": country,
+    "isActive": isActive,
+  };
+}
+
+class Linked {
+  String id;
+
+  Linked({
+    required this.id,
+  });
+
+  factory Linked.fromRawJson(String str) => Linked.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory Linked.fromJson(Map<String, dynamic> json) => Linked(
+    id: json["_id"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "_id": id,
+  };
 }
 
 
-// class UserModel {
-//   UserModel({
-//     required this.status,
-//     required this.message,
-//     required this.data,
-//   });
-//   late final String status;
-//   late final String message;
-//   late final List<Data> data;
-  
-//   UserModel.fromJson(Map<String, dynamic> json){
-//     status = json['status'];
-//     message = json['message'];
-//     data = List.from(json['data']).map((e)=>Data.fromJson(e)).toList();
-//   }
+class GetMultipleProfileModel {
+  String status;
+  String message;
+  List<ShortProfile> linkedList;
 
-//   Map<String, dynamic> toJson() {
-//     final _data = <String, dynamic>{};
-//     _data['status'] = status;
-//     _data['message'] = message;
-//     _data['data'] = data.map((e)=>e.toJson()).toList();
-//     return _data;
-//   }
-// }
+  GetMultipleProfileModel({
+    required this.status,
+    required this.message,
+    required this.linkedList,
+  });
 
-// class Data {
-//   Data({
-//     required this.sId,
-//     required this.userName,
-//     required this.uid,
-//     required this.email,
-//     required this.password,
-//     required this.userPhone,
-//     required this.isAvatarImageSet,
-//     required this.avatarImage,
-//     required this.tagLine,
-//     required this.bio,
-//     required this.gender,
-//     required this.country,
-//     required this.dob,
-//     required this.relationshipStatus,
-//     required this.lastActive,
-//     required this.isActive,
-//     required this.linked,
-//     required this.followers,
-//     required this.following,
-//     required this.pendingLink,
-//     required this.createdAt,
-//     required this.updatedAt,
-//     required this.V,
-//   });
-//   late final String sId;
-//   late final String userName;
-//   late final String uid;
-//   late final String email;
-//   late final String password;
-//   late final String userPhone;
-//   late final bool isAvatarImageSet;
-//   late final String avatarImage;
-//   late final String tagLine;
-//   late final String bio;
-//   late final String gender;
-//   late final String country;
-//   late final String dob;
-//   late final String relationshipStatus;
-//   late final String lastActive;
-//   late final bool isActive;
-//   late final List<FollowerModel> linked;
-//   late final List<FollowerModel> followers;
-//   late final List<FollowerModel> following;
-//   late final List<FollowerModel> pendingLink;
-//   late final String createdAt;
-//   late final String updatedAt;
-//   late final int V;
-  
-//   Data.fromJson(Map<String, dynamic> json){
-//     sId = json['_id'];
-//     userName = json['userName'];
-//     uid = json['uid'];
-//     email = json['email'];
-//     password = json['password'];
-//     userPhone = json['userPhone'];
-//     isAvatarImageSet = json['isAvatarImageSet'];
-//     avatarImage = json['avatarImage'];
-//     tagLine = json['tagLine'];
-//     bio = json['bio'];
-//     gender = json['gender'];
-//     country = json['country'];
-//     dob = json['dob'];
-//     relationshipStatus = json['relationshipStatus'];
-//     lastActive = json['lastActive'];
-//     isActive = json['isActive'];
-//     linked = List.from(json['linked']).map((e) => FollowerModel.fromJson(e)).toList();
-//     followers = List.from(json['followers']).map((e) => FollowerModel.fromJson(e)).toList();
-//     following = List.from(json['following']).map((e) => FollowerModel.fromJson(e)).toList();
-//     pendingLink = List.from(json['pendingLink']).map((e) => FollowerModel.fromJson(e)).toList();
-//     createdAt = json['createdAt'];
-//     updatedAt = json['updatedAt'];
-//     V = json['__v'];
-//   }
+  factory GetMultipleProfileModel.fromRawJson(String str) => GetMultipleProfileModel.fromJson(json.decode(str));
 
-//   Map<String, dynamic> toJson() {
-//     final _data = <String, dynamic>{};
-//     _data['_id'] = sId;
-//     _data['userName'] = userName;
-//     _data['uid'] = uid;
-//     _data['email'] = email;
-//     _data['password'] = password;
-//     _data['userPhone'] = userPhone;
-//     _data['isAvatarImageSet'] = isAvatarImageSet;
-//     _data['avatarImage'] = avatarImage;
-//     _data['tagLine'] = tagLine;
-//     _data['bio'] = bio;
-//     _data['gender'] = gender;
-//     _data['country'] = country;
-//     _data['dob'] = dob;
-//     _data['relationshipStatus'] = relationshipStatus;
-//     _data['lastActive'] = lastActive;
-//     _data['isActive'] = isActive;
-//     _data['linked'] = linked;
-//     _data['followers'] = followers.map((e) => e.toJson()).toList();
-//     _data['following'] = following.map((e) => e.toJson()).toList();
-//     _data['pendingLink'] = pendingLink.map((e) => e.toJson()).toList();
-//     _data['createdAt'] = createdAt;
-//     _data['updatedAt'] = updatedAt;
-//     _data['__v'] = V;
-//     return _data;
-//   }
-// }
+  String toRawJson() => json.encode(toJson());
+
+  factory GetMultipleProfileModel.fromJson(Map<String, dynamic> json) => GetMultipleProfileModel(
+    status: json["status"],
+    message: json["message"],
+    linkedList: List<ShortProfile>.from(json["linkedList"].map((x) => ShortProfile.fromJson(x))),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "status": status,
+    "message": message,
+    "linkedList": List<ShortProfile>.from(linkedList.map((x) => x.toJson())),
+  };
+}

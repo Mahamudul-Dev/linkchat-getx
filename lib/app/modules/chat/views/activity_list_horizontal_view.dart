@@ -22,26 +22,26 @@ class ActivityListHorizontalView extends GetView<ChatController> {
         margin: const EdgeInsets.symmetric(horizontal: 10),
         child: FutureBuilder(
           future: controller.getAllActiveUsers(),
-          builder: (context, AsyncSnapshot<List<FollowerModel>> snapshot) {
+          builder: (context, AsyncSnapshot<List<ShortProfile>> snapshot) {
             return snapshot.hasData
-                ? ListView.separated(
-                    itemBuilder: (context, index) {
-                      if (index == 10) {
-                        return RoundButtonView(
-                          widget: Lottie.asset(
-                              AssetManager.ARROW_RIGHT_OUTLINE_ANIM,
-                              width: 30),
-                        );
-                      } else {
-                        return buildCircleAvater(index);
-                      }
-                    },
-                    scrollDirection: Axis.horizontal,
-                    physics: const BouncingScrollPhysics(),
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(width: 20),
-                    itemCount:
-                        snapshot.data!.length >= 5 ? 6 : snapshot.data!.length)
+                ? Obx(() => ListView.separated(
+                itemBuilder: (context, index) {
+                  if (index == 10) {
+                    return RoundButtonView(
+                      widget: Lottie.asset(
+                          AssetManager.ARROW_RIGHT_OUTLINE_ANIM,
+                          width: 30),
+                    );
+                  } else {
+                    return buildCircleAvater(index);
+                  }
+                },
+                scrollDirection: Axis.horizontal,
+                physics: const BouncingScrollPhysics(),
+                separatorBuilder: (context, index) =>
+                const SizedBox(width: 20),
+                itemCount:
+                controller.activeUser.length >= 5 ? 6 : controller.activeUser.length))
                 : buildCircularShimmer(10);
           },
         ));
@@ -73,7 +73,7 @@ class ActivityListHorizontalView extends GetView<ChatController> {
               children: [
                 InkWell(
                   onTap: () => Get.toNamed(Routes.MESSAGE,
-                      arguments: {'sId': controller.activeUser[index].sId}),
+                      arguments: {'sId': controller.activeUser[index].id}),
                   child: CircleAvatar(
                       radius: 30,
                       backgroundColor: ThemeProvider().isSavedLightMood().value

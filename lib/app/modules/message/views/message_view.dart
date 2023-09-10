@@ -3,12 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:linkchat/app/database/database.dart';
-import 'package:linkchat/app/modules/chat/controllers/chat_controller.dart';
-import 'package:linkchat/app/modules/message/views/chat_input_field.dart';
-import 'package:linkchat/app/modules/message/views/text_message.dart';
-import 'package:linkchat/app/style/app_color.dart';
+import '../../../database/helpers/helpers.dart';
+import '../../../style/style.dart';
+import '../../chat/controllers/chat_controller.dart';
 import '../controllers/message_controller.dart';
+import 'chat_input_field.dart';
+import 'text_message.dart';
 
 class MessageView extends StatefulWidget {
   MessageView({Key? key}) : super(key: key);
@@ -27,7 +27,7 @@ class _MessageViewState extends State<MessageView> {
   @override
   void initState() {
     // TODO: implement initState
-    controller.getMessage(DatabaseHelper().getSingleConversation(sId));
+    controller.getMessage(P2PChatHelper.getSingleConversation(sId));
     // controller.scrollToBottom();
     // SocketIOService.socket.on('privateMessage', (data) {
     //   controller.getMessage(controller.dbHelper.getSingleConversation(sId));
@@ -81,7 +81,7 @@ AppBar _buildHeaderBar(
         const SizedBox(
           width: 5,
         ),
-        Column(
+        Flexible(child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
@@ -93,15 +93,15 @@ AppBar _buildHeaderBar(
             ),
             Text(
               chatController.linikedList
-                      .singleWhere((element) => element.sId == sId)
-                      .isActive
+                  .singleWhere((element) => element.sId == sId)
+                  .isActive
                   ? 'Online'
                   : 'Not Available',
               style: Theme.of(context).textTheme.bodyMedium,
               overflow: TextOverflow.ellipsis,
             )
           ],
-        )
+        ))
       ],
     ),
     actions: [

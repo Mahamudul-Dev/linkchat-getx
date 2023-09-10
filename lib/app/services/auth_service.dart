@@ -1,5 +1,6 @@
 import 'package:get_storage/get_storage.dart';
 import '../database/database.dart';
+import '../database/helpers/helpers.dart';
 
 
 class AuthService {
@@ -21,7 +22,7 @@ class AuthService {
   }
 
   bool checkLoggedIn(){
-    if (!DatabaseHelper().loginInfoBox.isEmpty()) {
+    if (!AccountHelper.loginInfoBox.isEmpty()) {
       return true;
     } else {
       return false;

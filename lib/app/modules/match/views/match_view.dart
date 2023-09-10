@@ -7,7 +7,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'package:get/get.dart';
-import 'package:linkchat/app/data/models/models.dart';
 import 'package:linkchat/app/style/app_color.dart';
 import 'package:linkchat/app/style/asset_manager.dart';
 import 'package:linkchat/app/widgets/views/SquareShimmer.dart';
@@ -17,7 +16,7 @@ import 'package:lottie/lottie.dart';
 
 import '../../../data/models/match_model.dart';
 import '../../../data/utils/utils.dart';
-import '../../../database/database_helper.dart';
+import '../../../database/helpers/helpers.dart';
 import '../controllers/match_controller.dart';
 
 class MatchView extends GetView<MatchController> {
@@ -41,7 +40,7 @@ class MatchView extends GetView<MatchController> {
                 radius: 35.w,
                 backgroundColor: darkAsh,
                 backgroundImage: CachedNetworkImageProvider(
-                    DatabaseHelper().getUserData().photo ?? PLACEHOLDER_IMAGE),
+                    AccountHelper.getUserData().photo ?? PLACEHOLDER_IMAGE),
               ),
             )
           ],

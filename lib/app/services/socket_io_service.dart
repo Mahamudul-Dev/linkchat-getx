@@ -10,6 +10,7 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../data/models/conversation_model.dart';
 import '../data/utils/utils.dart';
+import '../database/helpers/helpers.dart';
 import '../modules/profile/controllers/profile_controller.dart';
 
 class SocketIOService {
@@ -20,17 +21,19 @@ class SocketIOService {
   static final box = GetStorage();
   static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
-  static final dbHelper = DatabaseHelper();
+
   static IO.Socket socket = IO.io(SOCKET_CONNECTION_URL, <String, dynamic>{
     'transports': ['websocket'],
   },);
+
+
   
 
   static void initSocket(){
     flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation < AndroidFlutterLocalNotificationsPlugin>()?.requestPermission();
     socket.onConnect((_) {
     Logger().i('Socket Connection Established Success');
-    socket.emit('join', dbHelper.getLoginInfo().id);
+    socket.emit('join', AccountHelper.getLoginInfo().id);
     socket.on('privateMessage', (message) async {
       
       Logger().i(message);
@@ -49,8 +52,9 @@ class SocketIOService {
       final dbMsg = MessageSchema(content: msg.message.text, attachments: msg.message.attachments, receiverId: msg.receiver, timestamp: DateTime.parse(msg.createdAt), senderServerId: msg.sender);
       MessageController.messages.add(dbMsg);
       MessageController.scrollToBottom();
-      dbHelper.saveConversation(dbMsg);
+      P2PChatHelper.saveConversation(dbMsg);
     });
+
   });
 
   socket.onConnectError((error) => Logger().e(error));
