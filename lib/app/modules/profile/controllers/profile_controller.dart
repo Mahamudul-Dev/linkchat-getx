@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
+import 'package:linkchat/app/services/api_service.dart';
 import 'package:logger/logger.dart';
 
 import '../../../data/models/models.dart';
@@ -45,7 +46,7 @@ class ProfileController extends GetxController {
 
   Future<bool> checkLinked(String sId) async {
     UserModel? user;
-    FollowerModel? linkedFollower;
+    ShortProfile? linkedFollower;
     try {
       user = await getProfileDetails(sId);
     } catch (e) {
@@ -55,8 +56,12 @@ class ProfileController extends GetxController {
 
     if (user != null && user.toJson() != {}) {
       try {
-        linkedFollower = user.data.first.linked.singleWhere(
-            (element) => element.sId == AccountHelper.getUserData().serverId);
+        final id = user.data.first.linked
+            .singleWhere(
+                (element) => element.id == AccountHelper.getUserData().serverId)
+            .id;
+
+        user = await ApiService.getSingleProfile(id);
       } catch (e) {
         linkedFollower = null;
       }

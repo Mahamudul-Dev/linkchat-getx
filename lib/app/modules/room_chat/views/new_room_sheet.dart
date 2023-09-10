@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:linkchat/app/modules/profile/controllers/profile_controller.dart';
 import 'package:linkchat/app/modules/room_chat/controllers/room_chat_controller.dart';
+import 'package:linkchat/app/services/api_service.dart';
 import 'package:linkchat/app/widgets/views/SquareShimmer.dart';
 import 'package:linkchat/app/widgets/views/edit_text_field_view.dart';
 import 'package:linkchat/app/widgets/views/search_bar_view.dart';
@@ -31,11 +33,15 @@ class NewRoomSheet extends GetView<RoomChatController> {
               Container(
                 padding: const EdgeInsets.all(3),
                 width: 80,
-                decoration: BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.circular(20)),
+                decoration: BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.circular(20)),
               )
             ],
           ),
-          const SizedBox(height: 10,),
+          const SizedBox(
+            height: 10,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -43,16 +49,27 @@ class NewRoomSheet extends GetView<RoomChatController> {
                 'Create New Room',
                 style: Theme.of(context).textTheme.titleMedium,
               ),
-              Obx(() => ElevatedButton(onPressed: ()=> controller.createRoom(), style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(controller.selectedLink.isNotEmpty ? accentColor : blackAccent)), child: Text('Create', style: Theme.of(context).textTheme.labelMedium,)))
+              Obx(() => ElevatedButton(
+                  onPressed: () => controller.createRoom(),
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(
+                          controller.selectedLink.isNotEmpty
+                              ? accentColor
+                              : blackAccent)),
+                  child: Text(
+                    'Create',
+                    style: Theme.of(context).textTheme.labelMedium,
+                  )))
             ],
           ),
-          SearchBarView(height: 50, hint: 'Search Linked',onChanged: (query)=>controller.queryLink(query)),
+          SearchBarView(
+              height: 50,
+              hint: 'Search Linked',
+              onChanged: (query) => controller.queryLink(query)),
           SingleChildScrollView(
             controller: scrollController,
-
             child: Column(
               children: [
-
                 EditTextFieldView(
                   iconData: Icons.group,
                   hintText: 'Type Room Name',
@@ -66,51 +83,68 @@ class NewRoomSheet extends GetView<RoomChatController> {
                         color: blackAccent,
                         borderRadius: BorderRadius.circular(20)),
                     child: Obx(() => GridView.builder(
-                      scrollDirection: Axis.horizontal,
+                        scrollDirection: Axis.horizontal,
                         gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 8,
-                            mainAxisSpacing: 8),
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 8,
+                                mainAxisSpacing: 8),
                         itemCount: controller.selectedLink.length,
                         itemBuilder: (context, index) {
-                          return ClipRRect(borderRadius: BorderRadius.circular(20), child: Image(image: CachedNetworkImageProvider(controller.selectedLink[index].profilePic), fit: BoxFit.cover,));
-                        }))
-                    ),
+                          return ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: Image(
+                                image: CachedNetworkImageProvider(
+                                    controller.selectedLink[index].profilePic),
+                                fit: BoxFit.cover,
+                              ));
+                        }))),
                 const SizedBox(height: 15),
                 Row(
                   children: [
-                    Text('Your Link', style: Theme.of(context).textTheme.titleSmall,),
+                    Text(
+                      'Your Link',
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
                   ],
                 ),
                 const SizedBox(height: 5),
                 SizedBox(
                     height: 400,
                     child: FutureBuilder(
-                        future: controller.userProfileController.getProfileDetails(
+                        future: ApiService.getSingleProfile(
                             AccountHelper.getUserData().serverId),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
                             return Obx(() => ListView.builder(
-                              controller: scrollController,
-                              itemCount: controller.linkList.length,
-                              itemBuilder: (context, index) {
-                                return ListTile(
-                                    leading: CircleAvatar(backgroundColor: blackAccent, backgroundImage: CachedNetworkImageProvider(controller.linkList[index].profilePic),),
-                                    title: Text(
-                                      controller.linkList[index].userName,
-                                      style:
-                                      Theme.of(context).textTheme.labelMedium,
-                                    ),
-                                    trailing: Obx(() => Checkbox(
-                                        checkColor: white,
-                                        activeColor: accentColor,
-                                        value: controller.selectedLink
-                                            .contains(controller.linkList[index]),
-                                        onChanged: (value) => controller.toggleItem(
-                                            controller.linkList[index]))));
-                              },
-                            ));
+                                  controller: scrollController,
+                                  itemCount: controller.linkList.length,
+                                  itemBuilder: (context, index) {
+                                    return ListTile(
+                                        leading: CircleAvatar(
+                                          backgroundColor: blackAccent,
+                                          backgroundImage:
+                                              CachedNetworkImageProvider(
+                                                  controller.linkList[index]
+                                                      .profilePic),
+                                        ),
+                                        title: Text(
+                                          controller.linkList[index].userName,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelMedium,
+                                        ),
+                                        trailing: Obx(() => Checkbox(
+                                            checkColor: white,
+                                            activeColor: accentColor,
+                                            value: controller.selectedLink
+                                                .contains(
+                                                    controller.linkList[index]),
+                                            onChanged: (value) =>
+                                                controller.toggleItem(controller
+                                                    .linkList[index]))));
+                                  },
+                                ));
                           }
                           return ListView.builder(
                               itemCount: 5,

@@ -217,8 +217,8 @@ class SearchViewDelegate extends SearchDelegate<String> {
               return UserListTile(
                 profilePic: snapshot.data!.followers?[index].profilePic,
                 userName: snapshot.data!.followers?[index].userName,
-                email: snapshot.data!.followers?[index].email,
-                country: snapshot.data!.followers?[index].country!,
+                email: snapshot.data!.followers?[index].,
+                country: snapshot.data!.followers?[index].country,
                 isActive: snapshot.data!.followers?[index].isActive ?? false,
                 buttonStatus: controller
                     .getButtonStatus(snapshot.data!.followers![index].sId!),

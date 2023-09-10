@@ -11,7 +11,7 @@ import 'chat_input_field.dart';
 import 'text_message.dart';
 
 class MessageView extends StatefulWidget {
-  MessageView({Key? key}) : super(key: key);
+  const MessageView({Key? key}) : super(key: key);
 
   @override
   State<MessageView> createState() => _MessageViewState();
@@ -73,28 +73,29 @@ AppBar _buildHeaderBar(
       children: [
         _circularAvatar(
             chatController.linikedList
-                .singleWhere((element) => element.sId == sId)
+                .singleWhere((element) => element.id == sId)
                 .profilePic,
             chatController.linikedList
-                .singleWhere((element) => element.sId == sId)
+                .singleWhere((element) => element.id == sId)
                 .isActive),
         const SizedBox(
           width: 5,
         ),
-        Flexible(child: Column(
+        Flexible(
+            child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               chatController.linikedList
-                  .singleWhere((element) => element.sId == sId)
+                  .singleWhere((element) => element.id == sId)
                   .userName,
               style: Theme.of(context).textTheme.labelMedium,
               overflow: TextOverflow.ellipsis,
             ),
             Text(
               chatController.linikedList
-                  .singleWhere((element) => element.sId == sId)
-                  .isActive
+                      .singleWhere((element) => element.id == sId)
+                      .isActive
                   ? 'Online'
                   : 'Not Available',
               style: Theme.of(context).textTheme.bodyMedium,

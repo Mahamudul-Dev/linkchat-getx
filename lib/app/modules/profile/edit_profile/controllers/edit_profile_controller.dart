@@ -117,7 +117,7 @@ class EditProfileController extends GetxController {
         headers: {'Authorization': 'Bearer ${userLoginInfo.token}'},
         body: data);
     if (response.statusCode == 200) {
-      final result = UserData.fromJson(jsonDecode(response.body));
+      final result = FullProfile.fromJson(jsonDecode(response.body));
       AccountHelper.saveUserData(result);
       Get.snackbar('Success', 'Profile updated successfully');
       isLoading.value = false;

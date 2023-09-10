@@ -11,6 +11,7 @@ import 'package:logger/logger.dart';
 
 import '../../../data/models/models.dart';
 import '../../../database/helpers/helpers.dart';
+import '../../../services/api_service.dart';
 
 class SearchViewController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -22,11 +23,14 @@ class SearchViewController extends GetxController
   final dio = Dio();
 
   Future<SearchResultModel> searchUser({String queryText = ''}) async {
-    final body = {'_id': AccountHelper.getUserData().serverId, 'query': queryText};
+    final body = {
+      '_id': AccountHelper.getUserData().serverId,
+      'query': queryText
+    };
     final response = await dio.get(BASE_URL + SEARCH,
         data: body,
-        options:
-            Options(headers: authorization(AccountHelper.getLoginInfo().token!)));
+        options: Options(
+            headers: authorization(AccountHelper.getLoginInfo().token!)));
     final data = SearchResultModel.fromJson(response.data);
 
     if (response.statusCode == 200) {
@@ -39,7 +43,7 @@ class SearchViewController extends GetxController
 
   Future<String> getButtonStatus(String sId) async {
     String buttonStatus = 'Follow';
-    FollowerModel? user;
+    ShortProfile? user;
 
     final response = await http.get(
         Uri.parse(BASE_URL + USER + AccountHelper.getUserData().serverId),
@@ -53,8 +57,23 @@ class SearchViewController extends GetxController
 
         if (currentUser.data.first.linked.isNotEmpty) {
           try {
-            user = currentUser.data.first.linked
-                .singleWhere((user) => user.sId == sId);
+            final id = currentUser.data.first.linked
+                .singleWhere((user) => user.id == sId)
+                .id;
+
+            final fullProfile = await ApiService.getSingleProfile(id);
+            if (fullProfile != null) {
+              user = ShortProfile(
+                  id: fullProfile.data.first.id,
+                  userName: fullProfile.data.first.userName,
+                  email: fullProfile.data.first.email,
+                  profilePic: fullProfile.data.first.profilePic,
+                  tagLine: fullProfile.data.first.tagLine,
+                  bio: fullProfile.data.first.bio,
+                  uid: fullProfile.data.first.uid,
+                  country: fullProfile.data.first.country,
+                  isActive: fullProfile.data.first.isActive);
+            }
           } catch (e) {
             user = null;
           }
@@ -67,8 +86,23 @@ class SearchViewController extends GetxController
 
         if (currentUser.data.first.pendingLink.isNotEmpty) {
           try {
-            user = currentUser.data.first.pendingLink
-                .singleWhere((user) => user.sId == sId);
+            final id = currentUser.data.first.pendingLink
+                .singleWhere((user) => user.id == sId)
+                .id;
+
+            final fullProfile = await ApiService.getSingleProfile(id);
+            if (fullProfile != null) {
+              user = ShortProfile(
+                  id: fullProfile.data.first.id,
+                  userName: fullProfile.data.first.userName,
+                  email: fullProfile.data.first.email,
+                  profilePic: fullProfile.data.first.profilePic,
+                  tagLine: fullProfile.data.first.tagLine,
+                  bio: fullProfile.data.first.bio,
+                  uid: fullProfile.data.first.uid,
+                  country: fullProfile.data.first.country,
+                  isActive: fullProfile.data.first.isActive);
+            }
           } catch (e) {
             user = null;
           }
@@ -87,7 +121,7 @@ class SearchViewController extends GetxController
   }
 
   Future<String> handleFollow(String sId, String userName) async {
-    FollowerModel? user;
+    ShortProfile? user;
     final data = {
       "userId": AccountHelper.getUserData().serverId,
     };
@@ -103,8 +137,23 @@ class SearchViewController extends GetxController
 
         if (currentUser.data.first.linked.isNotEmpty) {
           try {
-            user = currentUser.data.first.linked
-                .singleWhere((user) => user.sId == sId);
+            final id = currentUser.data.first.linked
+                .singleWhere((user) => user.id == sId)
+                .id;
+
+            final fullProfile = await ApiService.getSingleProfile(id);
+            if (fullProfile != null) {
+              user = ShortProfile(
+                  id: fullProfile.data.first.id,
+                  userName: fullProfile.data.first.userName,
+                  email: fullProfile.data.first.email,
+                  profilePic: fullProfile.data.first.profilePic,
+                  tagLine: fullProfile.data.first.tagLine,
+                  bio: fullProfile.data.first.bio,
+                  uid: fullProfile.data.first.uid,
+                  country: fullProfile.data.first.country,
+                  isActive: fullProfile.data.first.isActive);
+            }
           } catch (e) {
             user = null;
           }
@@ -114,7 +163,8 @@ class SearchViewController extends GetxController
             try {
               final response = await dio.post(BASE_URL + UNLINK + sId,
                   options: Options(
-                      headers: authorization(AccountHelper.getLoginInfo().token!)),
+                      headers:
+                          authorization(AccountHelper.getLoginInfo().token!)),
                   data: data);
               if (response.statusCode == 200) {
                 Get.snackbar('Success!', response.data.toString());
@@ -129,9 +179,24 @@ class SearchViewController extends GetxController
 
         if (currentUser.data.first.pendingLink.isNotEmpty) {
           try {
-            user = currentUser.data.first.pendingLink
-                .singleWhere((user) => user.sId == sId);
-            Logger().e(user.userName);
+            final id = currentUser.data.first.pendingLink
+                .singleWhere((user) => user.id == sId)
+                .id;
+
+            final fullProfile = await ApiService.getSingleProfile(id);
+            if (fullProfile != null) {
+              user = ShortProfile(
+                  id: fullProfile.data.first.id,
+                  userName: fullProfile.data.first.userName,
+                  email: fullProfile.data.first.email,
+                  profilePic: fullProfile.data.first.profilePic,
+                  tagLine: fullProfile.data.first.tagLine,
+                  bio: fullProfile.data.first.bio,
+                  uid: fullProfile.data.first.uid,
+                  country: fullProfile.data.first.country,
+                  isActive: fullProfile.data.first.isActive);
+            }
+            Logger().e(user?.userName);
           } catch (e) {
             user = null;
             Logger().e(user?.userName ?? 'n/a');
@@ -142,7 +207,8 @@ class SearchViewController extends GetxController
             try {
               final response = await dio.put(BASE_URL + MAKE_LINK + sId,
                   options: Options(
-                      headers: authorization(AccountHelper.getLoginInfo().token!)),
+                      headers:
+                          authorization(AccountHelper.getLoginInfo().token!)),
                   data: data);
               if (response.statusCode == 200) {
                 Get.snackbar('Success!', response.data.toString());

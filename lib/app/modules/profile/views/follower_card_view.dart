@@ -22,7 +22,7 @@ class FollowerCardView extends GetView<FollowersController> {
         height: MediaQuery.of(context).size.height - kBottomNavigationBarHeight,
         child: FutureBuilder(
           future: controller.getFollowers(),
-          builder: (context, AsyncSnapshot<List<FollowerModel>> snapshot) {
+          builder: (context, AsyncSnapshot<List<ShortProfile>> snapshot) {
             if (snapshot.hasError) {
               return Center(
                 child: Text(
@@ -70,11 +70,11 @@ class FollowerCardView extends GetView<FollowersController> {
                                       shrinkWrap: true,
                                       children: [
                                         ProfileCardView(
-                                            sId: snapshot.data?[index].sId
+                                            sId: snapshot.data?[index].id
                                                     .toString() ??
                                                 'N/A'),
                                         AboutCardView(
-                                            sId: snapshot.data?[index].sId
+                                            sId: snapshot.data?[index].id
                                                     .toString() ??
                                                 'N/A'),
                                       ],

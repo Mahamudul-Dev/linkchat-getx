@@ -87,7 +87,7 @@ List<Widget> _buildScreen(LinklistController controller, BuildContext context) {
 Widget _buildLinkList(LinklistController controller) {
   return FutureBuilder(
     future: controller.getLinkedList(),
-    builder: (context, AsyncSnapshot<List<FollowerModel>> snapshot) {
+    builder: (context, AsyncSnapshot<List<ShortProfile>> snapshot) {
       if (snapshot.connectionState == ConnectionState.waiting) {
         return ListView.builder(
           itemCount: 10,
@@ -142,12 +142,12 @@ Widget _buildLinkList(LinklistController controller) {
                             shrinkWrap: true,
                             children: [
                               ProfileCardView(
-                                sId: snapshot.data?[index].sId.toString() ??
+                                sId: snapshot.data?[index].id.toString() ??
                                     'N/A',
                                 bgColor: solidMate,
                               ),
                               AboutCardView(
-                                  sId: snapshot.data?[index].sId.toString() ??
+                                  sId: snapshot.data?[index].id.toString() ??
                                       'N/A'),
                             ],
                           ));
@@ -161,10 +161,10 @@ Widget _buildLinkList(LinklistController controller) {
                 userName: snapshot.data?[index].userName,
                 country: snapshot.data?[index].country,
                 onPresses: () => controller.handleFollow(
-                    snapshot.data![index].sId,
+                    snapshot.data![index].id,
                     snapshot.data?[index].userName ?? ''),
                 buttonStatus:
-                    controller.getButtonStatus(snapshot.data![index].sId)),
+                    controller.getButtonStatus(snapshot.data![index].id)),
           );
         },
       );
@@ -175,7 +175,7 @@ Widget _buildLinkList(LinklistController controller) {
 Widget _buildLinkRequestLink(LinklistController controller) {
   return FutureBuilder(
     future: controller.getPendingLinkList(),
-    builder: (context, AsyncSnapshot<List<FollowerModel>> snapshot) {
+    builder: (context, AsyncSnapshot<List<ShortProfile>> snapshot) {
       if (snapshot.connectionState == ConnectionState.waiting) {
         return ListView.builder(
           itemCount: 10,
@@ -230,12 +230,12 @@ Widget _buildLinkRequestLink(LinklistController controller) {
                             shrinkWrap: true,
                             children: [
                               ProfileCardView(
-                                sId: snapshot.data?[index].sId.toString() ??
+                                sId: snapshot.data?[index].id.toString() ??
                                     'N/A',
                                 bgColor: solidMate,
                               ),
                               AboutCardView(
-                                  sId: snapshot.data?[index].sId.toString() ??
+                                  sId: snapshot.data?[index].id.toString() ??
                                       'N/A'),
                             ],
                           ));
@@ -250,10 +250,10 @@ Widget _buildLinkRequestLink(LinklistController controller) {
                 country: snapshot.data?[index].country,
                 isActive: snapshot.data![index].isActive,
                 onPresses: () => controller.handleFollow(
-                    snapshot.data![index].sId,
+                    snapshot.data![index].id,
                     snapshot.data?[index].userName ?? ''),
                 buttonStatus:
-                    controller.getButtonStatus(snapshot.data![index].sId)),
+                    controller.getButtonStatus(snapshot.data![index].id)),
           );
         },
       );

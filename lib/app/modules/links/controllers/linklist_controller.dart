@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:linkchat/app/data/utils/utils.dart';
+import 'package:linkchat/app/modules/profile/controllers/profile_controller.dart';
+import 'package:linkchat/app/services/api_service.dart';
 import 'package:logger/logger.dart';
 
 import '../../../data/models/get_multiple_profile_req_model.dart';
@@ -36,12 +38,13 @@ class LinklistController extends GetxController
         List<Linked> linkedIdList = [];
         // linikedList.addAll(
         //     UserModel.fromJson(jsonDecode(response.body)).data.first.linked);
-        linkedIdList.addAll(UserModel.fromJson(jsonDecode(response.body)).data.first.linked);
+        linkedIdList.addAll(
+            UserModel.fromJson(jsonDecode(response.body)).data.first.linked);
 
-        try{
+        try {
           List<String> listOfId = [];
 
-          for(int i =0; i<linkedIdList.length; i++){
+          for (int i = 0; i < linkedIdList.length; i++) {
             listOfId.add(linkedIdList[i].id);
           }
 
@@ -49,19 +52,18 @@ class LinklistController extends GetxController
 
           final multipleUserRes = await http.post(
               Uri.parse(BASE_URL + MULTIPLE_USER),
-              headers: authorization(AccountHelper.getLoginInfo().token!), body: bodyData.toJson());
+              headers: authorization(AccountHelper.getLoginInfo().token!),
+              body: bodyData.toJson());
 
-
-          if(multipleUserRes.statusCode == 200){
-            GetMultipleProfileModel profileList = GetMultipleProfileModel.fromJson(jsonDecode(multipleUserRes.body));
+          if (multipleUserRes.statusCode == 200) {
+            GetMultipleProfileModel profileList =
+                GetMultipleProfileModel.fromJson(
+                    jsonDecode(multipleUserRes.body));
             result.addAll(profileList.linkedList);
           }
-
-
-        } catch(e){
+        } catch (e) {
           Logger().e(e);
         }
-
       }
     } catch (e) {
       Logger().e(e);
@@ -110,8 +112,22 @@ class LinklistController extends GetxController
         if (currentUser.data.first.linked.isNotEmpty) {
           try {
             final id = currentUser.data.first.linked
-                .singleWhere((user) => user.id == sId);
+                .singleWhere((user) => user.id == sId)
+                .id;
 
+            final fullProfile = await ApiService.getSingleProfile(id);
+            if (fullProfile != null) {
+              user = ShortProfile(
+                  id: fullProfile.data.first.id,
+                  userName: fullProfile.data.first.userName,
+                  email: fullProfile.data.first.email,
+                  profilePic: fullProfile.data.first.profilePic,
+                  tagLine: fullProfile.data.first.tagLine,
+                  bio: fullProfile.data.first.bio,
+                  uid: fullProfile.data.first.uid,
+                  country: fullProfile.data.first.country,
+                  isActive: fullProfile.data.first.isActive);
+            }
           } catch (e) {
             user = null;
           }
@@ -158,8 +174,23 @@ class LinklistController extends GetxController
 
         if (currentUser.data.first.linked.isNotEmpty) {
           try {
-            user = currentUser.data.first.linked
-                .singleWhere((user) => user.sId == sId);
+            final id = currentUser.data.first.linked
+                .singleWhere((user) => user.id == sId)
+                .id;
+
+            final fullProfile = await ApiService.getSingleProfile(id);
+            if (fullProfile != null) {
+              user = ShortProfile(
+                  id: fullProfile.data.first.id,
+                  userName: fullProfile.data.first.userName,
+                  email: fullProfile.data.first.email,
+                  profilePic: fullProfile.data.first.profilePic,
+                  tagLine: fullProfile.data.first.tagLine,
+                  bio: fullProfile.data.first.bio,
+                  uid: fullProfile.data.first.uid,
+                  country: fullProfile.data.first.country,
+                  isActive: fullProfile.data.first.isActive);
+            }
           } catch (e) {
             user = null;
           }
@@ -169,7 +200,8 @@ class LinklistController extends GetxController
             try {
               final response = await dio.put(BASE_URL + UNLINK + sId,
                   options: Options(
-                      headers: authorization(AccountHelper.getLoginInfo().token!)),
+                      headers:
+                          authorization(AccountHelper.getLoginInfo().token!)),
                   data: data);
               if (response.statusCode == 200) {
                 Get.snackbar('Success!', response.data.toString());
@@ -185,7 +217,7 @@ class LinklistController extends GetxController
         if (currentUser.data.first.pendingLink.isNotEmpty) {
           try {
             user = currentUser.data.first.pendingLink
-                .singleWhere((user) => user.sId == sId);
+                .singleWhere((user) => user.id == sId);
             Logger().i(user.userName);
           } catch (e) {
             user = null;
