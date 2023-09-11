@@ -22,7 +22,7 @@ class ActivityListHorizontalView extends GetView<ChatController> {
         margin: const EdgeInsets.symmetric(horizontal: 10),
         child: FutureBuilder(
           future: controller.getAllActiveUsers(),
-          builder: (context, AsyncSnapshot<List<FollowerModel>> snapshot) {
+          builder: (context, AsyncSnapshot<List<ShortProfileModel>> snapshot) {
             return snapshot.hasData
                 ? ListView.separated(
                     itemBuilder: (context, index) {

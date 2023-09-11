@@ -87,7 +87,7 @@ List<Widget> _buildScreen(LinklistController controller, BuildContext context) {
 Widget _buildLinkList(LinklistController controller) {
   return FutureBuilder(
     future: controller.getLinkedList(),
-    builder: (context, AsyncSnapshot<List<FollowerModel>> snapshot) {
+    builder: (context, AsyncSnapshot<List<ShortProfileModel>> snapshot) {
       if (snapshot.connectionState == ConnectionState.waiting) {
         return ListView.builder(
           itemCount: 10,
@@ -175,7 +175,7 @@ Widget _buildLinkList(LinklistController controller) {
 Widget _buildLinkRequestLink(LinklistController controller) {
   return FutureBuilder(
     future: controller.getPendingLinkList(),
-    builder: (context, AsyncSnapshot<List<FollowerModel>> snapshot) {
+    builder: (context, AsyncSnapshot<List<ShortProfileModel>> snapshot) {
       if (snapshot.connectionState == ConnectionState.waiting) {
         return ListView.builder(
           itemCount: 10,

@@ -40,6 +40,9 @@ import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
 import '../modules/room_chat/bindings/room_chat_binding.dart';
 import '../modules/room_chat/views/room_chat_view.dart';
+import '../modules/room_chat/views/room_conversation_view.dart';
+import '../modules/room_explor/bindings/room_explor_binding.dart';
+import '../modules/room_explor/views/room_explor_view.dart';
 import '../modules/settings/bindings/settings_binding.dart';
 import '../modules/settings/views/settings_view.dart';
 import '../modules/setup_pin/bindings/setup_pin_binding.dart';
@@ -182,6 +185,16 @@ class AppPages {
     GetPage(
       name: _Paths.ROOM_CHAT,
       page: () => const RoomChatView(),
+      binding: RoomChatBinding(),
+    ),
+    GetPage(
+      name: _Paths.ROOM_EXPLOR,
+      page: () => const RoomExploreView(),
+      binding: RoomExplorBinding(),
+    ),
+    GetPage(
+      name: _Paths.ROOM_CONVERSATION,
+      page: () => const RoomConversationView(),
       binding: RoomChatBinding(),
     ),
   ];

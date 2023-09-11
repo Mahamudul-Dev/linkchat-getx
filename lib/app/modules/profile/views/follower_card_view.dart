@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:linkchat/app/data/models/models.dart';
+import 'package:linkchat/app/data/models/user_model.dart';
 import 'package:linkchat/app/data/utils/utils.dart';
 import 'package:linkchat/app/modules/profile/controllers/profile_controller.dart';
 import 'package:linkchat/app/modules/profile/views/profile_card_view.dart';
@@ -22,7 +22,7 @@ class FollowerCardView extends GetView<FollowersController> {
         height: MediaQuery.of(context).size.height - kBottomNavigationBarHeight,
         child: FutureBuilder(
           future: controller.getFollowers(),
-          builder: (context, AsyncSnapshot<List<FollowerModel>> snapshot) {
+          builder: (context, AsyncSnapshot<List<ShortProfileModel>> snapshot) {
             if (snapshot.hasError) {
               return Center(
                 child: Text(

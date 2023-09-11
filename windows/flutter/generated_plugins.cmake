@@ -4,12 +4,14 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   audioplayers_windows
+  emoji_picker_flutter
   file_selector_windows
   flutter_webrtc
   geolocator_windows
   objectbox_flutter_libs
   permission_handler_windows
   smart_auth
+  url_launcher_windows
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST

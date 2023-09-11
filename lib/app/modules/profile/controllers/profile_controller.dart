@@ -11,24 +11,24 @@ import 'package:logger/logger.dart';
 import '../../../data/models/models.dart';
 import '../../../data/utils/utils.dart';
 import '../../../database/database.dart';
+import '../../../database/helpers/helpers.dart';
 
 class ProfileController extends GetxController {
   final ScrollController scrollController = ScrollController();
   final dio = Dio();
-  final dbHelper = DatabaseHelper();
 
   String formatNumber(int number) {
     final format = NumberFormat.compact();
     return format.format(number);
   }
 
-  ProfileSchema get getCurrentProfile => dbHelper.getUserData();
+  ProfileSchema get getCurrentProfile => AccountHelper.getUserData();
 
   Future<UserModel?> getProfileDetails(String sId) async {
     UserModel? userModel;
     try {
       final response = await http.get(Uri.parse(BASE_URL + USER + sId),
-          headers: authorization(dbHelper.getLoginInfo().token!));
+          headers: authorization(AccountHelper.getLoginInfo().token!));
       Logger().i(response.statusCode);
       if (response.statusCode == 200) {
         userModel = UserModel.fromJson(jsonDecode(response.body));
@@ -45,7 +45,7 @@ class ProfileController extends GetxController {
 
   Future<bool> checkLinked(String sId) async {
     UserModel? user;
-    FollowerModel? linkedFollower;
+    ShortProfileModel? linkedFollower;
     try {
       user = await getProfileDetails(sId);
     } catch (e) {
@@ -56,7 +56,7 @@ class ProfileController extends GetxController {
     if (user != null && user.toJson() != {}) {
       try {
         linkedFollower = user.data.first.linked.singleWhere(
-            (element) => element.sId == dbHelper.getUserData().serverId);
+            (element) => element.sId == AccountHelper.getUserData().serverId);
       } catch (e) {
         linkedFollower = null;
       }

@@ -17,6 +17,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:image_picker/image_picker.dart';
 import '../../../data/utils/app_strings.dart';
+import '../../../database/helpers/helpers.dart';
 import '../../../modules/register/views/email_view.dart';
 import '../../../modules/register/views/name_view.dart';
 import '../../../modules/register/views/pin_view.dart';
@@ -24,6 +25,7 @@ import '../../../routes/app_pages.dart';
 import '../../../services/auth_service.dart';
 import '../../../style/style.dart';
 import '../../../data/utils/utils.dart';
+
 class RegisterController extends GetxController {
   Rx<File?> imageFile = Rx<File?>(null);
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -188,8 +190,7 @@ class RegisterController extends GetxController {
   }
 
   Future<void> register() async {
-    if(await LocationServices().checkLocationPermission()){
-
+    if (await LocationServices().checkLocationPermission()) {
       if (formKey.currentState!.validate()) {
         loadingMessage.value = 'Creating your profile';
         String userCountry = await LocationServices().getUserCountry();
@@ -200,26 +201,39 @@ class RegisterController extends GetxController {
           "password": userPinController.value.text,
           "country": userCountry,
           "createdAt": DateTime.now().toString(),
-          "updatedAt" : DateTime.now().toString()
+          "updatedAt": DateTime.now().toString()
         };
 
         try {
-          final response = await http.post(Uri.parse(BASE_URL + REGISTER), body: user);
+          final response =
+              await http.post(Uri.parse(BASE_URL + REGISTER), body: user);
           if (response.statusCode == 200) {
             Logger().i('Line 211: ${response.body}');
-            final result = NewUserRegResModel.fromJson(jsonDecode(response.body));
-            DatabaseHelper().saveEmailLoginInfo(EmailLoginResponseModel(id: result.newUser!.sId, userName: result.newUser!.userName, email: result.newUser!.email, token: result.token));
-            final userInfo = DatabaseHelper().getLoginInfo();
+            final result =
+                NewUserRegResModel.fromJson(jsonDecode(response.body));
+            AccountHelper.saveEmailLoginInfo(EmailLoginResponseModel(
+                id: result.newUser!.sId,
+                userName: result.newUser!.userName,
+                email: result.newUser!.email,
+                token: result.token));
+            final userInfo = AccountHelper.getLoginInfo();
 
-            final getUserResponse = await http.get(Uri.parse(BASE_URL+USER+result.newUser!.sId!), headers: {'Authorization':'Bearer ${userInfo.token}', 'Content-Type':'application/json'});
+            final getUserResponse = await http.get(
+                Uri.parse(BASE_URL + USER + result.newUser!.sId!),
+                headers: {
+                  'Authorization': 'Bearer ${userInfo.token}',
+                  'Content-Type': 'application/json'
+                });
             Logger().e('Line 217: ${getUserResponse.body}');
-            final userData = UserModel.fromJson(jsonDecode(getUserResponse.body));
-            Logger().e('Line 219: ${jsonDecode(userData.data.first.toJson().toString())}');
-            DatabaseHelper().saveUserData(userData.data.first);
+            final userData =
+                UserModel.fromJson(jsonDecode(getUserResponse.body));
+            Logger().e(
+                'Line 219: ${jsonDecode(userData.data.first.toJson().toString())}');
+            AccountHelper.saveUserData(userData.data.first);
 
-              Get.offAllNamed(Routes.HOME);
+            Get.offAllNamed(Routes.HOME);
           } else {
-            Get.snackbar('Opps!',response.body);
+            Get.snackbar('Opps!', response.body);
             currentView.value = 0;
             isLoading.value = false;
             Logger().e(
@@ -236,7 +250,6 @@ class RegisterController extends GetxController {
     }
   }
 
-
 // Function to generate a 7-digit unique random number
   int generateUniqueRandomNumber() {
     // Get the current timestamp in milliseconds
@@ -249,7 +262,8 @@ class RegisterController extends GetxController {
     int randomThreeDigitNumber = Random().nextInt(1000);
 
     // Combine the timestamp and random number and use modulo to get 7 digits
-    int uniqueRandomNumber = (sevenDigitTimestamp * 1000 + randomThreeDigitNumber) % 10000000;
+    int uniqueRandomNumber =
+        (sevenDigitTimestamp * 1000 + randomThreeDigitNumber) % 10000000;
 
     return uniqueRandomNumber;
   }

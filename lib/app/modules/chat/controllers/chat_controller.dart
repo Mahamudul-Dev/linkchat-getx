@@ -1,37 +1,76 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:linkchat/app/data/models/multiple_profile_req_model.dart';
 import 'package:linkchat/app/database/database.dart';
+import 'package:linkchat/app/database/helpers/helpers.dart';
 import 'package:logger/logger.dart';
 
 import '../../../data/models/models.dart';
 import '../../../data/utils/utils.dart';
+import '../../../services/socket_io_service.dart';
 
 class ChatController extends GetxController {
 // user activity list section
-  List<FollowerModel> activeUser = [];
-  List<FollowerModel> linikedList = [];
+  List<ShortProfileModel> activeUser = [];
+  List<ShortProfileModel> linikedList = [];
   static RxList<ConversationModel> conversations = <ConversationModel>[].obs;
+  final dio = Dio();
 
-// user chat section
-
-  final dbHelper = DatabaseHelper();
-
-  Future<List<FollowerModel>> getAllActiveUsers() async {
+  Future<List<ShortProfileModel>> getAllActiveUsers() async {
     try {
       final response = await http.get(
-          Uri.parse(BASE_URL + USER + dbHelper.getUserData().serverId),
-          headers: authorization(dbHelper.getLoginInfo().token!));
+          Uri.parse(BASE_URL + USER + AccountHelper.getUserData().serverId),
+          headers: authorization(AccountHelper.getLoginInfo().token!));
+
+      List<String> linkedUserId = [];
 
       if (response.statusCode == 200) {
-        activeUser = UserModel.fromJson(jsonDecode(response.body))
-            .data
-            .first
-            .linked
-            .where((element) => element.isActive == true)
-            .toList();
+        Logger().i('Line: 33');
+        for (var i = 0;
+            i <
+                UserModel.fromJson(jsonDecode(response.body))
+                    .data
+                    .first
+                    .linked
+                    .length;
+            i++) {
+          Logger().i('Loop running: $i');
+          linkedUserId.add(UserModel.fromJson(jsonDecode(response.body))
+              .data
+              .first
+              .linked[i]
+              .sId);
+          Logger().i(linkedUserId[i]);
+        }
+        Logger().i('Line: 50');
+        final bodyData = GetMultipleProfileReqModel(idList: linkedUserId);
+        final linkedUserProfileRes = await dio.post(
+          BASE_URL + MULTIPLE_USER,
+          data: bodyData.toJson(),
+          options: Options(
+              headers: authorization(AccountHelper.getLoginInfo().token!)),
+        );
+
+        Logger().i('Line: 58');
+
+        Logger().i(linkedUserProfileRes.data);
+
+        if (linkedUserProfileRes.statusCode == 200) {
+          final allLinkedUserProfile =
+              GetMultipleProfileModel.fromJson(linkedUserProfileRes.data);
+
+          Logger().i(allLinkedUserProfile.profiles.length);
+
+          activeUser.addAll(allLinkedUserProfile.profiles
+              .where((element) => element.isActive == true));
+
+          Logger().i(activeUser.length);
+        }
         return activeUser;
       }
 
@@ -44,7 +83,8 @@ class ChatController extends GetxController {
 
   Future<List<ConversationSchema>> getConversation() async {
     conversations.clear();
-    final conversationBox = dbHelper.conversationBox.query().build().find();
+    final conversationBox =
+        P2PChatHelper.conversationBox.query().build().find();
     Logger().i(conversationBox.length);
     for (var i = 0; i < conversationBox.length; i++) {
       RxList<ReceiveMessageModel> messages = <ReceiveMessageModel>[].obs;
@@ -88,8 +128,8 @@ class ChatController extends GetxController {
   Future<void> getLinkedList() async {
     try {
       final response = await http.get(
-          Uri.parse(BASE_URL + USER + dbHelper.getUserData().serverId),
-          headers: authorization(dbHelper.getLoginInfo().token!));
+          Uri.parse(BASE_URL + USER + AccountHelper.getUserData().serverId),
+          headers: authorization(AccountHelper.getLoginInfo().token!));
 
       if (response.statusCode == 200) {
         linikedList.clear();
@@ -105,6 +145,29 @@ class ChatController extends GetxController {
   void onInit() {
     getConversation();
     getLinkedList();
+
+    SocketIOService.socket.on('getOnlineUser', (data) {
+      var uid = data['user_id'];
+      Logger().i(uid);
+      for (int i = 0; i < linikedList.length; i++) {
+        if (linikedList[i].sId == uid) {
+          activeUser.add(linikedList[i]);
+          return;
+        }
+      }
+    });
+
+    SocketIOService.socket.on('getOfflineUser', (data) {
+      var uid = data['user_id'];
+      Logger().i(uid);
+      for (int i = 0; i < linikedList.length; i++) {
+        if (linikedList[i].sId == uid) {
+          activeUser.remove(linikedList[i]);
+          return;
+        }
+      }
+    });
+
     Logger().i(conversations.length);
     super.onInit();
   }

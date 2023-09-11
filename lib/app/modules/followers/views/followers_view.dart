@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:linkchat/app/data/models/user_model.dart';
 import 'package:linkchat/app/data/utils/utils.dart';
 import 'package:linkchat/app/widgets/views/CircullarShimmer.dart';
 import 'package:linkchat/app/widgets/views/SquareShimmer.dart';
 
-import '../../../data/models/user_model.dart';
 import '../../../style/style.dart';
 import '../../profile/views/about_card_view.dart';
 import '../../profile/views/profile_card_view.dart';
@@ -19,7 +19,7 @@ class FollowersView extends GetView<FollowersController> {
         appBar: AppBar(title: const Text('Followers')),
         body: FutureBuilder(
           future: controller.getFollowers(),
-          builder: (context, AsyncSnapshot<List<FollowerModel>> snapshot) {
+          builder: (context, AsyncSnapshot<List<ShortProfileModel>> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return ListView.builder(
                 itemBuilder: (context, index) {

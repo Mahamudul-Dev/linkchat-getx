@@ -9,6 +9,7 @@ import 'package:linkchat/app/modules/room_chat/views/room_chat_view.dart';
 import 'package:logger/logger.dart';
 
 import '../../../database/cached_db_helper.dart';
+import '../../../database/helpers/helpers.dart';
 import '../../../services/socket_io_service.dart';
 
 class HomeController extends GetxController {
@@ -19,7 +20,7 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     SocketIOService.initSocket();
-    Logger().i(DatabaseHelper().getUserData());
+    Logger().i(AccountHelper.getUserData());
     Logger().i(helper.getSearchSuggestion());
   }
 

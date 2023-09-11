@@ -6,17 +6,15 @@ import 'package:logger/logger.dart';
 
 import '../../../data/models/user_model.dart';
 import '../../../data/utils/utils.dart';
-import '../../../database/database_helper.dart';
+import '../../../database/helpers/helpers.dart';
 
 class FollowersController extends GetxController {
-  final dbHelper = DatabaseHelper();
-
-  Future<List<FollowerModel>> getFollowers() async {
-    List<FollowerModel> result = [];
+  Future<List<ShortProfileModel>> getFollowers() async {
+    List<ShortProfileModel> result = [];
     try {
       final response = await http.get(
-          Uri.parse(BASE_URL + USER + dbHelper.getUserData().serverId),
-          headers: authorization(dbHelper.getLoginInfo().token!));
+          Uri.parse(BASE_URL + USER + AccountHelper.getUserData().serverId),
+          headers: authorization(AccountHelper.getLoginInfo().token!));
       if (response.statusCode == 200) {
         final data = UserModel.fromJson(jsonDecode(response.body));
         if (data.data.first.followers.isNotEmpty) {

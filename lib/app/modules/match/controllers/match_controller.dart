@@ -7,18 +7,16 @@ import 'package:logger/logger.dart';
 
 import '../../../data/models/models.dart';
 import '../../../data/utils/utils.dart';
-import '../../../database/database_helper.dart';
+import '../../../database/helpers/helpers.dart';
 
 class MatchController extends GetxController {
   final dio = Dio();
-  final dbHelper = DatabaseHelper();
-
   Future<MatchModel> getMatches() async {
-    final body = {'userId': dbHelper.getUserData().serverId};
+    final body = {'userId': AccountHelper.getUserData().serverId};
     final response = await dio.get(BASE_URL + GET_MATCH,
         data: body,
-        options:
-            Options(headers: authorization(dbHelper.getLoginInfo().token!)));
+        options: Options(
+            headers: authorization(AccountHelper.getLoginInfo().token!)));
     Logger().i(response.statusCode);
 
     if (response.statusCode == 200) {
