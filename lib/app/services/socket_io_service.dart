@@ -19,63 +19,83 @@ class SocketIOService {
   static final profile = ProfileController();
   static SocketUserModel? socketUserModel;
   static final box = GetStorage();
-  static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
 
+  static IO.Socket socket = IO.io(
+    SOCKET_CONNECTION_URL,
+    <String, dynamic>{
+      'transports': ['websocket'],
+    },
+  );
 
-  static IO.Socket socket = IO.io(SOCKET_CONNECTION_URL, <String, dynamic>{
-    'transports': ['websocket'],
-  },);
-
-
-  
-
-  static void initSocket(){
-    flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation < AndroidFlutterLocalNotificationsPlugin>()?.requestPermission();
+  static void initSocket() {
+    flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.requestPermission();
     socket.onConnect((_) {
-    Logger().i('Socket Connection Established Success');
-    socket.emit('join', AccountHelper.getLoginInfo().id);
-    socket.on('privateMessage', (message) async {
-      
-      Logger().i(message);
-      final msg = ReceiveMessageModel.fromJson(message);
-      
-      try {
-        final userProfile = await profile.getProfileDetails(msg.sender);
-        if(userProfile != null){
-          _notificationService.showNotification(userProfile.data.first.userName, msg.message.text, 'Link Message', 'New Message Got From Alu Boti');
+      Logger().i('Socket Connection Established Success');
+      socket.emit('join', AccountHelper.getLoginInfo().id);
+      socket.on('privateMessage', (message) async {
+        Logger().i(message);
+        final msg = ReceiveMessageModel.fromJson(message);
+
+        try {
+          final userProfile = await profile.getProfileDetails(msg.senderId);
+          if (userProfile != null) {
+            _notificationService.showNotification(
+                userProfile.data.first.userName,
+                msg.message,
+                'Link Message',
+                'New Message Got From Alu Boti');
+          }
+        } catch (e) {
+          Logger().e(e);
         }
-      } catch (e) {
-        Logger().e(e);
-      }
-      // playNotificationSound();
-      Logger().i('Message Recieved from: ${msg.sender}, Message: ${msg.message.text}');
-      final dbMsg = MessageSchema(content: msg.message.text, attachments: msg.message.attachments, receiverId: msg.receiver, timestamp: DateTime.parse(msg.createdAt), senderServerId: msg.sender);
-      MessageController.messages.add(dbMsg);
-      MessageController.scrollToBottom();
-      P2PChatHelper.saveConversation(dbMsg);
+        // playNotificationSound();
+        Logger().i(
+            'Message Recieved from: ${msg.senderId}, Message: ${msg.message}');
+        final dbMsg = MessageSchema(
+            message: msg.message,
+            createdAt: DateTime.parse(msg.createdAt),
+            senderServerId: msg.senderId,
+            receiverId: msg.receiverId,
+            messageType: msg.messageType,
+            voiceMessageDuration: msg.voiceMessageDuration,
+            status: msg.status);
+
+        // final dbMsg = MessageSchema(
+        //     content: msg.message.text,
+        //     attachments: msg.message.attachments,
+        //     receiverId: msg.receiver,
+        //     timestamp: DateTime.parse(msg.createdAt),
+        //     senderServerId: msg.sender);
+        MessageController.messages.add(dbMsg);
+        MessageController.scrollToBottom();
+        P2PChatHelper.saveConversation(dbMsg);
+      });
     });
 
-  });
-
-  socket.onConnectError((error) => Logger().e(error));
-  socket.onError((error) => Logger().e(error));
-  socket.onConnecting((data) => Logger().i(data));
-  socket.onPing((data) => Logger().i(data));
-  socket.onPong((data) => Logger().i(data));
-  socket.onReconnect((data) => Logger().i(data));
-  socket.onDisconnect((data) => Logger().i(data));
-  socket.onConnectTimeout((data) => Logger().i(data));
-  socket.onReconnecting((data) => Logger().i(data));
-  socket.onReconnectFailed((data) => Logger().i(data));
+    socket.onConnectError((error) => Logger().e(error));
+    socket.onError((error) => Logger().e(error));
+    socket.onConnecting((data) => Logger().i(data));
+    socket.onPing((data) => Logger().i(data));
+    socket.onPong((data) => Logger().i(data));
+    socket.onReconnect((data) => Logger().i(data));
+    socket.onDisconnect((data) => Logger().i(data));
+    socket.onConnectTimeout((data) => Logger().i(data));
+    socket.onReconnecting((data) => Logger().i(data));
+    socket.onReconnectFailed((data) => Logger().i(data));
   }
 
-  static Future <void> playNotificationSound() async {
-  // You need to replace 'notification.mp3' with the actual path of your audio file
-  try {
-    await audioPlayer.play(AssetSource('sounds/Notification.mp3'), mode: PlayerMode.lowLatency);
-  } catch (e) {
-    Logger().e(e);
+  static Future<void> playNotificationSound() async {
+    // You need to replace 'notification.mp3' with the actual path of your audio file
+    try {
+      await audioPlayer.play(AssetSource('sounds/Notification.mp3'),
+          mode: PlayerMode.lowLatency);
+    } catch (e) {
+      Logger().e(e);
+    }
   }
-
-}
 }

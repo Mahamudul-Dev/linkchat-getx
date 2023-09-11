@@ -157,7 +157,7 @@ class ChatView extends GetView<ChatController> {
                                   conversationName: snapshot.data![index].name,
                                   lastMessage: Obx(() => Text(
                                         ChatController.conversations[index]
-                                                .messages.last?.message.text ??
+                                                .messages.last?.message ??
                                             '',
                                         style: Theme.of(context)
                                             .textTheme

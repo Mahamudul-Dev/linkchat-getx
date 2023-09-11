@@ -75,17 +75,28 @@ class ChatController extends GetxController {
       List<ChatParticipantModel> participants = [];
       for (var j = 0; j < conversationBox[i].messages.length; j++) {
         messages.add(ReceiveMessageModel(
-            message: MessageModel(
-                text: conversationBox[i].messages[j].content,
-                attachments: conversationBox[i].messages[j].attachments),
-            users: [
-              conversationBox[i].messages[j].sender.target!.serverId,
-              conversationBox[i].messages[j].receiverId
-            ],
-            createdAt: conversationBox[i].messages[j].timestamp.toString(),
-            updatedAt: conversationBox[i].messages[j].timestamp.toString(),
-            receiver: conversationBox[i].messages[j].receiverId,
-            sender: conversationBox[i].messages[j].sender.target!.serverId));
+                message: conversationBox[i].messages[j].message,
+                createdAt:
+                    conversationBox[i].messages[j].createdAt.toIso8601String(),
+                senderId: conversationBox[i].messages[j].senderServerId,
+                receiverId: conversationBox[i].messages[j].receiverId,
+                messageType: conversationBox[i].messages[j].messageType,
+                voiceMessageDuration:
+                    conversationBox[i].messages[j].voiceMessageDuration,
+                status: conversationBox[i].messages[j].status)
+            // ReceiveMessageModel(
+            //   message: MessageModel(
+            //       text: conversationBox[i].messages[j].content,
+            //       attachments: conversationBox[i].messages[j].attachments),
+            //   users: [
+            //     conversationBox[i].messages[j].sender.target!.serverId,
+            //     conversationBox[i].messages[j].receiverId
+            //   ],
+            //   createdAt: conversationBox[i].messages[j].timestamp.toString(),
+            //   updatedAt: conversationBox[i].messages[j].timestamp.toString(),
+            //   receiver: conversationBox[i].messages[j].receiverId,
+            //   sender: conversationBox[i].messages[j].sender.target!.serverId)
+            );
       }
       for (var k = 0; k < conversationBox[i].participant.length; k++) {
         participants.add(ChatParticipantModel(

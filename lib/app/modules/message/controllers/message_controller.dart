@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:linkchat/app/data/models/conversation_model.dart';
-import 'package:linkchat/app/services/google_drive_service.dart';
+import 'package:linkchat/app/services/api_service.dart';
 import 'package:logger/logger.dart';
 
 import '../../../database/conversatin_schema.dart';
@@ -21,23 +21,24 @@ class MessageController extends GetxController {
   Stream<ConversationSchema>? conversationStream;
 
   bool isOwnMessage(MessageSchema message) {
-    if (message.receiverId == AccountHelper.getUserData().serverId) {
+    if (message.sender.target!.serverId ==
+        AccountHelper.getUserData().serverId) {
       return false;
     }
     return true;
   }
 
-  Future<void> getAttachment(String email) async{
+  Future<void> getAttachment(String email) async {
     final result = await FilePicker.platform.pickFiles();
     Logger().i(result);
-    if(result != null){
+    if (result != null) {
       Logger().i('path: ${result.files.first.path}');
       final file = File(result.files.first.path!);
       Logger().i(file.path);
       Logger().i(email);
       // try{
-        await GoogleDriveService.uploadFile(file, email);
-        Logger().i(file.path);
+      await GoogleDriveService.uploadFile(file, email);
+      Logger().i(file.path);
       // } catch(e){
       //   Logger().e(e);
       // }
@@ -45,14 +46,38 @@ class MessageController extends GetxController {
   }
 
   void sendMessage(String receiverId) {
-    final sendMessage = ReceiveMessageModel(message: MessageModel(text: textMessageController.value.text, attachments: []), users: [AccountHelper.getUserData().serverId, receiverId], sender: AccountHelper.getUserData().serverId, receiver: receiverId, createdAt: DateTime.now().toString(), updatedAt: DateTime.now().toString());
-    //SocketIOService.socket.emit('privateMessage',sendMessage.toJson());
+    final sendMessage = ReceiveMessageModel(
+        message: textMessageController.value.text,
+        createdAt: DateTime.now().toIso8601String(),
+        senderId: AccountHelper.getUserData().serverId,
+        receiverId: receiverId,
+        replyMessage: null,
+        reaction: null,
+        messageType: '',
+        voiceMessageDuration: '',
+        status: '');
+
+    // final sendMessage = ReceiveMessageModel(
+    //     message: MessageModel(
+    //         text: textMessageController.value.text, attachments: []),
+    //     users: [AccountHelper.getUserData().serverId, receiverId],
+    //     sender: AccountHelper.getUserData().serverId,
+    //     receiver: receiverId,
+    //     createdAt: DateTime.now().toString(),
+    //     updatedAt: DateTime.now().toString());
     Logger().i(sendMessage.toJson());
     SocketIOService.socket.emit('privateMessage', sendMessage.toJson());
-    final message = MessageSchema(content: textMessageController.value.text, attachments: [], receiverId: receiverId, timestamp: DateTime.now(), senderServerId: AccountHelper.getUserData().serverId);
+    final message = MessageSchema(
+        message: textMessageController.value.text,
+        createdAt: DateTime.now(),
+        messageType: '',
+        voiceMessageDuration: '',
+        status: '',
+        senderServerId: AccountHelper.getUserData().serverId,
+        receiverId: receiverId);
     P2PChatHelper.saveConversation(message);
     messages.add(message);
-    
+
     textMessageController.value.clear();
     textMessage.value = '';
     scrollToBottom();
@@ -60,21 +85,21 @@ class MessageController extends GetxController {
 
   void getMessage(ConversationSchema? conversationSchema) {
     try {
-      messages.assignAll(conversationSchema?.messages.toList()??[]);
-    } catch(e){
+      messages.assignAll(conversationSchema?.messages.toList() ?? []);
+    } catch (e) {
       Logger().e(e);
     }
-    }
+  }
 
   static void scrollToBottom() {
-  if (scrollController.hasClients) {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      scrollController.jumpTo(scrollController.position.maxScrollExtent);
-    });
+    if (scrollController.hasClients) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        scrollController.jumpTo(scrollController.position.maxScrollExtent);
+      });
+    }
   }
-}
 
-@override
+  @override
   void onInit() {
     scrollToBottom();
     super.onInit();
