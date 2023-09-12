@@ -30,4 +30,4 @@ Map<String, String> authorization(String token) {
   return {'Authorization': 'Bearer $token'};
 }
 
-const String SOCKET_CONNECTION_URL = 'http://linkfysocket.linkfy.org:3434';
+const String SOCKET_CONNECTION_URL = 'http://31.172.83.135:3434';

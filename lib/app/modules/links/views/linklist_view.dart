@@ -1,8 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:linkchat/app/data/models/models.dart';
+import 'package:linkchat/app/data/utils/utils.dart';
+import 'package:linkchat/app/routes/app_pages.dart';
 import 'package:linkchat/app/widgets/views/CircullarShimmer.dart';
 import 'package:linkchat/app/widgets/views/SquareShimmer.dart';
+import 'package:linkchat/app/widgets/views/round_button_view.dart';
 import 'package:linkchat/app/widgets/views/user_list_tile.dart';
 
 import '../../../style/style.dart';
@@ -12,12 +16,15 @@ import '../controllers/linklist_controller.dart';
 
 class LinklistView extends GetView<LinklistController> {
   LinklistView({Key? key}) : super(key: key);
-  final int index = Get.arguments['index'];
+  final int? index = Get.arguments['index'];
+  final bool? isChat = Get.arguments['isChat'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: const Text('Link List')),
-        body: _buildScreen(controller, context)[index]);
+        body: index != null
+            ? _buildScreen(controller, context)[index!]
+            : _buildLinkList(controller, isChat ?? false));
   }
 }
 
@@ -45,7 +52,7 @@ List<Widget> _buildScreen(LinklistController controller, BuildContext context) {
           body: TabBarView(
             controller: controller.tabController.value,
             children: [
-              _buildLinkList(controller),
+              _buildLinkList(controller, false),
               _buildLinkRequestLink(controller)
             ],
           ),
@@ -75,7 +82,7 @@ List<Widget> _buildScreen(LinklistController controller, BuildContext context) {
             controller: controller.tabController.value,
             children: [
               _buildLinkRequestLink(controller),
-              _buildLinkList(controller)
+              _buildLinkList(controller, false)
             ],
           ),
         ))
@@ -84,7 +91,7 @@ List<Widget> _buildScreen(LinklistController controller, BuildContext context) {
   ];
 }
 
-Widget _buildLinkList(LinklistController controller) {
+Widget _buildLinkList(LinklistController controller, bool isChat) {
   return FutureBuilder(
     future: controller.getLinkedList(),
     builder: (context, AsyncSnapshot<List<ShortProfileModel>> snapshot) {
@@ -156,15 +163,31 @@ Widget _buildLinkList(LinklistController controller) {
                 },
               );
             },
-            child: UserListTile(
-                profilePic: snapshot.data?[index].profilePic,
-                userName: snapshot.data?[index].userName,
-                country: snapshot.data?[index].country,
-                onPresses: () => controller.handleFollow(
-                    snapshot.data![index].sId,
-                    snapshot.data?[index].userName ?? ''),
-                buttonStatus:
-                    controller.getButtonStatus(snapshot.data![index].sId)),
+            child: isChat
+                ? ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: blackAccent,
+                      backgroundImage: CachedNetworkImageProvider(
+                          snapshot.data?[index].profilePic ??
+                              PLACEHOLDER_IMAGE),
+                    ),
+                    title: Text(snapshot.data?[index].userName ?? 'Unknown'),
+                    subtitle: Text(snapshot.data?[index].tagLine ?? ''),
+                    trailing: RoundButtonView(
+                      icon: Icons.send,
+                      onTap: () => Get.offNamed(Routes.MESSAGE,
+                          arguments: {'sId': snapshot.data?[index].sId}),
+                    ),
+                  )
+                : UserListTile(
+                    profilePic: snapshot.data?[index].profilePic,
+                    userName: snapshot.data?[index].userName,
+                    country: snapshot.data?[index].country,
+                    onPresses: () => controller.handleFollow(
+                        snapshot.data![index].sId,
+                        snapshot.data?[index].userName ?? ''),
+                    buttonStatus:
+                        controller.getButtonStatus(snapshot.data![index].sId)),
           );
         },
       );

@@ -7,12 +7,13 @@ import 'package:linkchat/app/database/helpers/helpers.dart';
 import 'package:linkchat/app/modules/chat/controllers/chat_controller.dart';
 import 'package:linkchat/app/modules/message/views/chat_input_field.dart';
 import 'package:linkchat/app/modules/message/views/text_message.dart';
+import 'package:linkchat/app/services/api_service.dart';
 import 'package:linkchat/app/style/app_color.dart';
 import 'package:chatview/chatview.dart' as chat;
 import '../controllers/message_controller.dart';
 
 class MessageView extends StatefulWidget {
-  MessageView({Key? key}) : super(key: key);
+  const MessageView({Key? key}) : super(key: key);
 
   @override
   State<MessageView> createState() => _MessageViewState();
@@ -72,10 +73,10 @@ class _MessageViewState extends State<MessageView> {
             fontSize: 18,
             letterSpacing: 0.25,
           ),
-          userStatus: "online",
+          userStatus: 'Online',
           userStatusTextStyle: const TextStyle(color: Colors.grey),
         ),
-        chatBackgroundConfig: chat.ChatBackgroundConfiguration(
+        chatBackgroundConfig: const chat.ChatBackgroundConfiguration(
           messageTimeIconColor: white,
           messageTimeTextStyle: TextStyle(color: white),
           defaultGroupSeparatorConfig: chat.DefaultGroupSeparatorConfiguration(
@@ -87,7 +88,7 @@ class _MessageViewState extends State<MessageView> {
           backgroundColor: black,
         ),
         sendMessageConfig: chat.SendMessageConfiguration(
-          imagePickerIconsConfig: chat.ImagePickerIconsConfiguration(
+          imagePickerIconsConfig: const chat.ImagePickerIconsConfiguration(
             cameraIconColor: white,
             galleryIconColor: white,
           ),

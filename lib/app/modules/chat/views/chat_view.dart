@@ -197,10 +197,12 @@ class ChatView extends GetView<ChatController> {
         })),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            NotificationService().showNotification('Alu Boti', 'How are you?',
-                'Link Message', 'New Message Got From Alu Boti');
+            // NotificationService().showNotification('Alu Boti', 'How are you?',
+            //     'Link Message', 'New Message Got From Alu Boti');
             // Logger().i(
             //     'Conversation: ${DatabaseHelper().getConversation().first.name}');
+
+            Get.toNamed(Routes.LINK_LIST, arguments: {'isChat': true});
           },
           // Get.toNamed(Routes.LINK_LIST, arguments: {'isChat': true}),
           label: Row(

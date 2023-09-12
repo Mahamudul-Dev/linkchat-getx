@@ -26,13 +26,7 @@ class MessageController extends GetxController {
         'https://img.freepik.com/free-photo/businessman-profile-looking-left_1098-295.jpg',
   );
   final chatController = chat.ChatController(
-    initialMessageList: [
-      chat.Message(
-        message: 'Hey There',
-        createdAt: DateTime.now(),
-        sendBy: '1',
-      )
-    ],
+    initialMessageList: messages.map((message) => chat.Message(message: message.content, createdAt: message., sendBy: '')).toList(),
     scrollController: ScrollController(),
     chatUsers: [
       chat.ChatUser(
