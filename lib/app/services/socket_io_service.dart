@@ -40,29 +40,37 @@ class SocketIOService {
       socket.emit('join', AccountHelper.getLoginInfo().id);
       socket.on('privateMessage', (message) async {
         Logger().i(message);
-        final msg = ReceiveMessageModel.fromJson(message);
+        final msg = MessageModel.fromJson(message);
 
         try {
-          final userProfile = await profile.getProfileDetails(msg.sender);
+          final userProfile = await profile.getProfileDetails(msg.senderId!);
           if (userProfile != null) {
             _notificationService.showNotification(
                 userProfile.data.first.userName,
-                msg.message.text,
+                msg.message!,
                 'Link Message',
-                'New Message Got From Alu Boti');
+                'New Message Got From ${userProfile.data.first.userName}');
           }
         } catch (e) {
           Logger().e(e);
         }
         // playNotificationSound();
-        Logger().i(
-            'Message Recieved from: ${msg.sender}, Message: ${msg.message.text}');
+        // Logger().i(
+        //     'Message Recieved from: ${msg.sender}, Message: ${msg.message.text}');
         final dbMsg = MessageSchema(
-            content: msg.message.text,
-            attachments: msg.message.attachments,
-            receiverId: msg.receiver,
-            timestamp: DateTime.parse(msg.createdAt),
-            senderServerId: msg.sender);
+            id: int.parse(msg.id!),
+            message: msg.message,
+            createdAt: msg.createdAt,
+            senderId: msg.senderId,
+            receiverId: msg.receiverId,
+            messageType: msg.messageType,
+            voiceMessageDuration: msg.voiceMessageDuration,
+            status: msg.status);
+        final reaction = ReactionSchema(
+            reactions: msg.reaction?.reactions,
+            reactedUserIds: msg.reaction?.reactedUserIds ?? []);
+        dbMsg.reactions.target = reaction;
+
         MessageController.messages.add(dbMsg);
         MessageController.scrollToBottom();
         P2PChatHelper.saveConversation(dbMsg);

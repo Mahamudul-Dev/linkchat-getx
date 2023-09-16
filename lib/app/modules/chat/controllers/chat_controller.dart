@@ -87,21 +87,49 @@ class ChatController extends GetxController {
         P2PChatHelper.conversationBox.query().build().find();
     Logger().i(conversationBox.length);
     for (var i = 0; i < conversationBox.length; i++) {
-      RxList<ReceiveMessageModel> messages = <ReceiveMessageModel>[].obs;
+      RxList<MessageModel> messages = <MessageModel>[].obs;
       List<ChatParticipantModel> participants = [];
       for (var j = 0; j < conversationBox[i].messages.length; j++) {
-        messages.add(ReceiveMessageModel(
-            message: MessageModel(
-                text: conversationBox[i].messages[j].content,
-                attachments: conversationBox[i].messages[j].attachments),
-            users: [
-              conversationBox[i].messages[j].sender.target!.serverId,
-              conversationBox[i].messages[j].receiverId
-            ],
-            createdAt: conversationBox[i].messages[j].timestamp.toString(),
-            updatedAt: conversationBox[i].messages[j].timestamp.toString(),
-            receiver: conversationBox[i].messages[j].receiverId,
-            sender: conversationBox[i].messages[j].sender.target!.serverId));
+        messages.add(MessageModel(
+            id: conversationBox[i].messages[j].id.toString(),
+            message: conversationBox[i].messages[j].message,
+            createdAt: conversationBox[i].messages[j].createdAt,
+            senderId: conversationBox[i].messages[j].senderId,
+            receiverId: conversationBox[i].messages[j].receiverId,
+            messageType: conversationBox[i].messages[j].messageType,
+            voiceMessageDuration:
+                conversationBox[i].messages[j].voiceMessageDuration,
+            status: conversationBox[i].messages[j].status,
+            reaction: ReactionModel(
+                reactions:
+                    conversationBox[i].messages[j].reactions.target?.reactions ??
+                        [],
+                reactedUserIds:
+                    conversationBox[i].messages[j].reactions.target?.reactedUserIds ??
+                        []),
+            replyMessage: MessageReply(
+                message:
+                    conversationBox[i].messages[j].replyMessage.target?.message,
+                replyBy:
+                    conversationBox[i].messages[j].replyMessage.target?.replyBy,
+                replyTo:
+                    conversationBox[i].messages[j].replyMessage.target?.replyTo,
+                messageType: conversationBox[i]
+                    .messages[j]
+                    .replyMessage
+                    .target
+                    ?.messageType,
+                id: conversationBox[i]
+                    .messages[j]
+                    .replyMessage
+                    .target
+                    ?.id
+                    .toString(),
+                voiceMessageDuration: conversationBox[i]
+                    .messages[j]
+                    .replyMessage
+                    .target
+                    ?.voiceMessageDuration)));
       }
       for (var k = 0; k < conversationBox[i].participant.length; k++) {
         participants.add(ChatParticipantModel(

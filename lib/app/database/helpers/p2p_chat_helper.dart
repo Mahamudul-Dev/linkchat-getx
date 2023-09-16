@@ -24,10 +24,10 @@ class P2PChatHelper {
 
     try {
       await profile
-          .getProfileDetails(message.senderServerId)
+          .getProfileDetails(message.senderId!)
           .then((profile) => senderProfile = profile);
       await profile
-          .getProfileDetails(message.receiverId)
+          .getProfileDetails(message.receiverId!)
           .then((profile) => receiverProfile = profile);
       if (senderProfile != null && receiverProfile != null) {
         try {
@@ -75,21 +75,31 @@ class P2PChatHelper {
           chatParticipantBox.putMany([receiver, sender]);
           messageBox.put(message);
           conversationBox.put(conversationSchema!);
+
           ChatController.conversations.add(ConversationModel(
               conversationTitle: receiverProfile!.data.first.sId ==
                       AccountHelper.getUserData().serverId
                   ? senderProfile!.data.first.userName
                   : receiverProfile!.data.first.userName,
               messages: [
-                ReceiveMessageModel(
-                    message: MessageModel(
-                        text: message.content,
-                        attachments: message.attachments),
-                    users: [message.senderServerId, message.receiverId],
-                    sender: message.senderServerId,
-                    receiver: message.receiverId,
-                    createdAt: message.timestamp.toString(),
-                    updatedAt: message.timestamp.toString())
+                MessageModel(
+                    id: message.id.toString(),
+                    message: message.message,
+                    createdAt: message.createdAt,
+                    senderId: message.senderId,
+                    receiverId: message.receiverId,
+                    replyMessage: MessageReply(
+                        id: message.replyMessage.target?.id.toString(),
+                        message: message.replyMessage.target?.message,
+                        replyBy: message.replyMessage.target?.replyBy,
+                        replyTo: message.replyMessage.target?.replyTo,
+                        messageType: message.replyMessage.target?.messageType,
+                        voiceMessageDuration:
+                            message.replyMessage.target?.voiceMessageDuration),
+                    reaction: ReactionModel(
+                        reactions: message.reactions.target!.reactions,
+                        reactedUserIds:
+                            message.reactions.target!.reactedUserIds))
               ].obs,
               receiver: ChatParticipantModel(
                   serverId: receiver.serverId,
@@ -122,14 +132,24 @@ class P2PChatHelper {
               .singleWhere(
                   (item) => item.receiver.serverId == message.receiverId)
               .messages
-              .add(ReceiveMessageModel(
-                  message: MessageModel(
-                      text: message.content, attachments: message.attachments),
-                  users: [message.senderServerId, message.receiverId],
-                  sender: message.senderServerId,
-                  receiver: message.receiverId,
-                  createdAt: message.timestamp.toString(),
-                  updatedAt: message.timestamp.toString()));
+              .add(MessageModel(
+                  id: message.id.toString(),
+                  message: message.message,
+                  createdAt: message.createdAt,
+                  senderId: message.senderId,
+                  receiverId: message.receiverId,
+                  replyMessage: MessageReply(
+                      id: message.replyMessage.target?.id.toString(),
+                      message: message.replyMessage.target?.message,
+                      replyBy: message.replyMessage.target?.replyBy,
+                      replyTo: message.replyMessage.target?.replyTo,
+                      messageType: message.replyMessage.target?.messageType,
+                      voiceMessageDuration:
+                          message.replyMessage.target?.voiceMessageDuration),
+                  reaction: ReactionModel(
+                      reactions: message.reactions.target?.reactions,
+                      reactedUserIds:
+                          message.reactions.target?.reactedUserIds)));
         }
       }
     } catch (e) {

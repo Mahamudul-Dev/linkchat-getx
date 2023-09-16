@@ -5,11 +5,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:linkchat/app/database/helpers/helpers.dart';
 import 'package:linkchat/app/modules/chat/controllers/chat_controller.dart';
-import 'package:linkchat/app/modules/message/views/chat_input_field.dart';
-import 'package:linkchat/app/modules/message/views/text_message.dart';
-import 'package:linkchat/app/services/api_service.dart';
 import 'package:linkchat/app/style/app_color.dart';
-import 'package:chatview/chatview.dart' as chat;
+import 'package:chatview/chatview.dart' as chatview;
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:logger/logger.dart';
 import '../controllers/message_controller.dart';
 
 class MessageView extends StatefulWidget {
@@ -26,216 +25,133 @@ class _MessageViewState extends State<MessageView> {
 
   final controller = Get.find<MessageController>();
 
+  late chatview.ChatController chatViewController;
+
   @override
   void initState() {
-    controller.getMessage(P2PChatHelper.getSingleConversation(sId));
+    controller.getMessage(P2PChatHelper.getSingleConversation(sId), sId);
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: _buildHeaderBar(_chatController, sId, context),
-      body: chat.ChatView(
-        currentUser: controller.currentUser,
-        chatController: controller.chatController,
-        onSendTap: (msg, remsg, msgType) {},
-        featureActiveConfig: const chat.FeatureActiveConfig(
-          lastSeenAgoBuilderVisibility: true,
-          receiptsBuilderVisibility: true,
-        ),
-        chatViewState: controller.chatController.initialMessageList.isEmpty
-            ? chat.ChatViewState.noData
-            : chat.ChatViewState.hasMessages,
-        chatViewStateConfig: chat.ChatViewStateConfiguration(
-          loadingWidgetConfig: const chat.ChatViewStateWidgetConfiguration(
-            loadingIndicatorColor: accentColor,
-          ),
-          onReloadButtonTap: () {},
-        ),
-        typeIndicatorConfig: const chat.TypeIndicatorConfiguration(
-          flashingCircleBrightColor: accentColor,
-          flashingCircleDarkColor: white,
-        ),
-        appBar: chat.ChatViewAppBar(
-          elevation: 0,
-          backGroundColor: black,
-          profilePicture: _chatController.linikedList
-              .singleWhere((element) => element.sId == sId)
-              .profilePic,
-          backArrowColor: white,
-          chatTitle: _chatController.linikedList
-              .singleWhere((element) => element.sId == sId)
-              .userName,
-          chatTitleTextStyle: const TextStyle(
-            color: white,
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-            letterSpacing: 0.25,
-          ),
-          userStatus: 'Online',
-          userStatusTextStyle: const TextStyle(color: Colors.grey),
-        ),
-        chatBackgroundConfig: const chat.ChatBackgroundConfiguration(
-          messageTimeIconColor: white,
-          messageTimeTextStyle: TextStyle(color: white),
-          defaultGroupSeparatorConfig: chat.DefaultGroupSeparatorConfiguration(
-            textStyle: TextStyle(
-              color: white,
-              fontSize: 17,
-            ),
-          ),
-          backgroundColor: black,
-        ),
-        sendMessageConfig: chat.SendMessageConfiguration(
-          imagePickerIconsConfig: const chat.ImagePickerIconsConfiguration(
-            cameraIconColor: white,
-            galleryIconColor: white,
-          ),
-          replyMessageColor: Colors.blue,
-          defaultSendButtonColor: accentColor,
-          replyDialogColor: Colors.grey,
-          replyTitleColor: white,
-          textFieldBackgroundColor: blackAccent,
-          closeIconColor: accentColor,
-          textFieldConfig: chat.TextFieldConfiguration(
-            onMessageTyping: (status) {
-              /// Do with status
-              debugPrint(status.toString());
-            },
-            compositionThresholdTime: const Duration(seconds: 1),
-            textStyle: TextStyle(color: white),
-          ),
-          micIconColor: accentColor,
-          voiceRecordingConfiguration: chat.VoiceRecordingConfiguration(
-            backgroundColor: blackAccent,
-            recorderIconColor: accentColor,
-            waveStyle: chat.WaveStyle(
-              showMiddleLine: false,
-              waveColor: Colors.white,
-              extendWaveform: true,
-            ),
-          ),
-        ),
-        chatBubbleConfig: chat.ChatBubbleConfiguration(
-          outgoingChatBubbleConfig: chat.ChatBubble(
-            linkPreviewConfig: chat.LinkPreviewConfiguration(
-              backgroundColor: Colors.transparent,
-              bodyStyle: Theme.of(context).textTheme.bodySmall,
-              titleStyle: Theme.of(context).textTheme.titleSmall,
-            ),
-            receiptsWidgetConfig: const chat.ReceiptsWidgetConfig(
-                showReceiptsIn: chat.ShowReceiptsIn.all),
-            color: accentColor,
-          ),
-          inComingChatBubbleConfig: chat.ChatBubble(
-            linkPreviewConfig: chat.LinkPreviewConfiguration(
-              linkStyle: TextStyle(
-                color: blackAccent,
-                decoration: TextDecoration.underline,
-              ),
-              backgroundColor: blackAccent,
-              bodyStyle: Theme.of(context).textTheme.bodySmall,
-              titleStyle: Theme.of(context).textTheme.titleSmall,
-            ),
-            textStyle: Theme.of(context).textTheme.bodySmall,
-            onMessageRead: (message) {
-              /// send your message reciepts to the other client
-              debugPrint('Message Read');
-            },
-            senderNameTextStyle: Theme.of(context).textTheme.bodySmall,
-            color: accentColor,
-          ),
-        ),
-        replyPopupConfig: chat.ReplyPopupConfiguration(
-          backgroundColor: Colors.grey,
-          buttonTextStyle: Theme.of(context).textTheme.bodySmall,
-          topBorderColor: accentColor,
-        ),
-        reactionPopupConfig: chat.ReactionPopupConfiguration(
-          shadow: BoxShadow(
-            color: Colors.black54,
-            blurRadius: 20,
-          ),
-          backgroundColor: blackAccent,
-        ),
-        messageConfig: chat.MessageConfiguration(
-          messageReactionConfig: chat.MessageReactionConfiguration(
-            backgroundColor: blackAccent,
-            reactedUserCountTextStyle: Theme.of(context).textTheme.bodySmall,
-            reactionCountTextStyle: Theme.of(context).textTheme.bodySmall,
-            reactionsBottomSheetConfig: chat.ReactionsBottomSheetConfiguration(
-              backgroundColor: blackAccent,
-              reactedUserTextStyle: Theme.of(context).textTheme.bodySmall,
-              reactionWidgetDecoration: BoxDecoration(
-                color: accentColor,
-                boxShadow: [
-                  BoxShadow(
-                    color: blackAccent,
-                    offset: const Offset(0, 20),
-                    blurRadius: 40,
-                  )
-                ],
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-          ),
-          imageMessageConfig: chat.ImageMessageConfiguration(
-            margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
-            shareIconConfig: chat.ShareIconConfiguration(
-              defaultIconBackgroundColor: accentColor,
-              defaultIconColor: accentColor,
-            ),
-          ),
-        ),
-        profileCircleConfig: chat.ProfileCircleConfiguration(
-          profileImageUrl: _chatController.linikedList
-              .singleWhere((element) => element.sId == sId)
-              .profilePic,
-        ),
-        repliedMessageConfig: chat.RepliedMessageConfiguration(
-          backgroundColor: blackAccent,
-          repliedMsgAutoScrollConfig: chat.RepliedMsgAutoScrollConfig(
-            enableHighlightRepliedMsg: true,
-            highlightColor: Colors.pinkAccent.shade100,
-            highlightScale: 1.1,
-          ),
-          textStyle: const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 0.25,
-          ),
-          replyTitleTextStyle: TextStyle(color: white),
-        ),
-        swipeToReplyConfig: chat.SwipeToReplyConfiguration(
-          replyIconColor: white,
-        ),
-      ),
+        // appBar: _buildHeaderBar(_chatController, sId, context),
+        body: Obx(() => MessageController.chatViewController.value != null
+            ? chatview.ChatView(
+                onSendTap: (message, replyMessage, messageType) {
+                  controller.onSendTap(message, replyMessage, messageType, sId);
+                  Logger().i(message);
+                  Logger().i(messageType);
+                },
+                showTypingIndicator: false,
+                chatController: MessageController.chatViewController.value!,
+                currentUser: chatview.ChatUser(
+                  id: AccountHelper.getUserData().serverId,
+                  name: AccountHelper.getUserData().name,
+                  profilePhoto: AccountHelper.getUserData().photo,
+                ),
+                chatViewState: chatview.ChatViewState.hasMessages,
+                typeIndicatorConfig: const chatview.TypeIndicatorConfiguration(
+                    flashingCircleDarkColor: accentColor,
+                    flashingCircleBrightColor: white),
+                appBar: _buildHeaderBar(_chatController, sId, context),
+                chatViewStateConfig: chatview.ChatViewStateConfiguration(
+                  loadingWidgetConfig:
+                      const chatview.ChatViewStateWidgetConfiguration(
+                    loadingIndicatorColor: accentColor,
+                  ),
+                  onReloadButtonTap: () {},
+                ),
+                chatBackgroundConfig: chatview.ChatBackgroundConfiguration(
+                    backgroundColor: black,
+                    messageTimeTextStyle:
+                        Theme.of(context).textTheme.bodyMedium),
+                sendMessageConfig: const chatview.SendMessageConfiguration(
+                  imagePickerConfiguration: chatview.ImagePickerConfiguration(),
+                  defaultSendButtonColor: accentColor,
+                  enableCameraImagePicker: false,
+                  enableGalleryImagePicker: true,
+                  textFieldBackgroundColor: blackAccent,
+                  imagePickerIconsConfig:
+                      chatview.ImagePickerIconsConfiguration(
+                          galleryIconColor: accentColor,
+                          galleryImagePickerIcon: Icon(
+                            Icons.image_rounded,
+                            color: white,
+                          )),
+                ),
+                chatBubbleConfig: chatview.ChatBubbleConfiguration(
+                    inComingChatBubbleConfig: chatview.ChatBubble(
+                        color: blackAccent, onMessageRead: (message) {}),
+                    outgoingChatBubbleConfig: chatview.ChatBubble(
+                        color: accentColor, onMessageRead: (message) {})),
+                reactionPopupConfig: const chatview.ReactionPopupConfiguration(
+                    backgroundColor: blackAccent,
+                    shadow: BoxShadow(color: black)),
+                messageConfig: chatview.MessageConfiguration(
+                  messageReactionConfig: chatview.MessageReactionConfiguration(
+                    backgroundColor: blackAccent,
+                    borderColor: Colors.transparent,
+                    reactionsBottomSheetConfig:
+                        chatview.ReactionsBottomSheetConfiguration(
+                      backgroundColor: blackAccent,
+                      reactedUserTextStyle: const TextStyle(
+                        color: white,
+                      ),
+                      reactionWidgetDecoration: BoxDecoration(
+                        color: blackAccent,
+                        boxShadow: const [
+                          BoxShadow(
+                            color: black,
+                            offset: Offset(0, 20),
+                            blurRadius: 40,
+                          )
+                        ],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                  imageMessageConfig: chatview.ImageMessageConfiguration(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 15),
+                    shareIconConfig: chatview.ShareIconConfiguration(
+                      defaultIconBackgroundColor: blackAccent,
+                      defaultIconColor: white,
+                    ),
+                  ),
+                ),
+              )
+            : Center(
+                child: LoadingAnimationWidget.bouncingBall(
+                    color: accentColor, size: 25),
+              ))
 
-      // Column(
-      //   children: [
-      //     Obx(() {
-      //       if (MessageController.messages.isNotEmpty) {
-      //         return Expanded(
-      //             child: Obx(() => ListView.builder(
-      //                   reverse: false,
-      //                   controller: MessageController.scrollController,
-      //                   physics: const BouncingScrollPhysics(),
-      //                   itemCount: MessageController.messages.length,
-      //                   padding: const EdgeInsets.symmetric(horizontal: 10),
-      //                   itemBuilder: (context, index) {
-      //                     return TextMessage(
-      //                         message: MessageController.messages[index]);
-      //                   },
-      //                 )));
-      //       } else {
-      //         return const Expanded(child: Center(child: Text('No Chat')));
-      //       }
-      //     }),
-      //     ChatInputField(receiverId: sId),
-      //   ],
-      // ),
-    );
+        // Column(
+        //   children: [
+        //     Obx(() {
+        //       if (MessageController.messages.isNotEmpty) {
+        //         return Expanded(
+        //             child: Obx(() => ListView.builder(
+        //                   reverse: false,
+        //                   controller: MessageController.scrollController,
+        //                   physics: const BouncingScrollPhysics(),
+        //                   itemCount: MessageController.messages.length,
+        //                   padding: const EdgeInsets.symmetric(horizontal: 10),
+        //                   itemBuilder: (context, index) {
+        //                     return TextMessage(
+        //                         message: MessageController.messages[index]);
+        //                   },
+        //                 )));
+        //       } else {
+        //         return const Expanded(child: Center(child: Text('No Chat')));
+        //       }
+        //     }),
+        //     ChatInputField(receiverId: sId),
+        //   ],
+        // ),
+        );
   }
 }
 

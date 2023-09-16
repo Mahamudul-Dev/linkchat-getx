@@ -67,7 +67,8 @@ class ChatInputField extends GetView<MessageController> {
             ),
             Obx(() => controller.textMessage.value.isNotEmpty
                 ? IconButton(
-                    onPressed: () => controller.sendMessage(receiverId),
+                    onPressed:
+                        () {}, //() => controller.sendMessage(receiverId),
                     icon: const Icon(
                       Icons.send,
                       color: brightWhite,

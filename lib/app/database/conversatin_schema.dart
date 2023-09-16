@@ -8,12 +8,10 @@ class ConversationSchema {
   String receiverServerId;
   String creatorServerId;
 
-
   final participant = ToMany<ChatParticipantSchema>();
   final messages = ToMany<MessageSchema>();
   final receiver = ToOne<ChatParticipantSchema>();
   final sender = ToOne<ChatParticipantSchema>();
-
 
   ConversationSchema({
     this.objectId = 0,
@@ -36,6 +34,7 @@ class ChatParticipantSchema {
   @Backlink('participant')
   final conversation = ToMany<ConversationSchema>();
 
+  @Backlink('sender')
   final messageSchema = ToMany<MessageSchema>();
 
   ChatParticipantSchema(
@@ -49,23 +48,92 @@ class ChatParticipantSchema {
 
 @Entity()
 class MessageSchema {
-  @Id()
-  int objectId;
-  String content;
-  List<String> attachments;
-  String receiverId;
-  String senderServerId;
-  @Property(type: PropertyType.date)
-  DateTime timestamp;
+  @Id(assignable: true)
+  int id; // Primary key
+  String? message;
+  String? createdAt;
+  String? senderId;
+  String? receiverId;
+
   final sender = ToOne<ChatParticipantSchema>();
   final conversation = ToOne<ConversationSchema>();
+  final replyMessage = ToOne<ReplyMessage>();
+  final reactions = ToOne<ReactionSchema>();
+
+  String? messageType;
+  String? voiceMessageDuration;
+  String? status;
 
   MessageSchema({
-    this.objectId = 0,
-    required this.content,
-    required this.attachments,
-    required this.receiverId,
-    required this.senderServerId,
-    required this.timestamp,
+    this.id = 0,
+    this.message,
+    this.createdAt,
+    this.senderId,
+    this.receiverId,
+    this.messageType,
+    this.voiceMessageDuration,
+    this.status,
   });
 }
+
+@Entity()
+class ReactionSchema {
+  @Id(assignable: true)
+  int id; // Primary key
+  List<String>? reactions;
+  List<String>? reactedUserIds;
+
+  final messageSchema = ToOne<MessageSchema>();
+
+  ReactionSchema({
+    this.id = 0,
+    required this.reactions,
+    required this.reactedUserIds,
+  });
+}
+
+@Entity()
+class ReplyMessage {
+  @Id(assignable: true)
+  int id = 0; // Primary key
+  String? message;
+  String? replyBy;
+  String? replyTo;
+  String? messageType;
+  String? voiceMessageDuration;
+
+  final messageSchema = ToOne<MessageSchema>();
+
+  ReplyMessage({
+    this.id = 0,
+    this.message,
+    this.replyBy,
+    this.replyTo,
+    this.messageType,
+    this.voiceMessageDuration,
+  });
+}
+
+
+// @Entity()
+// class MessageSchema {
+//   @Id()
+//   int objectId;
+//   String content;
+//   List<String> attachments;
+//   String receiverId;
+//   String senderServerId;
+//   @Property(type: PropertyType.date)
+//   DateTime timestamp;
+//   final sender = ToOne<ChatParticipantSchema>();
+//   final conversation = ToOne<ConversationSchema>();
+
+//   MessageSchema({
+//     this.objectId = 0,
+//     required this.content,
+//     required this.attachments,
+//     required this.receiverId,
+//     required this.senderServerId,
+//     required this.timestamp,
+//   });
+// }
