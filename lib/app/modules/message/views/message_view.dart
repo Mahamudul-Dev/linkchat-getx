@@ -30,6 +30,7 @@ class _MessageViewState extends State<MessageView> {
   @override
   void initState() {
     controller.getMessage(P2PChatHelper.getSingleConversation(sId), sId);
+    Logger().i('Exicuting from 33 line, message_view file: $sId');
 
     super.initState();
   }
@@ -38,91 +39,187 @@ class _MessageViewState extends State<MessageView> {
   Widget build(BuildContext context) {
     return Scaffold(
         // appBar: _buildHeaderBar(_chatController, sId, context),
-        body: Obx(() => MessageController.chatViewController.value != null
-            ? chatview.ChatView(
-                onSendTap: (message, replyMessage, messageType) {
-                  controller.onSendTap(message, replyMessage, messageType, sId);
-                  Logger().i(message);
-                  Logger().i(messageType);
-                },
-                showTypingIndicator: false,
-                chatController: MessageController.chatViewController.value!,
-                currentUser: chatview.ChatUser(
-                  id: AccountHelper.getUserData().serverId,
-                  name: AccountHelper.getUserData().name,
-                  profilePhoto: AccountHelper.getUserData().photo,
-                ),
-                chatViewState: chatview.ChatViewState.hasMessages,
-                typeIndicatorConfig: const chatview.TypeIndicatorConfiguration(
-                    flashingCircleDarkColor: accentColor,
-                    flashingCircleBrightColor: white),
-                appBar: _buildHeaderBar(_chatController, sId, context),
-                chatViewStateConfig: chatview.ChatViewStateConfiguration(
-                  loadingWidgetConfig:
-                      const chatview.ChatViewStateWidgetConfiguration(
-                    loadingIndicatorColor: accentColor,
-                  ),
-                  onReloadButtonTap: () {},
-                ),
-                chatBackgroundConfig: chatview.ChatBackgroundConfiguration(
-                    backgroundColor: black,
-                    messageTimeTextStyle:
-                        Theme.of(context).textTheme.bodyMedium),
-                sendMessageConfig: const chatview.SendMessageConfiguration(
-                  imagePickerConfiguration: chatview.ImagePickerConfiguration(),
-                  defaultSendButtonColor: accentColor,
-                  enableCameraImagePicker: false,
-                  enableGalleryImagePicker: true,
-                  textFieldBackgroundColor: blackAccent,
-                  imagePickerIconsConfig:
-                      chatview.ImagePickerIconsConfiguration(
-                          galleryIconColor: accentColor,
-                          galleryImagePickerIcon: Icon(
-                            Icons.image_rounded,
+        body: Obx(() => !controller.isLoading.value
+            ? Obx(() => MessageController
+                    .chatViewController.value!.initialMessageList.isEmpty
+                ? chatview.ChatView(
+                    onSendTap: (message, replyMessage, messageType) {
+                      controller.onSendTap(
+                          message, replyMessage, messageType, sId);
+                      Logger().i(message);
+                      Logger().i(messageType);
+                    },
+                    showTypingIndicator: false,
+                    chatController: MessageController.chatViewController.value!,
+                    currentUser: chatview.ChatUser(
+                      id: AccountHelper.getUserData().serverId,
+                      name: AccountHelper.getUserData().name,
+                      profilePhoto: AccountHelper.getUserData().photo,
+                    ),
+                    chatViewState: chatview.ChatViewState.noData,
+                    typeIndicatorConfig:
+                        const chatview.TypeIndicatorConfiguration(
+                            flashingCircleDarkColor: accentColor,
+                            flashingCircleBrightColor: white),
+                    appBar: _buildHeaderBar(_chatController, sId, context),
+                    chatViewStateConfig: chatview.ChatViewStateConfiguration(
+                      loadingWidgetConfig:
+                          const chatview.ChatViewStateWidgetConfiguration(
+                        loadingIndicatorColor: accentColor,
+                      ),
+                      onReloadButtonTap: () {},
+                    ),
+                    chatBackgroundConfig: chatview.ChatBackgroundConfiguration(
+                        backgroundColor: black,
+                        messageTimeTextStyle:
+                            Theme.of(context).textTheme.bodyMedium),
+                    sendMessageConfig: const chatview.SendMessageConfiguration(
+                      imagePickerConfiguration:
+                          chatview.ImagePickerConfiguration(),
+                      defaultSendButtonColor: accentColor,
+                      enableCameraImagePicker: false,
+                      enableGalleryImagePicker: true,
+                      textFieldBackgroundColor: blackAccent,
+                      imagePickerIconsConfig:
+                          chatview.ImagePickerIconsConfiguration(
+                              galleryIconColor: accentColor,
+                              galleryImagePickerIcon: Icon(
+                                Icons.image_rounded,
+                                color: white,
+                              )),
+                    ),
+                    chatBubbleConfig: chatview.ChatBubbleConfiguration(
+                        inComingChatBubbleConfig: chatview.ChatBubble(
+                            color: blackAccent, onMessageRead: (message) {}),
+                        outgoingChatBubbleConfig: chatview.ChatBubble(
+                            color: accentColor, onMessageRead: (message) {})),
+                    reactionPopupConfig:
+                        const chatview.ReactionPopupConfiguration(
+                            backgroundColor: blackAccent,
+                            shadow: BoxShadow(color: black)),
+                    messageConfig: chatview.MessageConfiguration(
+                      messageReactionConfig:
+                          chatview.MessageReactionConfiguration(
+                        backgroundColor: blackAccent,
+                        borderColor: Colors.transparent,
+                        reactionsBottomSheetConfig:
+                            chatview.ReactionsBottomSheetConfiguration(
+                          backgroundColor: blackAccent,
+                          reactedUserTextStyle: const TextStyle(
                             color: white,
-                          )),
-                ),
-                chatBubbleConfig: chatview.ChatBubbleConfiguration(
-                    inComingChatBubbleConfig: chatview.ChatBubble(
-                        color: blackAccent, onMessageRead: (message) {}),
-                    outgoingChatBubbleConfig: chatview.ChatBubble(
-                        color: accentColor, onMessageRead: (message) {})),
-                reactionPopupConfig: const chatview.ReactionPopupConfiguration(
-                    backgroundColor: blackAccent,
-                    shadow: BoxShadow(color: black)),
-                messageConfig: chatview.MessageConfiguration(
-                  messageReactionConfig: chatview.MessageReactionConfiguration(
-                    backgroundColor: blackAccent,
-                    borderColor: Colors.transparent,
-                    reactionsBottomSheetConfig:
-                        chatview.ReactionsBottomSheetConfiguration(
-                      backgroundColor: blackAccent,
-                      reactedUserTextStyle: const TextStyle(
-                        color: white,
+                          ),
+                          reactionWidgetDecoration: BoxDecoration(
+                            color: blackAccent,
+                            boxShadow: const [
+                              BoxShadow(
+                                color: black,
+                                offset: Offset(0, 20),
+                                blurRadius: 40,
+                              )
+                            ],
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
                       ),
-                      reactionWidgetDecoration: BoxDecoration(
-                        color: blackAccent,
-                        boxShadow: const [
-                          BoxShadow(
-                            color: black,
-                            offset: Offset(0, 20),
-                            blurRadius: 40,
-                          )
-                        ],
-                        borderRadius: BorderRadius.circular(10),
+                      imageMessageConfig: chatview.ImageMessageConfiguration(
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 15),
+                        shareIconConfig: chatview.ShareIconConfiguration(
+                          defaultIconBackgroundColor: blackAccent,
+                          defaultIconColor: white,
+                        ),
                       ),
                     ),
-                  ),
-                  imageMessageConfig: chatview.ImageMessageConfiguration(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 15),
-                    shareIconConfig: chatview.ShareIconConfiguration(
-                      defaultIconBackgroundColor: blackAccent,
-                      defaultIconColor: white,
+                  )
+                : chatview.ChatView(
+                    onSendTap: (message, replyMessage, messageType) {
+                      controller.onSendTap(
+                          message, replyMessage, messageType, sId);
+                      Logger().i(message);
+                      Logger().i(messageType);
+                    },
+                    showTypingIndicator: false,
+                    chatController: MessageController.chatViewController.value!,
+                    currentUser: chatview.ChatUser(
+                      id: AccountHelper.getUserData().serverId,
+                      name: AccountHelper.getUserData().name,
+                      profilePhoto: AccountHelper.getUserData().photo,
                     ),
-                  ),
-                ),
-              )
+                    chatViewState: chatview.ChatViewState.hasMessages,
+                    typeIndicatorConfig:
+                        const chatview.TypeIndicatorConfiguration(
+                            flashingCircleDarkColor: accentColor,
+                            flashingCircleBrightColor: white),
+                    appBar: _buildHeaderBar(_chatController, sId, context),
+                    chatViewStateConfig: chatview.ChatViewStateConfiguration(
+                      loadingWidgetConfig:
+                          const chatview.ChatViewStateWidgetConfiguration(
+                        loadingIndicatorColor: accentColor,
+                      ),
+                      onReloadButtonTap: () {},
+                    ),
+                    chatBackgroundConfig: chatview.ChatBackgroundConfiguration(
+                        backgroundColor: black,
+                        messageTimeTextStyle:
+                            Theme.of(context).textTheme.bodyMedium),
+                    sendMessageConfig: const chatview.SendMessageConfiguration(
+                      imagePickerConfiguration:
+                          chatview.ImagePickerConfiguration(),
+                      defaultSendButtonColor: accentColor,
+                      enableCameraImagePicker: false,
+                      enableGalleryImagePicker: true,
+                      textFieldBackgroundColor: blackAccent,
+                      imagePickerIconsConfig:
+                          chatview.ImagePickerIconsConfiguration(
+                              galleryIconColor: accentColor,
+                              galleryImagePickerIcon: Icon(
+                                Icons.image_rounded,
+                                color: white,
+                              )),
+                    ),
+                    chatBubbleConfig: chatview.ChatBubbleConfiguration(
+                        inComingChatBubbleConfig: chatview.ChatBubble(
+                            color: blackAccent, onMessageRead: (message) {}),
+                        outgoingChatBubbleConfig: chatview.ChatBubble(
+                            color: accentColor, onMessageRead: (message) {})),
+                    reactionPopupConfig:
+                        const chatview.ReactionPopupConfiguration(
+                            backgroundColor: blackAccent,
+                            shadow: BoxShadow(color: black)),
+                    messageConfig: chatview.MessageConfiguration(
+                      messageReactionConfig:
+                          chatview.MessageReactionConfiguration(
+                        backgroundColor: blackAccent,
+                        borderColor: Colors.transparent,
+                        reactionsBottomSheetConfig:
+                            chatview.ReactionsBottomSheetConfiguration(
+                          backgroundColor: blackAccent,
+                          reactedUserTextStyle: const TextStyle(
+                            color: white,
+                          ),
+                          reactionWidgetDecoration: BoxDecoration(
+                            color: blackAccent,
+                            boxShadow: const [
+                              BoxShadow(
+                                color: black,
+                                offset: Offset(0, 20),
+                                blurRadius: 40,
+                              )
+                            ],
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                      imageMessageConfig: chatview.ImageMessageConfiguration(
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 15),
+                        shareIconConfig: chatview.ShareIconConfiguration(
+                          defaultIconBackgroundColor: blackAccent,
+                          defaultIconColor: white,
+                        ),
+                      ),
+                    ),
+                  ))
             : Center(
                 child: LoadingAnimationWidget.bouncingBall(
                     color: accentColor, size: 25),

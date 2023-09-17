@@ -56,6 +56,11 @@ class P2PChatHelper {
             photo: senderProfile!.data.first.profilePic,
             country: senderProfile!.data.first.country);
 
+        Logger().i('Exicuting Line 59: ${conversationSchema == null}');
+        Logger()
+            .i('Exicuting Line 60: ${receiverProfile?.data.first.userName}');
+        Logger().i('Exicuting Line 61: ${senderProfile?.data.first.userName}');
+
         if (conversationSchema == null) {
           // save new conversation to database
           conversationSchema = ConversationSchema(
@@ -128,6 +133,8 @@ class P2PChatHelper {
           conversationSchema?.messages.add(message);
           messageBox.put(message);
           conversationBox.put(conversationSchema!);
+          Logger()
+              .i('Exicuting from 136: ${ChatController.conversations.asMap()}');
           ChatController.conversations
               .singleWhere(
                   (item) => item.receiver.serverId == message.receiverId)

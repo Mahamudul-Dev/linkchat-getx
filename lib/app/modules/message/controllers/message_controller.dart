@@ -19,6 +19,7 @@ class MessageController extends GetxController {
   static Rx<chat.ChatController?> chatViewController =
       Rx<chat.ChatController?>(null);
   static RxList<MessageSchema> messages = <MessageSchema>[].obs;
+  RxBool isLoading = true.obs;
 
   UserModel? receiverProfile;
   // Stream<ConversationSchema>? conversationStream;
@@ -96,32 +97,60 @@ class MessageController extends GetxController {
   // }
 
   void getMessage(ConversationSchema? conversationSchema, String sId) async {
-    try {
-      messages.assignAll(conversationSchema?.messages.toList() ?? []);
+    messages.assignAll(conversationSchema?.messages.toList() ?? []);
+    Logger().i(messages.map((element) => chat.Message(
+        message: element.message ?? '',
+        id: element.id.toString(),
+        createdAt: DateTime.parse(
+            element.createdAt ?? DateTime.now().toIso8601String()),
+        sendBy: element.senderId ?? 'Unknown')));
+    receiverProfile = await ApiService.getSingleProfile(sId);
 
-      receiverProfile = await ApiService.getSingleProfile(sId);
-      chatViewController.value = chat.ChatController(
-        initialMessageList: messages.isEmpty
-            ? <chat.Message>[]
-            : messages
-                .map((element) => chat.Message(
-                    message: element.message ?? '',
-                    id: element.id.toString(),
-                    createdAt: DateTime.parse(element.createdAt!),
-                    sendBy: element.senderId!))
-                .toList(),
-        scrollController: ScrollController(),
-        chatUsers: [
-          chat.ChatUser(
-            id: sId,
-            name: receiverProfile?.data.first.userName ?? 'Unknown',
-            profilePhoto: receiverProfile?.data.first.profilePic,
-          )
-        ],
-      );
-    } catch (e) {
-      Logger().e(e);
+    chatViewController.value = chat.ChatController(
+      initialMessageList: <chat.Message>[],
+      // messages.isEmpty
+      //     ? <chat.Message>[]
+      //     : messages
+      //         .map((element) => chat.Message(
+      //             message: element.message ?? '',
+      //             id: element.id.toString(),
+      //             createdAt: DateTime.parse(
+      //                 element.createdAt ?? DateTime.now().toIso8601String()),
+      //             sendBy: element.senderId ?? 'Unknown'))
+      //         .toList(),
+      scrollController: ScrollController(),
+      chatUsers: [
+        chat.ChatUser(
+          id: AccountHelper.getUserData().serverId,
+          name: AccountHelper.getUserData().name,
+          profilePhoto: AccountHelper.getUserData().photo,
+        ),
+        chat.ChatUser(
+          id: sId,
+          name: receiverProfile?.data.first.userName ?? 'Unknown',
+          profilePhoto: receiverProfile?.data.first.profilePic,
+        )
+      ],
+    );
+
+    Logger().i(
+        'ID: ${chatViewController.value?.chatUsers.first.id}, Name: ${chatViewController.value?.chatUsers.first.name}');
+
+    Logger().i(
+        'ID: ${chatViewController.value?.chatUsers[1].id}, Name: ${chatViewController.value?.chatUsers[1].name}');
+
+    for (var i = 0; i < messages.length; i++) {
+      Logger().i(i);
+      chatViewController.value?.addMessage(chat.Message(
+          createdAt: DateTime.parse(
+            messages[i].createdAt ?? DateTime.now().toIso8601String(),
+          ),
+          message: messages[i].message ?? '',
+          sendBy: messages[i].senderId ?? ''));
     }
+
+    isLoading.value = false;
+    Logger().i(isLoading);
   }
 
   static void scrollToBottom() {
@@ -135,6 +164,8 @@ class MessageController extends GetxController {
   @override
   void onInit() {
     // scrollToBottom();
+    Logger().i(chatViewController.value?.initialMessageList.isEmpty);
+
     super.onInit();
   }
 }
