@@ -40,7 +40,7 @@ class SocketIOService {
       Logger().i('Socket Connection Established Success');
       socket.emit('join', AccountHelper.getLoginInfo().id);
       socket.on('privateMessage', (message) async {
-        Logger().i(message);
+        Logger(filter: DevelopmentFilter()).i(message);
         final msg = MessageModel.fromJson(message);
 
         try {
@@ -59,7 +59,6 @@ class SocketIOService {
         // Logger().i(
         //     'Message Recieved from: ${msg.sender}, Message: ${msg.message.text}');
         final dbMsg = MessageSchema(
-            id: int.parse(msg.id!),
             message: msg.message,
             createdAt: msg.createdAt,
             senderId: msg.senderId,

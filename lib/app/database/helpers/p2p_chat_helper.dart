@@ -167,6 +167,10 @@ class P2PChatHelper {
     ConversationSchema? schema;
 
     try {
+      Logger().i(conversationBox
+          .query(ConversationSchema_.receiverServerId.equals(id))
+          .build()
+          .find());
       schema = conversationBox
           .query(ConversationSchema_.receiverServerId.equals(id))
           .build()

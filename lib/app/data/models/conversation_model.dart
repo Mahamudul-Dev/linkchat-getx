@@ -67,15 +67,14 @@ class MessageModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
         "message": message,
         "createdAt": createdAt,
         "senderId": senderId,
         "receiverId": receiverId,
-        "reply_message": replyMessage?.toJson(),
+        "replyMessage": replyMessage?.toJson(),
         "reaction": reaction?.toJson(),
-        "message_type": messageType,
-        "voice_message_duration": voiceMessageDuration,
+        "messageType": messageType,
+        "voiceMessageDuration": voiceMessageDuration,
         "status": status,
       };
 }

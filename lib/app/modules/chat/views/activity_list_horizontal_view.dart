@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:linkchat/app/data/models/models.dart';
 import 'package:linkchat/app/routes/app_pages.dart';
 import 'package:linkchat/app/widgets/views/CircullarShimmer.dart';
+import 'package:logger/logger.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../modules/chat/controllers/chat_controller.dart';
@@ -25,6 +26,7 @@ class ActivityListHorizontalView extends GetView<ChatController> {
         builder: (context, AsyncSnapshot<List<ShortProfileModel>> snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data == []) {
+              Logger().i(snapshot.data?.length);
               return const SizedBox.shrink();
             } else {
               return ListView.separated(
@@ -36,18 +38,13 @@ class ActivityListHorizontalView extends GetView<ChatController> {
                             width: 30),
                       );
                     } else {
-                      return Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 100,
-                          padding: const EdgeInsets.symmetric(vertical: 6),
-                          margin: const EdgeInsets.symmetric(horizontal: 10),
-                          child: buildCircleAvater(index));
+                      return buildCircleAvater(index);
                     }
                   },
                   scrollDirection: Axis.horizontal,
                   physics: const BouncingScrollPhysics(),
                   separatorBuilder: (context, index) =>
-                      const SizedBox(width: 20),
+                      const SizedBox(width: 2),
                   itemCount:
                       snapshot.data!.length >= 5 ? 6 : snapshot.data!.length);
             }

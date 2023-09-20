@@ -4,12 +4,11 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
-import 'package:linkchat/app/data/dummy_messages.dart';
-import 'package:linkchat/app/data/models/conversation_model.dart';
 import 'package:linkchat/app/data/models/models.dart';
-import 'package:linkchat/app/services/api_service.dart';
 import 'package:logger/logger.dart';
 import 'package:chatview/chatview.dart' as chat;
+import 'package:path/path.dart' as path;
+import 'package:mime/mime.dart';
 
 import '../../../database/conversatin_schema.dart';
 import '../../../database/helpers/helpers.dart';
@@ -18,7 +17,7 @@ import '../../../services/socket_io_service.dart';
 class MessageController extends GetxController {
   Rx<TextEditingController> textMessageController = TextEditingController().obs;
   RxString textMessage = ''.obs;
-  RxBool isTyping = true.obs;
+  RxBool isTyping = false.obs;
   static ScrollController scrollController = ScrollController();
   static Rx<chat.ChatController?> chatViewController =
       Rx<chat.ChatController?>(null);
@@ -46,14 +45,36 @@ class MessageController extends GetxController {
     P2PChatHelper.saveConversation(messageSchema);
     textMessageController.value.clear();
 
-    SocketIOService.socket.emit('privateMessage', messageSchema);
+    Logger().i(MessageModel(
+            message: messageSchema.message,
+            createdAt: messageSchema.createdAt,
+            senderId: messageSchema.senderId,
+            receiverId: messageSchema.receiverId,
+            messageType: messageSchema.messageType,
+            voiceMessageDuration: messageSchema.voiceMessageDuration,
+            status: messageSchema.status)
+        .toJson());
+
+    SocketIOService.socket.emit(
+        'privateMessage',
+        MessageModel(
+                message: messageSchema.message,
+                createdAt: messageSchema.createdAt,
+                senderId: messageSchema.senderId,
+                receiverId: messageSchema.receiverId,
+                messageType: messageSchema.messageType,
+                voiceMessageDuration: messageSchema.voiceMessageDuration,
+                status: messageSchema.status)
+            .toJson());
 
     messages.add(messageSchema);
+    messages.refresh();
     scrollToBottom();
   }
 
   Future<void> getAttachment({required String receiverId}) async {
     final result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
         allowMultiple: false,
         allowedExtensions: [
           'png',
@@ -81,6 +102,14 @@ class MessageController extends GetxController {
       //   Logger().e(e);
       // }
     }
+  }
+
+  String? getFileType(String filePath) {
+    final String extension = path.extension(filePath);
+    final String? mimeType = lookupMimeType(extension);
+    Logger().i(mimeType);
+    Logger().i(extension);
+    return mimeType;
   }
 
   bool isOwnMessage(MessageSchema message) {
