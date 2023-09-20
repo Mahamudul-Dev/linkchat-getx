@@ -5,10 +5,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:linkchat/app/database/helpers/helpers.dart';
 import 'package:linkchat/app/modules/chat/controllers/chat_controller.dart';
+import 'package:linkchat/app/modules/message/views/chat_input_field.dart';
+import 'package:linkchat/app/modules/message/views/text_message.dart';
 import 'package:linkchat/app/style/app_color.dart';
 import 'package:chatview/chatview.dart' as chatview;
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:logger/logger.dart';
+import 'package:lottie/lottie.dart';
+import '../../../style/asset_manager.dart';
 import '../controllers/message_controller.dart';
 
 class MessageView extends StatefulWidget {
@@ -30,128 +34,65 @@ class _MessageViewState extends State<MessageView> {
   @override
   void initState() {
     controller.getMessage(P2PChatHelper.getSingleConversation(sId), sId);
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // appBar: _buildHeaderBar(_chatController, sId, context),
-        body: Obx(() => MessageController.chatViewController.value != null
-            ? chatview.ChatView(
-                onSendTap: (message, replyMessage, messageType) {
-                  controller.onSendTap(message, replyMessage, messageType, sId);
-                  Logger().i(message);
-                  Logger().i(messageType);
-                },
-                showTypingIndicator: false,
-                chatController: MessageController.chatViewController.value!,
-                currentUser: chatview.ChatUser(
-                  id: AccountHelper.getUserData().serverId,
-                  name: AccountHelper.getUserData().name,
-                  profilePhoto: AccountHelper.getUserData().photo,
+      appBar: _buildHeaderBar(_chatController, sId, context),
+      body: Column(
+        children: [
+          Obx(() {
+            if (MessageController.messages.isNotEmpty) {
+              return Expanded(
+                  child: Obx(() => ListView.builder(
+                        reverse: false,
+                        controller: MessageController.scrollController,
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: MessageController.messages.length,
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        itemBuilder: (context, index) {
+                          return Obx(() => TextMessage(
+                              message: MessageController.messages[index]));
+                        },
+                      )));
+            } else {
+              return const Expanded(
+                  child: Center(
+                      child: Text(
+                'No Chat',
+                style: TextStyle(color: Colors.white),
+              )));
+            }
+          }),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20, left: 8),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CircleAvatar(
+                  radius: 15,
+                  backgroundColor: blackAccent,
+                  backgroundImage: CachedNetworkImageProvider(_chatController
+                      .linikedList
+                      .singleWhere((element) => element.sId == sId)
+                      .profilePic),
                 ),
-                chatViewState: chatview.ChatViewState.hasMessages,
-                typeIndicatorConfig: const chatview.TypeIndicatorConfiguration(
-                    flashingCircleDarkColor: accentColor,
-                    flashingCircleBrightColor: white),
-                appBar: _buildHeaderBar(_chatController, sId, context),
-                chatViewStateConfig: chatview.ChatViewStateConfiguration(
-                  loadingWidgetConfig:
-                      const chatview.ChatViewStateWidgetConfiguration(
-                    loadingIndicatorColor: accentColor,
-                  ),
-                  onReloadButtonTap: () {},
+                Lottie.asset(
+                  AssetManager
+                      .TYPING_ANIM, // Replace with your Lottie animation file path
+                  width: 70, // Adjust the width and height as needed
+                  height: 20,
+                  fit: BoxFit.cover,
                 ),
-                chatBackgroundConfig: chatview.ChatBackgroundConfiguration(
-                    backgroundColor: black,
-                    messageTimeTextStyle:
-                        Theme.of(context).textTheme.bodyMedium),
-                sendMessageConfig: const chatview.SendMessageConfiguration(
-                  imagePickerConfiguration: chatview.ImagePickerConfiguration(),
-                  defaultSendButtonColor: accentColor,
-                  enableCameraImagePicker: false,
-                  enableGalleryImagePicker: true,
-                  textFieldBackgroundColor: blackAccent,
-                  imagePickerIconsConfig:
-                      chatview.ImagePickerIconsConfiguration(
-                          galleryIconColor: accentColor,
-                          galleryImagePickerIcon: Icon(
-                            Icons.image_rounded,
-                            color: white,
-                          )),
-                ),
-                chatBubbleConfig: chatview.ChatBubbleConfiguration(
-                    inComingChatBubbleConfig: chatview.ChatBubble(
-                        color: blackAccent, onMessageRead: (message) {}),
-                    outgoingChatBubbleConfig: chatview.ChatBubble(
-                        color: accentColor, onMessageRead: (message) {})),
-                reactionPopupConfig: const chatview.ReactionPopupConfiguration(
-                    backgroundColor: blackAccent,
-                    shadow: BoxShadow(color: black)),
-                messageConfig: chatview.MessageConfiguration(
-                  messageReactionConfig: chatview.MessageReactionConfiguration(
-                    backgroundColor: blackAccent,
-                    borderColor: Colors.transparent,
-                    reactionsBottomSheetConfig:
-                        chatview.ReactionsBottomSheetConfiguration(
-                      backgroundColor: blackAccent,
-                      reactedUserTextStyle: const TextStyle(
-                        color: white,
-                      ),
-                      reactionWidgetDecoration: BoxDecoration(
-                        color: blackAccent,
-                        boxShadow: const [
-                          BoxShadow(
-                            color: black,
-                            offset: Offset(0, 20),
-                            blurRadius: 40,
-                          )
-                        ],
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  ),
-                  imageMessageConfig: chatview.ImageMessageConfiguration(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 15),
-                    shareIconConfig: chatview.ShareIconConfiguration(
-                      defaultIconBackgroundColor: blackAccent,
-                      defaultIconColor: white,
-                    ),
-                  ),
-                ),
-              )
-            : Center(
-                child: LoadingAnimationWidget.bouncingBall(
-                    color: accentColor, size: 25),
-              ))
-
-        // Column(
-        //   children: [
-        //     Obx(() {
-        //       if (MessageController.messages.isNotEmpty) {
-        //         return Expanded(
-        //             child: Obx(() => ListView.builder(
-        //                   reverse: false,
-        //                   controller: MessageController.scrollController,
-        //                   physics: const BouncingScrollPhysics(),
-        //                   itemCount: MessageController.messages.length,
-        //                   padding: const EdgeInsets.symmetric(horizontal: 10),
-        //                   itemBuilder: (context, index) {
-        //                     return TextMessage(
-        //                         message: MessageController.messages[index]);
-        //                   },
-        //                 )));
-        //       } else {
-        //         return const Expanded(child: Center(child: Text('No Chat')));
-        //       }
-        //     }),
-        //     ChatInputField(receiverId: sId),
-        //   ],
-        // ),
-        );
+              ],
+            ),
+          ),
+          ChatInputField(receiverId: sId),
+        ],
+      ),
+    );
   }
 }
 

@@ -194,7 +194,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.ROOM_CONVERSATION,
-      page: () => const RoomConversationView(),
+      page: () => RoomConversationView(),
       binding: RoomChatBinding(),
     ),
   ];

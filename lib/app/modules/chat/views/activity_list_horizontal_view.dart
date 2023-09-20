@@ -16,35 +16,46 @@ class ActivityListHorizontalView extends GetView<ChatController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: MediaQuery.of(context).size.width,
-        height: 100,
-        padding: const EdgeInsets.symmetric(vertical: 6),
-        margin: const EdgeInsets.symmetric(horizontal: 10),
-        child: FutureBuilder(
-          future: controller.getAllActiveUsers(),
-          builder: (context, AsyncSnapshot<List<ShortProfileModel>> snapshot) {
-            return snapshot.hasData
-                ? ListView.separated(
-                    itemBuilder: (context, index) {
-                      if (index == 10) {
-                        return RoundButtonView(
-                          widget: Lottie.asset(
-                              AssetManager.ARROW_RIGHT_OUTLINE_ANIM,
-                              width: 30),
-                        );
-                      } else {
-                        return buildCircleAvater(index);
-                      }
-                    },
-                    scrollDirection: Axis.horizontal,
-                    physics: const BouncingScrollPhysics(),
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(width: 20),
-                    itemCount:
-                        snapshot.data!.length >= 5 ? 6 : snapshot.data!.length)
-                : buildCircularShimmer(10);
-          },
-        ));
+      width: MediaQuery.of(context).size.width,
+      height: 100,
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      margin: const EdgeInsets.symmetric(horizontal: 10),
+      child: FutureBuilder(
+        future: controller.getAllActiveUsers(),
+        builder: (context, AsyncSnapshot<List<ShortProfileModel>> snapshot) {
+          if (snapshot.hasData) {
+            if (snapshot.data == []) {
+              return const SizedBox.shrink();
+            } else {
+              return ListView.separated(
+                  itemBuilder: (context, index) {
+                    if (index == 10) {
+                      return RoundButtonView(
+                        widget: Lottie.asset(
+                            AssetManager.ARROW_RIGHT_OUTLINE_ANIM,
+                            width: 30),
+                      );
+                    } else {
+                      return Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 100,
+                          padding: const EdgeInsets.symmetric(vertical: 6),
+                          margin: const EdgeInsets.symmetric(horizontal: 10),
+                          child: buildCircleAvater(index));
+                    }
+                  },
+                  scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(width: 20),
+                  itemCount:
+                      snapshot.data!.length >= 5 ? 6 : snapshot.data!.length);
+            }
+          }
+          return buildCircularShimmer(10);
+        },
+      ),
+    );
   }
 
   Widget buildCircleAvater(int index) {

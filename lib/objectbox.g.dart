@@ -17,10 +17,10 @@ import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 import 'app/database/blocklist_schema.dart';
 import 'app/database/call_schema.dart';
 import 'app/database/conversatin_schema.dart';
-import 'app/database/group_schema.dart';
 import 'app/database/login_schema.dart';
 import 'app/database/notification_schema.dart';
 import 'app/database/profile_schema.dart';
+import 'app/database/room_schema.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
@@ -250,43 +250,6 @@ final _entities = <ModelEntity>[
       ],
       backlinks: <ModelBacklink>[]),
   ModelEntity(
-      id: const IdUid(6, 3399592598773373212),
-      name: 'GroupSchema',
-      lastPropertyId: const IdUid(5, 6597714747997913674),
-      flags: 0,
-      properties: <ModelProperty>[
-        ModelProperty(
-            id: const IdUid(1, 8796348425284286893),
-            name: 'objectId',
-            type: 6,
-            flags: 1),
-        ModelProperty(
-            id: const IdUid(2, 3250810206218392715),
-            name: 'groupId',
-            type: 9,
-            flags: 0),
-        ModelProperty(
-            id: const IdUid(3, 1389026739174052124),
-            name: 'name',
-            type: 9,
-            flags: 0),
-        ModelProperty(
-            id: const IdUid(4, 8658556870664592824),
-            name: 'photo',
-            type: 9,
-            flags: 0),
-        ModelProperty(
-            id: const IdUid(5, 6597714747997913674),
-            name: 'createdAt',
-            type: 10,
-            flags: 0)
-      ],
-      relations: <ModelRelation>[],
-      backlinks: <ModelBacklink>[
-        ModelBacklink(
-            name: 'participants', srcEntity: 'Participant', srcField: 'group')
-      ]),
-  ModelEntity(
       id: const IdUid(7, 4444973127470870519),
       name: 'LoginSchema',
       lastPropertyId: const IdUid(5, 2514932347143477877),
@@ -346,7 +309,7 @@ final _entities = <ModelEntity>[
             name: 'senderId',
             type: 11,
             flags: 520,
-            indexId: const IdUid(16, 4586230816503996722),
+            indexId: const IdUid(18, 2502119667752496364),
             relationTarget: 'ChatParticipantSchema'),
         ModelProperty(
             id: const IdUid(5, 5804901042859210391),
@@ -428,67 +391,6 @@ final _entities = <ModelEntity>[
             name: 'timestamp',
             type: 9,
             flags: 0)
-      ],
-      relations: <ModelRelation>[],
-      backlinks: <ModelBacklink>[]),
-  ModelEntity(
-      id: const IdUid(10, 5535228784166158145),
-      name: 'Participant',
-      lastPropertyId: const IdUid(10, 8338094021163795933),
-      flags: 0,
-      properties: <ModelProperty>[
-        ModelProperty(
-            id: const IdUid(1, 8987201266672491635),
-            name: 'objectId',
-            type: 6,
-            flags: 1),
-        ModelProperty(
-            id: const IdUid(2, 6066532235868952065),
-            name: 'serverId',
-            type: 9,
-            flags: 0),
-        ModelProperty(
-            id: const IdUid(3, 2504207618766319043),
-            name: 'uid',
-            type: 9,
-            flags: 0),
-        ModelProperty(
-            id: const IdUid(4, 2198775712253081765),
-            name: 'name',
-            type: 9,
-            flags: 0),
-        ModelProperty(
-            id: const IdUid(5, 7499310364353717373),
-            name: 'photo',
-            type: 9,
-            flags: 0),
-        ModelProperty(
-            id: const IdUid(6, 7787817590802395623),
-            name: 'tagline',
-            type: 9,
-            flags: 0),
-        ModelProperty(
-            id: const IdUid(7, 1540873251910624705),
-            name: 'gender',
-            type: 9,
-            flags: 0),
-        ModelProperty(
-            id: const IdUid(8, 7083309258147726351),
-            name: 'isActive',
-            type: 1,
-            flags: 0),
-        ModelProperty(
-            id: const IdUid(9, 9056645655867320091),
-            name: 'lastActive',
-            type: 9,
-            flags: 0),
-        ModelProperty(
-            id: const IdUid(10, 8338094021163795933),
-            name: 'groupId',
-            type: 11,
-            flags: 520,
-            indexId: const IdUid(8, 8787687464744604343),
-            relationTarget: 'GroupSchema')
       ],
       relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[]),
@@ -672,6 +574,45 @@ final _entities = <ModelEntity>[
             relationTarget: 'MessageSchema')
       ],
       relations: <ModelRelation>[],
+      backlinks: <ModelBacklink>[]),
+  ModelEntity(
+      id: const IdUid(15, 7948249909536385875),
+      name: 'RoomEntity',
+      lastPropertyId: const IdUid(6, 1001370135443734829),
+      flags: 0,
+      properties: <ModelProperty>[
+        ModelProperty(
+            id: const IdUid(1, 2779440106014764554),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        ModelProperty(
+            id: const IdUid(2, 7544580077033716133),
+            name: 'groupId',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(3, 6507673438652168046),
+            name: 'creatorId',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(4, 8365804577885862762),
+            name: 'groupName',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(5, 8229869361671324633),
+            name: 'joinCode',
+            type: 6,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(6, 1001370135443734829),
+            name: 'groupImage',
+            type: 9,
+            flags: 0)
+      ],
+      relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[])
 ];
 
@@ -702,24 +643,45 @@ Future<Store> openStore(
 ModelDefinition getObjectBoxModel() {
   final model = ModelInfo(
       entities: _entities,
-      lastEntityId: const IdUid(14, 6182342856094685363),
-      lastIndexId: const IdUid(16, 4586230816503996722),
+      lastEntityId: const IdUid(15, 7948249909536385875),
+      lastIndexId: const IdUid(18, 2502119667752496364),
       lastRelationId: const IdUid(2, 1708645724144874611),
       lastSequenceId: const IdUid(0, 0),
-      retiredEntityUids: const [2687039153339483124],
+      retiredEntityUids: const [
+        2687039153339483124,
+        3399592598773373212,
+        5535228784166158145
+      ],
       retiredIndexUids: const [
         7649214007628390909,
         1102776509429843296,
         6153884362631719058,
         9191319147121440117,
-        6181542461845678284
+        6181542461845678284,
+        4586230816503996722,
+        2128944738367611638
       ],
       retiredPropertyUids: const [
         8661398602757902182,
         5611691731443863450,
         7147706975693739136,
         7034963042093949552,
-        2046454134820532993
+        2046454134820532993,
+        8796348425284286893,
+        3250810206218392715,
+        1389026739174052124,
+        8658556870664592824,
+        6597714747997913674,
+        8987201266672491635,
+        6066532235868952065,
+        2504207618766319043,
+        2198775712253081765,
+        7499310364353717373,
+        7787817590802395623,
+        1540873251910624705,
+        7083309258147726351,
+        9056645655867320091,
+        8338094021163795933
       ],
       retiredRelationUids: const [],
       modelVersion: 5,
@@ -998,59 +960,8 @@ ModelDefinition getObjectBoxModel() {
               store, RelInfo<ConversationSchema>.toMany(2, object.objectId));
           return object;
         }),
-    GroupSchema: EntityDefinition<GroupSchema>(
-        model: _entities[5],
-        toOneRelations: (GroupSchema object) => [],
-        toManyRelations: (GroupSchema object) => {
-              RelInfo<Participant>.toOneBacklink(10, object.objectId,
-                      (Participant srcObject) => srcObject.group):
-                  object.participants
-            },
-        getId: (GroupSchema object) => object.objectId,
-        setId: (GroupSchema object, int id) {
-          object.objectId = id;
-        },
-        objectToFB: (GroupSchema object, fb.Builder fbb) {
-          final groupIdOffset = fbb.writeString(object.groupId);
-          final nameOffset = fbb.writeString(object.name);
-          final photoOffset = fbb.writeString(object.photo);
-          fbb.startTable(6);
-          fbb.addInt64(0, object.objectId);
-          fbb.addOffset(1, groupIdOffset);
-          fbb.addOffset(2, nameOffset);
-          fbb.addOffset(3, photoOffset);
-          fbb.addInt64(4, object.createdAt.millisecondsSinceEpoch);
-          fbb.finish(fbb.endTable());
-          return object.objectId;
-        },
-        objectFromFB: (Store store, ByteData fbData) {
-          final buffer = fb.BufferContext(fbData);
-          final rootOffset = buffer.derefObject(0);
-          final objectIdParam =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
-          final groupIdParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 6, '');
-          final nameParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 8, '');
-          final photoParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 10, '');
-          final createdAtParam = DateTime.fromMillisecondsSinceEpoch(
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0));
-          final object = GroupSchema(
-              objectId: objectIdParam,
-              groupId: groupIdParam,
-              name: nameParam,
-              photo: photoParam,
-              createdAt: createdAtParam);
-          InternalToManyAccess.setRelInfo<GroupSchema>(
-              object.participants,
-              store,
-              RelInfo<Participant>.toOneBacklink(10, object.objectId,
-                  (Participant srcObject) => srcObject.group));
-          return object;
-        }),
     LoginSchema: EntityDefinition<LoginSchema>(
-        model: _entities[6],
+        model: _entities[5],
         toOneRelations: (LoginSchema object) => [],
         toManyRelations: (LoginSchema object) => {},
         getId: (LoginSchema object) => object.objectId,
@@ -1094,7 +1005,7 @@ ModelDefinition getObjectBoxModel() {
           return object;
         }),
     MessageSchema: EntityDefinition<MessageSchema>(
-        model: _entities[7],
+        model: _entities[6],
         toOneRelations: (MessageSchema object) => [
               object.sender,
               object.conversation,
@@ -1180,7 +1091,7 @@ ModelDefinition getObjectBoxModel() {
           return object;
         }),
     NotificationSchema: EntityDefinition<NotificationSchema>(
-        model: _entities[8],
+        model: _entities[7],
         toOneRelations: (NotificationSchema object) => [],
         toManyRelations: (NotificationSchema object) => {},
         getId: (NotificationSchema object) => object.id,
@@ -1227,74 +1138,8 @@ ModelDefinition getObjectBoxModel() {
 
           return object;
         }),
-    Participant: EntityDefinition<Participant>(
-        model: _entities[9],
-        toOneRelations: (Participant object) => [object.group],
-        toManyRelations: (Participant object) => {},
-        getId: (Participant object) => object.objectId,
-        setId: (Participant object, int id) {
-          object.objectId = id;
-        },
-        objectToFB: (Participant object, fb.Builder fbb) {
-          final serverIdOffset = fbb.writeString(object.serverId);
-          final uidOffset = fbb.writeString(object.uid);
-          final nameOffset = fbb.writeString(object.name);
-          final photoOffset = fbb.writeString(object.photo);
-          final taglineOffset = fbb.writeString(object.tagline);
-          final genderOffset = fbb.writeString(object.gender);
-          final lastActiveOffset = fbb.writeString(object.lastActive);
-          fbb.startTable(11);
-          fbb.addInt64(0, object.objectId);
-          fbb.addOffset(1, serverIdOffset);
-          fbb.addOffset(2, uidOffset);
-          fbb.addOffset(3, nameOffset);
-          fbb.addOffset(4, photoOffset);
-          fbb.addOffset(5, taglineOffset);
-          fbb.addOffset(6, genderOffset);
-          fbb.addBool(7, object.isActive);
-          fbb.addOffset(8, lastActiveOffset);
-          fbb.addInt64(9, object.group.targetId);
-          fbb.finish(fbb.endTable());
-          return object.objectId;
-        },
-        objectFromFB: (Store store, ByteData fbData) {
-          final buffer = fb.BufferContext(fbData);
-          final rootOffset = buffer.derefObject(0);
-          final objectIdParam =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
-          final serverIdParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 6, '');
-          final uidParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 8, '');
-          final nameParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 10, '');
-          final photoParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 12, '');
-          final taglineParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 14, '');
-          final genderParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 16, '');
-          final isActiveParam =
-              const fb.BoolReader().vTableGet(buffer, rootOffset, 18, false);
-          final lastActiveParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 20, '');
-          final object = Participant(
-              objectId: objectIdParam,
-              serverId: serverIdParam,
-              uid: uidParam,
-              name: nameParam,
-              photo: photoParam,
-              tagline: taglineParam,
-              gender: genderParam,
-              isActive: isActiveParam,
-              lastActive: lastActiveParam);
-          object.group.targetId =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 22, 0);
-          object.group.attach(store);
-          return object;
-        }),
     ProfileSchema: EntityDefinition<ProfileSchema>(
-        model: _entities[10],
+        model: _entities[8],
         toOneRelations: (ProfileSchema object) => [],
         toManyRelations: (ProfileSchema object) => {},
         getId: (ProfileSchema object) => object.objectId,
@@ -1419,7 +1264,7 @@ ModelDefinition getObjectBoxModel() {
           return object;
         }),
     ReplyMessage: EntityDefinition<ReplyMessage>(
-        model: _entities[11],
+        model: _entities[9],
         toOneRelations: (ReplyMessage object) => [object.messageSchema],
         toManyRelations: (ReplyMessage object) => {},
         getId: (ReplyMessage object) => object.id,
@@ -1480,7 +1325,7 @@ ModelDefinition getObjectBoxModel() {
           return object;
         }),
     ReactionSchema: EntityDefinition<ReactionSchema>(
-        model: _entities[12],
+        model: _entities[10],
         toOneRelations: (ReactionSchema object) => [object.messageSchema],
         toManyRelations: (ReactionSchema object) => {},
         getId: (ReactionSchema object) => object.id,
@@ -1526,6 +1371,54 @@ ModelDefinition getObjectBoxModel() {
           object.messageSchema.targetId =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0);
           object.messageSchema.attach(store);
+          return object;
+        }),
+    RoomEntity: EntityDefinition<RoomEntity>(
+        model: _entities[11],
+        toOneRelations: (RoomEntity object) => [],
+        toManyRelations: (RoomEntity object) => {},
+        getId: (RoomEntity object) => object.id,
+        setId: (RoomEntity object, int id) {
+          object.id = id;
+        },
+        objectToFB: (RoomEntity object, fb.Builder fbb) {
+          final groupIdOffset = fbb.writeString(object.groupId);
+          final creatorIdOffset = fbb.writeString(object.creatorId);
+          final groupNameOffset = fbb.writeString(object.groupName);
+          final groupImageOffset = fbb.writeString(object.groupImage);
+          fbb.startTable(7);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, groupIdOffset);
+          fbb.addOffset(2, creatorIdOffset);
+          fbb.addOffset(3, groupNameOffset);
+          fbb.addInt64(4, object.joinCode);
+          fbb.addOffset(5, groupImageOffset);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final idParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          final groupIdParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 6, '');
+          final creatorIdParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 8, '');
+          final groupNameParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 10, '');
+          final groupImageParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 14, '');
+          final joinCodeParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0);
+          final object = RoomEntity(
+              id: idParam,
+              groupId: groupIdParam,
+              creatorId: creatorIdParam,
+              groupName: groupNameParam,
+              groupImage: groupImageParam,
+              joinCode: joinCodeParam);
+
           return object;
         })
   };
@@ -1680,297 +1573,258 @@ class ConversationSchema_ {
           _entities[4].relations[1]);
 }
 
-/// [GroupSchema] entity fields to define ObjectBox queries.
-class GroupSchema_ {
-  /// see [GroupSchema.objectId]
-  static final objectId =
-      QueryIntegerProperty<GroupSchema>(_entities[5].properties[0]);
-
-  /// see [GroupSchema.groupId]
-  static final groupId =
-      QueryStringProperty<GroupSchema>(_entities[5].properties[1]);
-
-  /// see [GroupSchema.name]
-  static final name =
-      QueryStringProperty<GroupSchema>(_entities[5].properties[2]);
-
-  /// see [GroupSchema.photo]
-  static final photo =
-      QueryStringProperty<GroupSchema>(_entities[5].properties[3]);
-
-  /// see [GroupSchema.createdAt]
-  static final createdAt =
-      QueryIntegerProperty<GroupSchema>(_entities[5].properties[4]);
-}
-
 /// [LoginSchema] entity fields to define ObjectBox queries.
 class LoginSchema_ {
   /// see [LoginSchema.objectId]
   static final objectId =
-      QueryIntegerProperty<LoginSchema>(_entities[6].properties[0]);
+      QueryIntegerProperty<LoginSchema>(_entities[5].properties[0]);
 
   /// see [LoginSchema.serverId]
   static final serverId =
-      QueryStringProperty<LoginSchema>(_entities[6].properties[1]);
+      QueryStringProperty<LoginSchema>(_entities[5].properties[1]);
 
   /// see [LoginSchema.userName]
   static final userName =
-      QueryStringProperty<LoginSchema>(_entities[6].properties[2]);
+      QueryStringProperty<LoginSchema>(_entities[5].properties[2]);
 
   /// see [LoginSchema.email]
   static final email =
-      QueryStringProperty<LoginSchema>(_entities[6].properties[3]);
+      QueryStringProperty<LoginSchema>(_entities[5].properties[3]);
 
   /// see [LoginSchema.token]
   static final token =
-      QueryStringProperty<LoginSchema>(_entities[6].properties[4]);
+      QueryStringProperty<LoginSchema>(_entities[5].properties[4]);
 }
 
 /// [MessageSchema] entity fields to define ObjectBox queries.
 class MessageSchema_ {
   /// see [MessageSchema.id]
   static final id =
-      QueryIntegerProperty<MessageSchema>(_entities[7].properties[0]);
+      QueryIntegerProperty<MessageSchema>(_entities[6].properties[0]);
 
   /// see [MessageSchema.message]
   static final message =
-      QueryStringProperty<MessageSchema>(_entities[7].properties[1]);
+      QueryStringProperty<MessageSchema>(_entities[6].properties[1]);
 
   /// see [MessageSchema.createdAt]
   static final createdAt =
-      QueryStringProperty<MessageSchema>(_entities[7].properties[2]);
+      QueryStringProperty<MessageSchema>(_entities[6].properties[2]);
 
   /// see [MessageSchema.sender]
   static final sender =
       QueryRelationToOne<MessageSchema, ChatParticipantSchema>(
-          _entities[7].properties[3]);
+          _entities[6].properties[3]);
 
   /// see [MessageSchema.receiverId]
   static final receiverId =
-      QueryStringProperty<MessageSchema>(_entities[7].properties[4]);
+      QueryStringProperty<MessageSchema>(_entities[6].properties[4]);
 
   /// see [MessageSchema.conversation]
   static final conversation =
       QueryRelationToOne<MessageSchema, ConversationSchema>(
-          _entities[7].properties[5]);
+          _entities[6].properties[5]);
 
   /// see [MessageSchema.replyMessage]
   static final replyMessage = QueryRelationToOne<MessageSchema, ReplyMessage>(
-      _entities[7].properties[6]);
+      _entities[6].properties[6]);
 
   /// see [MessageSchema.messageType]
   static final messageType =
-      QueryStringProperty<MessageSchema>(_entities[7].properties[7]);
+      QueryStringProperty<MessageSchema>(_entities[6].properties[7]);
 
   /// see [MessageSchema.voiceMessageDuration]
   static final voiceMessageDuration =
-      QueryStringProperty<MessageSchema>(_entities[7].properties[8]);
+      QueryStringProperty<MessageSchema>(_entities[6].properties[8]);
 
   /// see [MessageSchema.status]
   static final status =
-      QueryStringProperty<MessageSchema>(_entities[7].properties[9]);
+      QueryStringProperty<MessageSchema>(_entities[6].properties[9]);
 
   /// see [MessageSchema.reactions]
   static final reactions = QueryRelationToOne<MessageSchema, ReactionSchema>(
-      _entities[7].properties[10]);
+      _entities[6].properties[10]);
 }
 
 /// [NotificationSchema] entity fields to define ObjectBox queries.
 class NotificationSchema_ {
   /// see [NotificationSchema.id]
   static final id =
-      QueryIntegerProperty<NotificationSchema>(_entities[8].properties[0]);
+      QueryIntegerProperty<NotificationSchema>(_entities[7].properties[0]);
 
   /// see [NotificationSchema.title]
   static final title =
-      QueryStringProperty<NotificationSchema>(_entities[8].properties[1]);
+      QueryStringProperty<NotificationSchema>(_entities[7].properties[1]);
 
   /// see [NotificationSchema.message]
   static final message =
-      QueryStringProperty<NotificationSchema>(_entities[8].properties[2]);
+      QueryStringProperty<NotificationSchema>(_entities[7].properties[2]);
 
   /// see [NotificationSchema.type]
   static final type =
-      QueryStringProperty<NotificationSchema>(_entities[8].properties[3]);
+      QueryStringProperty<NotificationSchema>(_entities[7].properties[3]);
 
   /// see [NotificationSchema.isRead]
   static final isRead =
-      QueryBooleanProperty<NotificationSchema>(_entities[8].properties[4]);
+      QueryBooleanProperty<NotificationSchema>(_entities[7].properties[4]);
 
   /// see [NotificationSchema.timestamp]
   static final timestamp =
-      QueryStringProperty<NotificationSchema>(_entities[8].properties[5]);
-}
-
-/// [Participant] entity fields to define ObjectBox queries.
-class Participant_ {
-  /// see [Participant.objectId]
-  static final objectId =
-      QueryIntegerProperty<Participant>(_entities[9].properties[0]);
-
-  /// see [Participant.serverId]
-  static final serverId =
-      QueryStringProperty<Participant>(_entities[9].properties[1]);
-
-  /// see [Participant.uid]
-  static final uid =
-      QueryStringProperty<Participant>(_entities[9].properties[2]);
-
-  /// see [Participant.name]
-  static final name =
-      QueryStringProperty<Participant>(_entities[9].properties[3]);
-
-  /// see [Participant.photo]
-  static final photo =
-      QueryStringProperty<Participant>(_entities[9].properties[4]);
-
-  /// see [Participant.tagline]
-  static final tagline =
-      QueryStringProperty<Participant>(_entities[9].properties[5]);
-
-  /// see [Participant.gender]
-  static final gender =
-      QueryStringProperty<Participant>(_entities[9].properties[6]);
-
-  /// see [Participant.isActive]
-  static final isActive =
-      QueryBooleanProperty<Participant>(_entities[9].properties[7]);
-
-  /// see [Participant.lastActive]
-  static final lastActive =
-      QueryStringProperty<Participant>(_entities[9].properties[8]);
-
-  /// see [Participant.group]
-  static final group =
-      QueryRelationToOne<Participant, GroupSchema>(_entities[9].properties[9]);
+      QueryStringProperty<NotificationSchema>(_entities[7].properties[5]);
 }
 
 /// [ProfileSchema] entity fields to define ObjectBox queries.
 class ProfileSchema_ {
   /// see [ProfileSchema.objectId]
   static final objectId =
-      QueryIntegerProperty<ProfileSchema>(_entities[10].properties[0]);
+      QueryIntegerProperty<ProfileSchema>(_entities[8].properties[0]);
 
   /// see [ProfileSchema.serverId]
   static final serverId =
-      QueryStringProperty<ProfileSchema>(_entities[10].properties[1]);
+      QueryStringProperty<ProfileSchema>(_entities[8].properties[1]);
 
   /// see [ProfileSchema.uid]
   static final uid =
-      QueryStringProperty<ProfileSchema>(_entities[10].properties[2]);
+      QueryStringProperty<ProfileSchema>(_entities[8].properties[2]);
 
   /// see [ProfileSchema.name]
   static final name =
-      QueryStringProperty<ProfileSchema>(_entities[10].properties[3]);
+      QueryStringProperty<ProfileSchema>(_entities[8].properties[3]);
 
   /// see [ProfileSchema.photo]
   static final photo =
-      QueryStringProperty<ProfileSchema>(_entities[10].properties[4]);
+      QueryStringProperty<ProfileSchema>(_entities[8].properties[4]);
 
   /// see [ProfileSchema.tagline]
   static final tagline =
-      QueryStringProperty<ProfileSchema>(_entities[10].properties[5]);
+      QueryStringProperty<ProfileSchema>(_entities[8].properties[5]);
 
   /// see [ProfileSchema.bio]
   static final bio =
-      QueryStringProperty<ProfileSchema>(_entities[10].properties[6]);
+      QueryStringProperty<ProfileSchema>(_entities[8].properties[6]);
 
   /// see [ProfileSchema.dob]
   static final dob =
-      QueryStringProperty<ProfileSchema>(_entities[10].properties[7]);
+      QueryStringProperty<ProfileSchema>(_entities[8].properties[7]);
 
   /// see [ProfileSchema.email]
   static final email =
-      QueryStringProperty<ProfileSchema>(_entities[10].properties[8]);
+      QueryStringProperty<ProfileSchema>(_entities[8].properties[8]);
 
   /// see [ProfileSchema.phone]
   static final phone =
-      QueryStringProperty<ProfileSchema>(_entities[10].properties[9]);
+      QueryStringProperty<ProfileSchema>(_entities[8].properties[9]);
 
   /// see [ProfileSchema.country]
   static final country =
-      QueryStringProperty<ProfileSchema>(_entities[10].properties[10]);
+      QueryStringProperty<ProfileSchema>(_entities[8].properties[10]);
 
   /// see [ProfileSchema.followersCount]
   static final followersCount =
-      QueryIntegerProperty<ProfileSchema>(_entities[10].properties[11]);
+      QueryIntegerProperty<ProfileSchema>(_entities[8].properties[11]);
 
   /// see [ProfileSchema.followingCounts]
   static final followingCounts =
-      QueryIntegerProperty<ProfileSchema>(_entities[10].properties[12]);
+      QueryIntegerProperty<ProfileSchema>(_entities[8].properties[12]);
 
   /// see [ProfileSchema.linkedCounts]
   static final linkedCounts =
-      QueryIntegerProperty<ProfileSchema>(_entities[10].properties[13]);
+      QueryIntegerProperty<ProfileSchema>(_entities[8].properties[13]);
 
   /// see [ProfileSchema.relationshipStatus]
   static final relationshipStatus =
-      QueryStringProperty<ProfileSchema>(_entities[10].properties[14]);
+      QueryStringProperty<ProfileSchema>(_entities[8].properties[14]);
 
   /// see [ProfileSchema.gender]
   static final gender =
-      QueryStringProperty<ProfileSchema>(_entities[10].properties[15]);
+      QueryStringProperty<ProfileSchema>(_entities[8].properties[15]);
 
   /// see [ProfileSchema.isActive]
   static final isActive =
-      QueryBooleanProperty<ProfileSchema>(_entities[10].properties[16]);
+      QueryBooleanProperty<ProfileSchema>(_entities[8].properties[16]);
 
   /// see [ProfileSchema.lastActive]
   static final lastActive =
-      QueryStringProperty<ProfileSchema>(_entities[10].properties[17]);
+      QueryStringProperty<ProfileSchema>(_entities[8].properties[17]);
 
   /// see [ProfileSchema.createdAt]
   static final createdAt =
-      QueryStringProperty<ProfileSchema>(_entities[10].properties[18]);
+      QueryStringProperty<ProfileSchema>(_entities[8].properties[18]);
 }
 
 /// [ReplyMessage] entity fields to define ObjectBox queries.
 class ReplyMessage_ {
   /// see [ReplyMessage.id]
   static final id =
-      QueryIntegerProperty<ReplyMessage>(_entities[11].properties[0]);
+      QueryIntegerProperty<ReplyMessage>(_entities[9].properties[0]);
 
   /// see [ReplyMessage.message]
   static final message =
-      QueryStringProperty<ReplyMessage>(_entities[11].properties[1]);
+      QueryStringProperty<ReplyMessage>(_entities[9].properties[1]);
 
   /// see [ReplyMessage.replyBy]
   static final replyBy =
-      QueryStringProperty<ReplyMessage>(_entities[11].properties[2]);
+      QueryStringProperty<ReplyMessage>(_entities[9].properties[2]);
 
   /// see [ReplyMessage.replyTo]
   static final replyTo =
-      QueryStringProperty<ReplyMessage>(_entities[11].properties[3]);
+      QueryStringProperty<ReplyMessage>(_entities[9].properties[3]);
 
   /// see [ReplyMessage.messageType]
   static final messageType =
-      QueryStringProperty<ReplyMessage>(_entities[11].properties[4]);
+      QueryStringProperty<ReplyMessage>(_entities[9].properties[4]);
 
   /// see [ReplyMessage.voiceMessageDuration]
   static final voiceMessageDuration =
-      QueryStringProperty<ReplyMessage>(_entities[11].properties[5]);
+      QueryStringProperty<ReplyMessage>(_entities[9].properties[5]);
 
   /// see [ReplyMessage.messageSchema]
   static final messageSchema = QueryRelationToOne<ReplyMessage, MessageSchema>(
-      _entities[11].properties[6]);
+      _entities[9].properties[6]);
 }
 
 /// [ReactionSchema] entity fields to define ObjectBox queries.
 class ReactionSchema_ {
   /// see [ReactionSchema.id]
   static final id =
-      QueryIntegerProperty<ReactionSchema>(_entities[12].properties[0]);
+      QueryIntegerProperty<ReactionSchema>(_entities[10].properties[0]);
 
   /// see [ReactionSchema.reactions]
   static final reactions =
-      QueryStringVectorProperty<ReactionSchema>(_entities[12].properties[1]);
+      QueryStringVectorProperty<ReactionSchema>(_entities[10].properties[1]);
 
   /// see [ReactionSchema.reactedUserIds]
   static final reactedUserIds =
-      QueryStringVectorProperty<ReactionSchema>(_entities[12].properties[2]);
+      QueryStringVectorProperty<ReactionSchema>(_entities[10].properties[2]);
 
   /// see [ReactionSchema.messageSchema]
   static final messageSchema =
       QueryRelationToOne<ReactionSchema, MessageSchema>(
-          _entities[12].properties[3]);
+          _entities[10].properties[3]);
+}
+
+/// [RoomEntity] entity fields to define ObjectBox queries.
+class RoomEntity_ {
+  /// see [RoomEntity.id]
+  static final id =
+      QueryIntegerProperty<RoomEntity>(_entities[11].properties[0]);
+
+  /// see [RoomEntity.groupId]
+  static final groupId =
+      QueryStringProperty<RoomEntity>(_entities[11].properties[1]);
+
+  /// see [RoomEntity.creatorId]
+  static final creatorId =
+      QueryStringProperty<RoomEntity>(_entities[11].properties[2]);
+
+  /// see [RoomEntity.groupName]
+  static final groupName =
+      QueryStringProperty<RoomEntity>(_entities[11].properties[3]);
+
+  /// see [RoomEntity.joinCode]
+  static final joinCode =
+      QueryIntegerProperty<RoomEntity>(_entities[11].properties[4]);
+
+  /// see [RoomEntity.groupImage]
+  static final groupImage =
+      QueryStringProperty<RoomEntity>(_entities[11].properties[5]);
 }

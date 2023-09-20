@@ -30,12 +30,8 @@ class RoomChatInputField extends GetView<RoomConversationController> {
                   color: darkAsh, borderRadius: BorderRadius.circular(30)),
               child: Row(
                 children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.sentiment_satisfied_alt_rounded,
-                      color: accentColor,
-                    ),
+                  const SizedBox(
+                    width: 10,
                   ),
                   Expanded(child: Obx(() {
                     return TextField(

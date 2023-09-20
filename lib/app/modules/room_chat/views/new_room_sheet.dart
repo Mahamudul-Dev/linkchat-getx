@@ -62,18 +62,46 @@ class NewRoomSheet extends GetView<RoomChatController> {
                   )))
             ],
           ),
-          SearchBarView(
-              height: 50,
-              hint: 'Search Linked',
-              onchanged: (query) => controller.queryLink(query)),
+          Flex(
+            direction: Axis.horizontal,
+            children: [
+              Expanded(
+                flex: 3,
+                child: SearchBarView(
+                    height: 50,
+                    hint: 'Search Linked',
+                    onchanged: (query) => controller.queryLink(query)),
+              ),
+              Expanded(
+                  flex: 1,
+                  child: Obx(
+                    () => DropdownButton<String>(
+                      style: Theme.of(context).textTheme.labelSmall,
+                      value: controller.selectedVisibility.value,
+                      onChanged: (newValue) {
+                        controller.selectedVisibility.value = newValue!;
+                      },
+                      items: controller.groupVisibilityItems
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ))
+            ],
+          ),
           SingleChildScrollView(
             controller: scrollController,
             child: Column(
               children: [
                 EditTextFieldView(
+                  controller: controller.groupNameController,
                   iconData: Icons.group,
                   hintText: 'Type Room Name',
                 ),
+                const SizedBox(width: 5),
                 const SizedBox(height: 15),
                 Container(
                     padding: const EdgeInsets.all(20),
@@ -82,23 +110,27 @@ class NewRoomSheet extends GetView<RoomChatController> {
                     decoration: BoxDecoration(
                         color: blackAccent,
                         borderRadius: BorderRadius.circular(20)),
-                    child: Obx(() => GridView.builder(
-                        scrollDirection: Axis.horizontal,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 8,
-                                mainAxisSpacing: 8),
-                        itemCount: controller.selectedLink.length,
-                        itemBuilder: (context, index) {
-                          return ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Image(
-                                image: CachedNetworkImageProvider(
-                                    controller.selectedLink[index].profilePic),
-                                fit: BoxFit.cover,
-                              ));
-                        }))),
+                    child: Obx(() => controller.selectedLink.isEmpty
+                        ? const Center(
+                            child: Text('No Member Selected'),
+                          )
+                        : GridView.builder(
+                            scrollDirection: Axis.horizontal,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    crossAxisSpacing: 8,
+                                    mainAxisSpacing: 8),
+                            itemCount: controller.selectedLink.length,
+                            itemBuilder: (context, index) {
+                              return ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: Image(
+                                    image: CachedNetworkImageProvider(controller
+                                        .selectedLink[index].profilePic),
+                                    fit: BoxFit.cover,
+                                  ));
+                            }))),
                 const SizedBox(height: 15),
                 Row(
                   children: [

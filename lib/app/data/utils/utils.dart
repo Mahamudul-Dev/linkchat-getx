@@ -25,6 +25,10 @@ const String MAKE_LINK = '/api/v1/user/add_link/';
 const String UNLINK = '/api/v1/user/unlink/';
 const String GET_MATCH =
     '/api/v1/match'; // need to put id in body for finding match profiles
+const String GET_PUBLIC_ROOM = '/api/v1/publicGroups';
+const String GET_MULTIPLE_ROOM = '/api/v1/getMultipleGroup';
+const String JOIN_ROOM = '/api/v1/joinGroup';
+const String CREATE_ROOM = '/api/v1/createGroup';
 
 Map<String, String> authorization(String token) {
   return {'Authorization': 'Bearer $token'};

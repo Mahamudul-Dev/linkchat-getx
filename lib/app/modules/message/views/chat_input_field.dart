@@ -30,12 +30,8 @@ class ChatInputField extends GetView<MessageController> {
                   color: darkAsh, borderRadius: BorderRadius.circular(30)),
               child: Row(
                 children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.sentiment_satisfied_alt_rounded,
-                      color: accentColor,
-                    ),
+                  const SizedBox(
+                    width: 10,
                   ),
                   Expanded(child: Obx(() {
                     return TextField(
@@ -53,7 +49,8 @@ class ChatInputField extends GetView<MessageController> {
                     );
                   })),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () =>
+                        controller.getAttachment(receiverId: receiverId),
                     icon: const Icon(
                       Icons.attach_file_rounded,
                       color: accentColor,
@@ -67,8 +64,11 @@ class ChatInputField extends GetView<MessageController> {
             ),
             Obx(() => controller.textMessage.value.isNotEmpty
                 ? IconButton(
-                    onPressed:
-                        () {}, //() => controller.sendMessage(receiverId),
+                    onPressed: () => controller.sendMessage(
+                        textMessage:
+                            controller.textMessageController.value.text,
+                        receiverId: receiverId,
+                        messageType: 'text'),
                     icon: const Icon(
                       Icons.send,
                       color: brightWhite,

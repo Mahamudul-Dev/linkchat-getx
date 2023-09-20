@@ -8,7 +8,20 @@ import 'package:get/get.dart';
 import 'package:linkchat/app/style/style.dart';
 
 class EditTextFieldView extends GetView {
-  EditTextFieldView({this.controller, this.hintText, this.labelText, this.keyboardType, required this.iconData, this.suffixIcon, this.readOnly = false, this.obscureText, this.onTap, this.validator, this.onChanged,  Key? key}) : super(key: key);
+  EditTextFieldView(
+      {this.controller,
+      this.hintText,
+      this.labelText,
+      this.keyboardType,
+      required this.iconData,
+      this.suffixIcon,
+      this.readOnly = false,
+      this.obscureText,
+      this.onTap,
+      this.validator,
+      this.onChanged,
+      Key? key})
+      : super(key: key);
   @override
   final TextEditingController? controller;
   final String? hintText;
@@ -21,7 +34,7 @@ class EditTextFieldView extends GetView {
   final void Function()? onTap;
   final void Function(String?)? onChanged;
   String? Function(String?)? validator;
-  
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -34,25 +47,27 @@ class EditTextFieldView extends GetView {
       onChanged: onChanged,
       style: Theme.of(context).textTheme.bodyMedium,
       decoration: InputDecoration(
-        icon: Icon(iconData, color: accentColor),
-        hintText: hintText,
-        focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: ThemeProvider().isSavedLightMood().value ? accentColor : white,
-            width: 2
-          )
-        ),
-        enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: ThemeProvider().isSavedLightMood().value ? accentColor : white,
-            width: 1
-          )
-        ),
-        
-        suffixIcon: suffixIcon,
-        labelText: labelText,
-        labelStyle: TextStyle(color: ThemeProvider().isSavedLightMood().value ? accentColor : white)
-      ),
+          icon: Icon(iconData, color: accentColor),
+          hintText: hintText,
+          focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(
+                  color: ThemeProvider().isSavedLightMood().value
+                      ? accentColor
+                      : white,
+                  width: 2)),
+          enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(
+                  color: ThemeProvider().isSavedLightMood().value
+                      ? accentColor
+                      : white,
+                  width: 1)),
+          suffixIconColor: white,
+          suffixIcon: suffixIcon,
+          labelText: labelText,
+          labelStyle: TextStyle(
+              color: ThemeProvider().isSavedLightMood().value
+                  ? accentColor
+                  : white)),
     );
   }
 }

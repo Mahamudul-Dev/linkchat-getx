@@ -4,23 +4,31 @@ import 'package:get/get.dart';
 import 'package:linkchat/app/data/utils/utils.dart';
 import 'package:linkchat/app/style/app_color.dart';
 
+import '../../../data/models/room_res_model.dart';
 import '../controllers/room_conversation_controller.dart';
 import 'room_chat_input_field.dart';
 
 class RoomConversationView extends GetView<RoomConversationController> {
-  const RoomConversationView({super.key});
+  RoomConversationView({super.key});
+
+  final RoomModel roomModel = Get.arguments['room'];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildHeaderBar(controller, 'roomId', context),
-      body: const Column(
+      appBar: _buildHeaderBar(controller, roomModel, context),
+      body: Column(
         children: [
           Expanded(
-              child: Center(
-            child: Text('No Conversations'),
-          )),
-          RoomChatInputField(roomId: ''),
+              child: Obx(() => ListView.builder(
+                  itemCount: RoomConversationController.message.length,
+                  itemBuilder: (context, index) {
+                    return Obx(() => ListTile(
+                          title:
+                              Text(RoomConversationController.message[index]),
+                        ));
+                  }))),
+          RoomChatInputField(roomId: roomModel.id),
         ],
       ),
     );
@@ -28,7 +36,7 @@ class RoomConversationView extends GetView<RoomConversationController> {
 }
 
 AppBar _buildHeaderBar(RoomConversationController roomConversationController,
-    String roomId, BuildContext context) {
+    RoomModel room, BuildContext context) {
   return AppBar(
     title: Row(
       children: [
@@ -43,13 +51,13 @@ AppBar _buildHeaderBar(RoomConversationController roomConversationController,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Linkfy Community',
+                room.groupName,
                 style: Theme.of(context).textTheme.labelMedium,
                 overflow: TextOverflow.ellipsis,
               ),
               _buildRoomMemberAvater(
                   roomConversationController: roomConversationController,
-                  roomId: roomId,
+                  roomId: room.id,
                   context: context)
             ],
           ),
@@ -57,13 +65,13 @@ AppBar _buildHeaderBar(RoomConversationController roomConversationController,
       ],
     ),
     actions: [
-      IconButton(
-        onPressed: () {},
-        icon: const Icon(
-          Icons.podcasts_outlined,
-          color: accentColor,
-        ),
-      ),
+      // IconButton(
+      //   onPressed: () {},
+      //   icon: const Icon(
+      //     Icons.podcasts_outlined,
+      //     color: accentColor,
+      //   ),
+      // ),
       IconButton(
         onPressed: () {},
         icon: const Icon(

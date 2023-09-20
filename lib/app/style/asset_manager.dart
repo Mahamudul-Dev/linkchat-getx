@@ -18,6 +18,7 @@ class AssetManager {
       'assets/anim/customer_support.json';
   static const String GLOBE_LOADING = 'assets/anim/globe_loading.json';
   static const String HEART_ANIM = 'assets/anim/heart_anim.json';
+  static const String TYPING_ANIM = 'assets/anim/typing.json';
 
   // images strings
   static const String APP_LOGO = 'assets/images/link_logo.jpg';

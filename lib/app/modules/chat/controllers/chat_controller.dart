@@ -16,7 +16,7 @@ import '../../../services/socket_io_service.dart';
 
 class ChatController extends GetxController {
 // user activity list section
-  List<ShortProfileModel> activeUser = [];
+  RxList<ShortProfileModel> activeUser = <ShortProfileModel>[].obs;
   List<ShortProfileModel> linikedList = [];
   static RxList<ConversationModel> conversations = <ConversationModel>[].obs;
   final dio = Dio();
