@@ -36,12 +36,7 @@ class ActivityListHorizontalView extends GetView<ChatController> {
                             width: 30),
                       );
                     } else {
-                      return Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 100,
-                          padding: const EdgeInsets.symmetric(vertical: 6),
-                          margin: const EdgeInsets.symmetric(horizontal: 10),
-                          child: buildCircleAvater(index));
+                      return buildCircleAvater(index);
                     }
                   },
                   scrollDirection: Axis.horizontal,
