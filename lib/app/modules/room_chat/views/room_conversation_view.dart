@@ -17,6 +17,7 @@ class RoomConversationView extends GetView<RoomConversationController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildHeaderBar(controller, roomModel, context),
+      endDrawer: _buildDrawer(context, controller, roomModel),
       body: Column(
         children: [
           Expanded(
@@ -64,23 +65,6 @@ AppBar _buildHeaderBar(RoomConversationController roomConversationController,
         )
       ],
     ),
-    actions: [
-      // IconButton(
-      //   onPressed: () {},
-      //   icon: const Icon(
-      //     Icons.podcasts_outlined,
-      //     color: accentColor,
-      //   ),
-      // ),
-      IconButton(
-        onPressed: () {},
-        icon: const Icon(
-          Icons.menu_rounded,
-          color: white,
-          size: 30,
-        ),
-      )
-    ],
   );
 }
 
@@ -119,5 +103,23 @@ Widget _buildRoomMemberAvater(
             physics: const BouncingScrollPhysics(),
             separatorBuilder: (context, index) => const SizedBox(width: 3),
             itemCount: 6)),
+  );
+}
+
+Widget _buildDrawer(BuildContext context, RoomConversationController controller,
+    RoomModel room) {
+  return Align(
+    alignment: Alignment.centerRight,
+    child: Drawer(
+      child: Column(
+        children: [
+          CircleAvatar(
+            backgroundColor: blackAccent,
+            backgroundImage: CachedNetworkImageProvider(
+                room.groupImage ?? PLACEHOLDER_IMAGE),
+          )
+        ],
+      ),
+    ),
   );
 }

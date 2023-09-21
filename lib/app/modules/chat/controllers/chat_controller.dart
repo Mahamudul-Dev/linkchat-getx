@@ -22,6 +22,7 @@ class ChatController extends GetxController {
   final dio = Dio();
 
   Future<List<ShortProfileModel>> getAllActiveUsers() async {
+    activeUser.clear();
     try {
       final response = await http.get(
           Uri.parse(BASE_URL + USER + AccountHelper.getUserData().serverId),

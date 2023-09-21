@@ -59,7 +59,6 @@ class SocketIOService {
         // Logger().i(
         //     'Message Recieved from: ${msg.sender}, Message: ${msg.message.text}');
         final dbMsg = MessageSchema(
-            id: int.parse(msg.id!),
             message: msg.message,
             createdAt: msg.createdAt,
             senderId: msg.senderId,
@@ -85,7 +84,7 @@ class SocketIOService {
       }
       socket.on('groupMessage', (message) {
         Logger().i(message);
-        RoomConversationController.message.add(message['message']);
+        // RoomConversationController.message.add(message['message']);
       });
     });
 

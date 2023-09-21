@@ -66,29 +66,31 @@ class _MessageViewState extends State<MessageView> {
               )));
             }
           }),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 20, left: 8),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  radius: 15,
-                  backgroundColor: blackAccent,
-                  backgroundImage: CachedNetworkImageProvider(_chatController
-                      .linikedList
-                      .singleWhere((element) => element.sId == sId)
-                      .profilePic),
-                ),
-                Lottie.asset(
-                  AssetManager
-                      .TYPING_ANIM, // Replace with your Lottie animation file path
-                  width: 70, // Adjust the width and height as needed
-                  height: 20,
-                  fit: BoxFit.cover,
-                ),
-              ],
-            ),
-          ),
+          Obx(() => controller.isTyping.value
+              ? Padding(
+                  padding: const EdgeInsets.only(bottom: 20, left: 8),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                        radius: 15,
+                        backgroundColor: blackAccent,
+                        backgroundImage: CachedNetworkImageProvider(
+                            _chatController.linikedList
+                                .singleWhere((element) => element.sId == sId)
+                                .profilePic),
+                      ),
+                      Lottie.asset(
+                        AssetManager
+                            .TYPING_ANIM, // Replace with your Lottie animation file path
+                        width: 70, // Adjust the width and height as needed
+                        height: 20,
+                        fit: BoxFit.cover,
+                      ),
+                    ],
+                  ),
+                )
+              : const SizedBox.shrink()),
           ChatInputField(receiverId: sId),
         ],
       ),
@@ -99,38 +101,37 @@ class _MessageViewState extends State<MessageView> {
 AppBar _buildHeaderBar(
     ChatController chatController, String sId, BuildContext context) {
   return AppBar(
-    title: Row(
+    leading: Padding(
+      padding: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
+      child: _circularAvatar(
+          chatController.linikedList
+              .singleWhere((element) => element.sId == sId)
+              .profilePic,
+          chatController.linikedList
+              .singleWhere((element) => element.sId == sId)
+              .isActive),
+    ),
+    title: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _circularAvatar(
+        SizedBox(
+          width: 200,
+          child: Text(
             chatController.linikedList
                 .singleWhere((element) => element.sId == sId)
-                .profilePic,
-            chatController.linikedList
-                .singleWhere((element) => element.sId == sId)
-                .isActive),
-        const SizedBox(
-          width: 5,
+                .userName,
+            style: Theme.of(context).textTheme.labelMedium,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              chatController.linikedList
+        Text(
+          chatController.linikedList
                   .singleWhere((element) => element.sId == sId)
-                  .userName,
-              style: Theme.of(context).textTheme.labelMedium,
-              overflow: TextOverflow.ellipsis,
-            ),
-            Text(
-              chatController.linikedList
-                      .singleWhere((element) => element.sId == sId)
-                      .isActive
-                  ? 'Online'
-                  : 'Not Available',
-              style: Theme.of(context).textTheme.bodyMedium,
-              overflow: TextOverflow.ellipsis,
-            )
-          ],
+                  .isActive
+              ? 'Online'
+              : 'Not Available',
+          style: Theme.of(context).textTheme.bodyMedium,
+          overflow: TextOverflow.ellipsis,
         )
       ],
     ),
@@ -147,7 +148,14 @@ AppBar _buildHeaderBar(
             CupertinoIcons.video_camera,
             color: accentColor,
             size: 30,
-          ))
+          )),
+      IconButton(
+          onPressed: () {},
+          icon: const Icon(
+            Icons.menu_rounded,
+            color: accentColor,
+            size: 30,
+          )),
     ],
   );
 }
