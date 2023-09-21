@@ -26,7 +26,9 @@ class TextMessage extends GetView<MessageController> {
           : MainAxisAlignment.start,
       children: [
         Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
+          crossAxisAlignment: controller.isOwnMessage(message)
+              ? CrossAxisAlignment.end
+              : CrossAxisAlignment.start,
           children: [
             Container(
                 constraints: BoxConstraints(

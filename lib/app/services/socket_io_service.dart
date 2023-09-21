@@ -40,7 +40,7 @@ class SocketIOService {
       Logger().i('Socket Connection Established Success');
       socket.emit('join', AccountHelper.getLoginInfo().id);
       socket.on('privateMessage', (message) async {
-        Logger(filter: DevelopmentFilter()).i(message);
+        Logger().i(message);
         final msg = MessageModel.fromJson(message);
 
         try {
@@ -84,7 +84,7 @@ class SocketIOService {
       }
       socket.on('groupMessage', (message) {
         Logger().i(message);
-        RoomConversationController.message.add(message['message']);
+        // RoomConversationController.message.add(message['message']);
       });
     });
 
