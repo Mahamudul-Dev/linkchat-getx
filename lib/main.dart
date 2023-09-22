@@ -17,6 +17,7 @@ void main() async {
           ThemeProvider().isSavedLightMood().value ? brightWhite : solidMate));
   await ObjectBoxSingleton().initObjectBox();
   await GetStorage.init();
+
   runApp(const Link());
 }
 

@@ -63,7 +63,7 @@ class RoomChatTile extends StatelessWidget {
                                 GetMultipleProfileReqModel(
                                     idList: room.members)),
                             builder: (context,
-                                AsyncSnapshot<GetMultipleProfileModel>
+                                AsyncSnapshot<GetMultipleProfileModel?>
                                     snapshot) {
                               Logger().i(snapshot.hasData);
                               if (snapshot.hasData) {

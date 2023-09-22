@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:linkchat/app/modules/room_chat/views/RoomMemberView/room_member_view.dart';
 
 import '../modules/audio_call/bindings/audio_call_binding.dart';
 import '../modules/audio_call/views/audio_call_view.dart';
@@ -39,6 +40,8 @@ import '../modules/random_call/views/random_call_view.dart';
 import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
 import '../modules/room_chat/bindings/room_chat_binding.dart';
+import '../modules/room_chat/views/RoomMemberView/room_member_add_view.dart';
+import '../modules/room_chat/views/RoomMemberView/room_member_bindings.dart';
 import '../modules/room_chat/views/room_chat_view.dart';
 import '../modules/room_chat/views/room_conversation_view.dart';
 import '../modules/room_explor/bindings/room_explor_binding.dart';
@@ -196,6 +199,16 @@ class AppPages {
       name: _Paths.ROOM_CONVERSATION,
       page: () => RoomConversationView(),
       binding: RoomChatBinding(),
+    ),
+    GetPage(
+      name: _Paths.ROOM_MEMBER_VIEW,
+      page: () => RoomMemberView(),
+      binding: RoomMemberViewBindings(),
+    ),
+    GetPage(
+      name: _Paths.ROOM_MEMBER_ADD_VIEW,
+      page: () => RoomMemberAddView(),
+      binding: RoomMemberViewBindings(),
     ),
   ];
 }

@@ -33,20 +33,22 @@ class ApiService {
   }
 
   // get multiple profile
-  static Future<GetMultipleProfileModel> getMultipleProfile(
+  static Future<GetMultipleProfileModel?> getMultipleProfile(
       GetMultipleProfileReqModel sIdList) async {
-    late GetMultipleProfileModel profile;
+    GetMultipleProfileModel? profile;
     Logger().i(sIdList.toJson());
     try {
-      final res = await http.post(Uri.parse(BASE_URL + MULTIPLE_USER),
-          body: jsonEncode(sIdList.toJson()),
-          headers: authorization(AccountHelper.getLoginInfo().token!));
-
-      Logger().i(jsonDecode(res.body));
+      final res = await _dio.post(
+        BASE_URL + MULTIPLE_USER,
+        data: sIdList.toJson(),
+        options: Options(
+            headers: authorization(AccountHelper.getLoginInfo().token!)),
+      );
+      Logger().i(res.data);
       Logger().i(jsonEncode(sIdList.toJson()));
 
       if (res.statusCode == 200) {
-        profile = GetMultipleProfileModel.fromJson(jsonDecode(res.body));
+        profile = GetMultipleProfileModel.fromJson(res.data);
       }
     } catch (e) {
       Logger().e(e);

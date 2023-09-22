@@ -75,8 +75,8 @@ class BlockListView extends GetView<BlockListController> {
                       'https://images.pexels.com/photos/17490386/pexels-photo-17490386/free-photo-of-a-portrait-of-a-woman-in-sunlight.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'),
                 ),
                 title: Text(controller.blockList[index].userName),
-                subtitle:
-                    Text(timeago.format(controller.blockList[index].date)),
+                subtitle: Text(timeago.format(
+                    controller.blockList[index].date ?? DateTime.now())),
                 trailing: Obx(() => Checkbox(
                       value: controller.blockList[index].isChecked.value,
                       onChanged: (value) => controller.singleMark(index, value),

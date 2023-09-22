@@ -4,7 +4,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:linkchat/app/data/models/socket_model.dart';
 import 'package:linkchat/app/database/database.dart';
 import 'package:linkchat/app/modules/message/controllers/message_controller.dart';
-import 'package:linkchat/app/modules/room_chat/controllers/room_conversation_controller.dart';
 import 'package:linkchat/app/services/notification_service.dart';
 import 'package:logger/logger.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -76,12 +75,12 @@ class SocketIOService {
         P2PChatHelper.saveConversation(dbMsg);
       });
       final joinedGroupList = RoomChatHelper.roomSchemaBox.getAll();
+      Logger().i('Rooms length: ${joinedGroupList.length}');
       for (var i = 0; i < joinedGroupList.length; i++) {
-        socket.emit('joinGroup', [
-          joinedGroupList[i].joinCode,
-          AccountHelper.getUserData().serverId
-        ]);
+        Logger().i(joinedGroupList[i].groupId);
+        SocketIOService.socket.emit('joinGroup', joinedGroupList[i].groupId);
       }
+
       socket.on('groupMessage', (message) {
         Logger().i(message);
         // RoomConversationController.message.add(message['message']);
