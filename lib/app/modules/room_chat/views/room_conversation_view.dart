@@ -6,6 +6,7 @@ import 'package:linkchat/app/data/models/multiple_profile_req_model.dart';
 import 'package:linkchat/app/data/models/user_model.dart';
 import 'package:linkchat/app/data/utils/utils.dart';
 import 'package:linkchat/app/database/helpers/helpers.dart';
+import 'package:linkchat/app/modules/room_chat/views/room_edit_view.dart';
 import 'package:linkchat/app/routes/app_pages.dart';
 import 'package:linkchat/app/services/api_service.dart';
 import 'package:linkchat/app/style/app_color.dart';
@@ -156,7 +157,7 @@ Widget _buildDrawer(BuildContext context, RoomConversationController controller,
             children: [
               room.admins.contains(AccountHelper.getUserData().serverId)
                   ? IconButton(
-                      onPressed: () {},
+                      onPressed: () => Get.toNamed(Routes.ROOM_EDIT_VIEW, arguments: {'room':room}),
                       icon: Column(
                         children: [
                           const Icon(Icons.edit),
@@ -168,7 +169,7 @@ Widget _buildDrawer(BuildContext context, RoomConversationController controller,
                       ))
                   : room.settings.anyoneCanModifyGroup
                       ? IconButton(
-                          onPressed: () {},
+                          onPressed: () => Get.toNamed(Routes.ROOM_EDIT_VIEW, arguments: {'room':room}),
                           icon: Column(
                             children: [
                               const Icon(Icons.edit),
@@ -181,7 +182,7 @@ Widget _buildDrawer(BuildContext context, RoomConversationController controller,
                       : const SizedBox.shrink(),
               room.admins.contains(AccountHelper.getUserData().serverId)
                   ? IconButton(
-                      onPressed: () {},
+                      onPressed: () => Get.toNamed(Routes.ROOM_SETTINGS_VIEW),
                       icon: Column(
                         children: [
                           const Icon(Icons.settings),

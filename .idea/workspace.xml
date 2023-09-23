@@ -10,13 +10,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d2113f26-4f8c-4ce9-a58a-4217f0c471bd" name="Changes" comment="17-07-2023">
+      <change afterPath="$PROJECT_DIR$/lib/app/modules/room_chat/controllers/room_settings_controller.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/app/modules/room_chat/views/room_edit_view.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/app/modules/room_chat/views/room_settings_view.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app/modules/chat/views/activity_list_horizontal_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/chat/views/activity_list_horizontal_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/linkchat.iml" beforeDir="false" afterPath="$PROJECT_DIR$/linkchat.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/data/utils/utils.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/data/utils/utils.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/modules/home/controllers/home_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/home/controllers/home_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/modules/room_chat/bindings/room_chat_binding.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/room_chat/bindings/room_chat_binding.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/modules/room_chat/views/room_conversation_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/modules/room_chat/views/room_conversation_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/routes/app_pages.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/routes/app_pages.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/routes/app_routes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/routes/app_routes.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/services/api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/services/api_service.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,10 +70,10 @@
     "dart.analysis.tool.window.visible": "false",
     "io.flutter.reload.alreadyRun": "true",
     "last_opened_file_path": "/home/mahamudul-dev/Workspace/Flutter/linkchat-getx",
-    "project.structure.last.edited": "Libraries",
+    "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "AndroidSdkUpdater",
+    "settings.editor.selected.configurable": "terminal",
     "show.migrate.to.gradle.popup": "false"
   }
 }]]></component>

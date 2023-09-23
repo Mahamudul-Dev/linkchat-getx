@@ -32,6 +32,8 @@ abstract class Routes {
   static const ROOM_CONVERSATION = _Paths.ROOM_CONVERSATION;
   static const ROOM_MEMBER_VIEW = _Paths.ROOM_MEMBER_VIEW;
   static const ROOM_MEMBER_ADD_VIEW = _Paths.ROOM_MEMBER_ADD_VIEW;
+  static const ROOM_SETTINGS_VIEW = _Paths.ROOM_SETTINGS_VIEW;
+  static const ROOM_EDIT_VIEW = _Paths.ROOM_EDIT_VIEW;
 }
 
 abstract class _Paths {
@@ -63,4 +65,6 @@ abstract class _Paths {
   static const ROOM_CONVERSATION = '/room-conversation';
   static const ROOM_MEMBER_VIEW = '/room-member-view';
   static const ROOM_MEMBER_ADD_VIEW = '/room-member-add-view';
+  static const ROOM_SETTINGS_VIEW = '/room-settings-view';
+  static const ROOM_EDIT_VIEW = '/room-edit-view';
 }

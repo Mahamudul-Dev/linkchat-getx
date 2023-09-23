@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:linkchat/app/database/database.dart';
-import 'package:linkchat/app/modules/call_list/views/call_list_view.dart';
 import 'package:linkchat/app/modules/chat/views/chat_view.dart';
 import 'package:linkchat/app/modules/dialer/views/dialer_view.dart';
 import 'package:linkchat/app/modules/random_call/views/random_call_view.dart';

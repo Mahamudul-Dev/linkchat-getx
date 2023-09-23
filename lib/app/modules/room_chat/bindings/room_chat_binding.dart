@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:linkchat/app/modules/room_chat/controllers/room_conversation_controller.dart';
+import 'package:linkchat/app/modules/room_chat/controllers/room_settings_controller.dart';
 
 import '../controllers/room_chat_controller.dart';
 
@@ -11,6 +12,9 @@ class RoomChatBinding extends Bindings {
     );
     Get.lazyPut<RoomConversationController>(
       () => RoomConversationController(),
+    );
+    Get.lazyPut<RoomSettingsController>(
+      () => RoomSettingsController(),
     );
   }
 }

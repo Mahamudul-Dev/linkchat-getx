@@ -7,6 +7,7 @@ import 'package:logger/logger.dart';
 import 'package:http/http.dart' as http;
 
 import '../data/models/multiple_profile_req_model.dart';
+import '../data/models/room_res_model.dart';
 import '../database/helpers/helpers.dart';
 
 class ApiService {
@@ -56,5 +57,8 @@ class ApiService {
 
     return profile;
   }
-  //
+  // get all joined room
+  // Future<RoomResModel> getAllJoinedRoom() async {
+  //   final response = await _dio.post(path)
+  // }
 }

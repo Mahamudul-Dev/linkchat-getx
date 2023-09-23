@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:linkchat/app/modules/room_chat/views/RoomMemberView/room_member_view.dart';
+import 'package:linkchat/app/modules/room_chat/views/room_edit_view.dart';
+import 'package:linkchat/app/modules/room_chat/views/room_settings_view.dart';
 
 import '../modules/audio_call/bindings/audio_call_binding.dart';
 import '../modules/audio_call/views/audio_call_view.dart';
@@ -201,6 +203,11 @@ class AppPages {
       binding: RoomChatBinding(),
     ),
     GetPage(
+      name: _Paths.ROOM_SETTINGS_VIEW,
+      page: () => RoomSettingsView(),
+      binding: RoomChatBinding(),
+    ),
+    GetPage(
       name: _Paths.ROOM_MEMBER_VIEW,
       page: () => RoomMemberView(),
       binding: RoomMemberViewBindings(),
@@ -209,6 +216,11 @@ class AppPages {
       name: _Paths.ROOM_MEMBER_ADD_VIEW,
       page: () => RoomMemberAddView(),
       binding: RoomMemberViewBindings(),
+    ),
+    GetPage(
+      name: _Paths.ROOM_EDIT_VIEW,
+      page: () => RoomEditView(),
+      binding: RoomChatBinding(),
     ),
   ];
 }

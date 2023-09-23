@@ -31,6 +31,7 @@ const String GET_MATCH =
 //** Room Apis **/
 const String GET_PUBLIC_ROOM = '/api/v1/publicGroups';
 const String GET_MULTIPLE_ROOM = '/api/v1/getMultipleGroup';
+const String GET_JOINED_ROOM = '/api/v1/getGroupInJoined';
 const String JOIN_ROOM = '/api/v1/joinGroup';
 const String CREATE_ROOM = '/api/v1/createGroup';
 const String UPDATE_ROOM = '/api/v1/updateGroup/';
