@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:linkchat/app/data/models/user_model.dart';
 import 'package:linkchat/app/data/utils/utils.dart';
+import 'package:linkchat/app/database/room_schema.dart';
 import 'package:linkchat/app/routes/app_pages.dart';
 import 'package:logger/logger.dart';
 
 import '../../../data/models/create_room_res_model.dart';
+import '../../../data/models/room_conversation_model.dart';
 import '../../../data/models/room_res_model.dart';
 import '../../../database/helpers/helpers.dart';
 import '../../../services/api_service.dart';
@@ -24,8 +26,21 @@ class RoomChatController extends GetxController {
   List<String> groupVisibilityItems = ["Public", "Private"];
   RxString selectedVisibility = 'Public'.obs;
 
+  static RxList<RoomConversationModel> roomConversation =
+      <RoomConversationModel>[].obs;
+
   @override
   void onInit() async {
+    roomConversation.clear();
+    final localRooms = RoomChatHelper.roomSchemaBox.getAll();
+
+    for (var i = 0; i < localRooms.length; i++) {
+      roomConversation.add(RoomConversationModel(
+          roomName: localRooms[i].groupName,
+          roomId: localRooms[i].groupId,
+          messages: localRooms[i].messages.toList().obs));
+    }
+
     try {
       isLoading.value = true;
       final profile = await ApiService.getSingleProfile(
@@ -105,23 +120,23 @@ class RoomChatController extends GetxController {
       "settings": {"groupVisibility": selectedVisibility.value},
       "members": selectedLinkIds
     };
-    // try {
-    final response = await dio.post(BASE_URL + CREATE_ROOM,
-        data: bodyData,
-        options: Options(
-            headers: authorization(AccountHelper.getLoginInfo().token!)));
-    if (response.statusCode == 200) {
+    try {
+      final response = await dio.post(BASE_URL + CREATE_ROOM,
+          data: bodyData,
+          options: Options(
+              headers: authorization(AccountHelper.getLoginInfo().token!)));
+      if (response.statusCode == 200) {
+        isLoading.value = false;
+        // SocketIOService.socket.emit('joinGroup', );
+        Logger().i(response.data);
+        final data = RoomCreateResModel.fromJson(response.data);
+        RoomChatHelper.saveRoomInLocal(data.data);
+        Get.toNamed(Routes.ROOM_CONVERSATION, arguments: {'room': data.data});
+      }
+    } catch (e) {
       isLoading.value = false;
-      // SocketIOService.socket.emit('joinGroup', );
-      Logger().i(response.data);
-      final data = RoomCreateResModel.fromJson(response.data);
-      RoomChatHelper.saveRoomInLocal(data.data);
-      Get.toNamed(Routes.ROOM_CONVERSATION, arguments: {'room': data.data});
+      Logger().e(e);
     }
-    // } catch (e) {
-    //   isLoading.value = false;
-    //   Logger().e(e);
-    // }
   }
 
   Future<RoomResModel> getPublicRooms() async {
@@ -141,7 +156,6 @@ class RoomChatController extends GetxController {
   Future<RoomResModel?> getAllJoinedRooms() async {
     final savedRoomsLocal = await RoomChatHelper.getJoinedRooms();
     RoomResModel? joinedRooms;
-    Logger().i(savedRoomsLocal.first.groupName);
 
     List<String> listOfRoomId = [];
 
@@ -151,18 +165,18 @@ class RoomChatController extends GetxController {
 
     final bodyData = {"groupIds": listOfRoomId};
 
-    try {
-      final response = await dio.post(BASE_URL + GET_MULTIPLE_ROOM,
-          options: Options(
-              headers: authorization(AccountHelper.getLoginInfo().token!)),
-          data: bodyData);
-      Logger().i(response.data);
-      if (response.statusCode == 200) {
-        joinedRooms = RoomResModel.fromJson(response.data);
-        return joinedRooms;
-      }
-    } catch (e) {
-      Logger().e(e);
+    final response = await dio.post(BASE_URL + GET_MULTIPLE_ROOM,
+        options: Options(
+            headers: authorization(AccountHelper.getLoginInfo().token!)),
+        data: bodyData);
+    Logger().i(response.data);
+    if (response.statusCode == 200) {
+      joinedRooms = RoomResModel.fromJson(response.data);
+      joinedRooms.data.map((room) => roomConversation.add(RoomConversationModel(
+          roomName: room.groupName,
+          roomId: room.id,
+          messages: <RoomMessageSchema>[].obs)));
+      return joinedRooms;
     }
     return joinedRooms;
   }

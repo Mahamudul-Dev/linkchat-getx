@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:get/get.dart';
+import 'package:linkchat/app/data/models/user_model.dart';
 import 'package:linkchat/app/modules/video_call/controllers/video_call_controller.dart';
 import 'package:linkchat/app/modules/video_call/views/video_call_controll_bar_view.dart';
 import 'package:linkchat/app/style/style.dart';
 
 class VideoCallView extends GetView<VideoCallController> {
   VideoCallView({Key? key}) : super(key: key);
-  final String userName = Get.arguments['userName'];
-  final String profilePic = Get.arguments['profilePic'];
+  final ShortProfileModel profile = Get.arguments['profile'];
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class VideoCallView extends GetView<VideoCallController> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          userName,
+          profile.userName,
           style: TextStyle(
               color: ThemeProvider().isSavedLightMood().value
                   ? black
@@ -29,7 +29,7 @@ class VideoCallView extends GetView<VideoCallController> {
         leading: Padding(
           padding: const EdgeInsets.only(left: 20),
           child: CircleAvatar(
-            backgroundImage: CachedNetworkImageProvider(profilePic),
+            backgroundImage: CachedNetworkImageProvider(profile.profilePic),
           ),
         ),
       ),
@@ -80,11 +80,27 @@ class VideoCallView extends GetView<VideoCallController> {
                                 : black),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(15),
-                          child: RTCVideoView(
-                            controller.localRenderer,
-                            objectFit: RTCVideoViewObjectFit
-                                .RTCVideoViewObjectFitCover,
-                            mirror: true,
+                          child: Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              RTCVideoView(
+                                controller.localRenderer,
+                                objectFit: RTCVideoViewObjectFit
+                                    .RTCVideoViewObjectFitCover,
+                                mirror: true,
+                              ),
+                              Positioned(
+                                  bottom: 3,
+                                  right: 3,
+                                  child: Icon(
+                                    controller.isMicOn.value
+                                        ? Icons.mic_none_outlined
+                                        : Icons.mic_off_outlined,
+                                    color: controller.isMicOn.value
+                                        ? Colors.green
+                                        : Colors.red,
+                                  ))
+                            ],
                           ),
                         ),
                       ),

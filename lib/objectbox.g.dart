@@ -309,7 +309,7 @@ final _entities = <ModelEntity>[
             name: 'senderId',
             type: 11,
             flags: 520,
-            indexId: const IdUid(18, 2502119667752496364),
+            indexId: const IdUid(23, 3719732392019199250),
             relationTarget: 'ChatParticipantSchema'),
         ModelProperty(
             id: const IdUid(5, 5804901042859210391),
@@ -612,8 +612,114 @@ final _entities = <ModelEntity>[
             type: 9,
             flags: 0)
       ],
+      relations: <ModelRelation>[
+        ModelRelation(
+            id: const IdUid(3, 7160859134194192552),
+            name: 'messages',
+            targetId: const IdUid(16, 4104983790260430767))
+      ],
+      backlinks: <ModelBacklink>[]),
+  ModelEntity(
+      id: const IdUid(16, 4104983790260430767),
+      name: 'RoomMessageSchema',
+      lastPropertyId: const IdUid(10, 9048971721540479670),
+      flags: 0,
+      properties: <ModelProperty>[
+        ModelProperty(
+            id: const IdUid(1, 4814815069332105153),
+            name: 'id',
+            type: 6,
+            flags: 129),
+        ModelProperty(
+            id: const IdUid(2, 7722973823204098786),
+            name: 'message',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(3, 8195062276440372405),
+            name: 'createdAt',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(4, 973781540069102944),
+            name: 'senderId',
+            type: 11,
+            flags: 520,
+            indexId: const IdUid(24, 5946502786973063538),
+            relationTarget: 'RoomMemberSchema'),
+        ModelProperty(
+            id: const IdUid(5, 1546443902728331614),
+            name: 'roomId',
+            type: 11,
+            flags: 520,
+            indexId: const IdUid(25, 8333372771490724640),
+            relationTarget: 'RoomEntity'),
+        ModelProperty(
+            id: const IdUid(6, 4753917183586200207),
+            name: 'replyMessageId',
+            type: 11,
+            flags: 520,
+            indexId: const IdUid(21, 3419484652391522019),
+            relationTarget: 'ReplyMessage'),
+        ModelProperty(
+            id: const IdUid(7, 4863037679417535732),
+            name: 'reactionsId',
+            type: 11,
+            flags: 520,
+            indexId: const IdUid(22, 6038155835270236106),
+            relationTarget: 'ReactionSchema'),
+        ModelProperty(
+            id: const IdUid(8, 8777987903160232845),
+            name: 'messageType',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(9, 6186217475960202228),
+            name: 'voiceMessageDuration',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(10, 9048971721540479670),
+            name: 'status',
+            type: 9,
+            flags: 0)
+      ],
       relations: <ModelRelation>[],
-      backlinks: <ModelBacklink>[])
+      backlinks: <ModelBacklink>[]),
+  ModelEntity(
+      id: const IdUid(17, 3260757660122076493),
+      name: 'RoomMemberSchema',
+      lastPropertyId: const IdUid(4, 5999119740554415560),
+      flags: 0,
+      properties: <ModelProperty>[
+        ModelProperty(
+            id: const IdUid(1, 4753558035492066659),
+            name: 'objectId',
+            type: 6,
+            flags: 1),
+        ModelProperty(
+            id: const IdUid(2, 1775508677238079931),
+            name: 'serverId',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(3, 5626368442208582825),
+            name: 'name',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(4, 5999119740554415560),
+            name: 'photo',
+            type: 9,
+            flags: 0)
+      ],
+      relations: <ModelRelation>[],
+      backlinks: <ModelBacklink>[
+        ModelBacklink(
+            name: 'roomMessageSchema',
+            srcEntity: 'RoomMessageSchema',
+            srcField: 'sender')
+      ])
 ];
 
 /// Shortcut for [Store.new] that passes [getObjectBoxModel] and for Flutter
@@ -643,9 +749,9 @@ Future<Store> openStore(
 ModelDefinition getObjectBoxModel() {
   final model = ModelInfo(
       entities: _entities,
-      lastEntityId: const IdUid(15, 7948249909536385875),
-      lastIndexId: const IdUid(18, 2502119667752496364),
-      lastRelationId: const IdUid(2, 1708645724144874611),
+      lastEntityId: const IdUid(17, 3260757660122076493),
+      lastIndexId: const IdUid(25, 8333372771490724640),
+      lastRelationId: const IdUid(3, 7160859134194192552),
       lastSequenceId: const IdUid(0, 0),
       retiredEntityUids: const [
         2687039153339483124,
@@ -659,7 +765,10 @@ ModelDefinition getObjectBoxModel() {
         9191319147121440117,
         6181542461845678284,
         4586230816503996722,
-        2128944738367611638
+        2128944738367611638,
+        2502119667752496364,
+        2722488860151623786,
+        7994117730695122245
       ],
       retiredPropertyUids: const [
         8661398602757902182,
@@ -1376,7 +1485,8 @@ ModelDefinition getObjectBoxModel() {
     RoomEntity: EntityDefinition<RoomEntity>(
         model: _entities[11],
         toOneRelations: (RoomEntity object) => [],
-        toManyRelations: (RoomEntity object) => {},
+        toManyRelations: (RoomEntity object) =>
+            {RelInfo<RoomEntity>.toMany(3, object.id): object.messages},
         getId: (RoomEntity object) => object.id,
         setId: (RoomEntity object, int id) {
           object.id = id;
@@ -1418,7 +1528,130 @@ ModelDefinition getObjectBoxModel() {
               groupName: groupNameParam,
               groupImage: groupImageParam,
               joinCode: joinCodeParam);
-
+          InternalToManyAccess.setRelInfo<RoomEntity>(
+              object.messages, store, RelInfo<RoomEntity>.toMany(3, object.id));
+          return object;
+        }),
+    RoomMessageSchema: EntityDefinition<RoomMessageSchema>(
+        model: _entities[12],
+        toOneRelations: (RoomMessageSchema object) =>
+            [object.sender, object.room, object.replyMessage, object.reactions],
+        toManyRelations: (RoomMessageSchema object) => {},
+        getId: (RoomMessageSchema object) => object.id,
+        setId: (RoomMessageSchema object, int id) {
+          object.id = id;
+        },
+        objectToFB: (RoomMessageSchema object, fb.Builder fbb) {
+          final messageOffset =
+              object.message == null ? null : fbb.writeString(object.message!);
+          final createdAtOffset = object.createdAt == null
+              ? null
+              : fbb.writeString(object.createdAt!);
+          final messageTypeOffset = object.messageType == null
+              ? null
+              : fbb.writeString(object.messageType!);
+          final voiceMessageDurationOffset = object.voiceMessageDuration == null
+              ? null
+              : fbb.writeString(object.voiceMessageDuration!);
+          final statusOffset =
+              object.status == null ? null : fbb.writeString(object.status!);
+          fbb.startTable(11);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, messageOffset);
+          fbb.addOffset(2, createdAtOffset);
+          fbb.addInt64(3, object.sender.targetId);
+          fbb.addInt64(4, object.room.targetId);
+          fbb.addInt64(5, object.replyMessage.targetId);
+          fbb.addInt64(6, object.reactions.targetId);
+          fbb.addOffset(7, messageTypeOffset);
+          fbb.addOffset(8, voiceMessageDurationOffset);
+          fbb.addOffset(9, statusOffset);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final idParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          final messageParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 6);
+          final createdAtParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 8);
+          final messageTypeParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGetNullable(buffer, rootOffset, 18);
+          final voiceMessageDurationParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGetNullable(buffer, rootOffset, 20);
+          final statusParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 22);
+          final object = RoomMessageSchema(
+              id: idParam,
+              message: messageParam,
+              createdAt: createdAtParam,
+              messageType: messageTypeParam,
+              voiceMessageDuration: voiceMessageDurationParam,
+              status: statusParam);
+          object.sender.targetId =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0);
+          object.sender.attach(store);
+          object.room.targetId =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0);
+          object.room.attach(store);
+          object.replyMessage.targetId =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 14, 0);
+          object.replyMessage.attach(store);
+          object.reactions.targetId =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 16, 0);
+          object.reactions.attach(store);
+          return object;
+        }),
+    RoomMemberSchema: EntityDefinition<RoomMemberSchema>(
+        model: _entities[13],
+        toOneRelations: (RoomMemberSchema object) => [],
+        toManyRelations: (RoomMemberSchema object) => {
+              RelInfo<RoomMessageSchema>.toOneBacklink(4, object.objectId,
+                      (RoomMessageSchema srcObject) => srcObject.sender):
+                  object.roomMessageSchema
+            },
+        getId: (RoomMemberSchema object) => object.objectId,
+        setId: (RoomMemberSchema object, int id) {
+          object.objectId = id;
+        },
+        objectToFB: (RoomMemberSchema object, fb.Builder fbb) {
+          final serverIdOffset = fbb.writeString(object.serverId);
+          final nameOffset = fbb.writeString(object.name);
+          final photoOffset = fbb.writeString(object.photo);
+          fbb.startTable(5);
+          fbb.addInt64(0, object.objectId);
+          fbb.addOffset(1, serverIdOffset);
+          fbb.addOffset(2, nameOffset);
+          fbb.addOffset(3, photoOffset);
+          fbb.finish(fbb.endTable());
+          return object.objectId;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final objectIdParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          final serverIdParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 6, '');
+          final nameParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 8, '');
+          final photoParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 10, '');
+          final object = RoomMemberSchema(
+              objectId: objectIdParam,
+              serverId: serverIdParam,
+              name: nameParam,
+              photo: photoParam);
+          InternalToManyAccess.setRelInfo<RoomMemberSchema>(
+              object.roomMessageSchema,
+              store,
+              RelInfo<RoomMessageSchema>.toOneBacklink(4, object.objectId,
+                  (RoomMessageSchema srcObject) => srcObject.sender));
           return object;
         })
   };
@@ -1827,4 +2060,72 @@ class RoomEntity_ {
   /// see [RoomEntity.groupImage]
   static final groupImage =
       QueryStringProperty<RoomEntity>(_entities[11].properties[5]);
+
+  /// see [RoomEntity.messages]
+  static final messages = QueryRelationToMany<RoomEntity, RoomMessageSchema>(
+      _entities[11].relations[0]);
+}
+
+/// [RoomMessageSchema] entity fields to define ObjectBox queries.
+class RoomMessageSchema_ {
+  /// see [RoomMessageSchema.id]
+  static final id =
+      QueryIntegerProperty<RoomMessageSchema>(_entities[12].properties[0]);
+
+  /// see [RoomMessageSchema.message]
+  static final message =
+      QueryStringProperty<RoomMessageSchema>(_entities[12].properties[1]);
+
+  /// see [RoomMessageSchema.createdAt]
+  static final createdAt =
+      QueryStringProperty<RoomMessageSchema>(_entities[12].properties[2]);
+
+  /// see [RoomMessageSchema.sender]
+  static final sender = QueryRelationToOne<RoomMessageSchema, RoomMemberSchema>(
+      _entities[12].properties[3]);
+
+  /// see [RoomMessageSchema.room]
+  static final room = QueryRelationToOne<RoomMessageSchema, RoomEntity>(
+      _entities[12].properties[4]);
+
+  /// see [RoomMessageSchema.replyMessage]
+  static final replyMessage =
+      QueryRelationToOne<RoomMessageSchema, ReplyMessage>(
+          _entities[12].properties[5]);
+
+  /// see [RoomMessageSchema.reactions]
+  static final reactions =
+      QueryRelationToOne<RoomMessageSchema, ReactionSchema>(
+          _entities[12].properties[6]);
+
+  /// see [RoomMessageSchema.messageType]
+  static final messageType =
+      QueryStringProperty<RoomMessageSchema>(_entities[12].properties[7]);
+
+  /// see [RoomMessageSchema.voiceMessageDuration]
+  static final voiceMessageDuration =
+      QueryStringProperty<RoomMessageSchema>(_entities[12].properties[8]);
+
+  /// see [RoomMessageSchema.status]
+  static final status =
+      QueryStringProperty<RoomMessageSchema>(_entities[12].properties[9]);
+}
+
+/// [RoomMemberSchema] entity fields to define ObjectBox queries.
+class RoomMemberSchema_ {
+  /// see [RoomMemberSchema.objectId]
+  static final objectId =
+      QueryIntegerProperty<RoomMemberSchema>(_entities[13].properties[0]);
+
+  /// see [RoomMemberSchema.serverId]
+  static final serverId =
+      QueryStringProperty<RoomMemberSchema>(_entities[13].properties[1]);
+
+  /// see [RoomMemberSchema.name]
+  static final name =
+      QueryStringProperty<RoomMemberSchema>(_entities[13].properties[2]);
+
+  /// see [RoomMemberSchema.photo]
+  static final photo =
+      QueryStringProperty<RoomMemberSchema>(_entities[13].properties[3]);
 }

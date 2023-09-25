@@ -1,5 +1,5 @@
 // ignore_for_file: constant_identifier_names
-
+const String APP_NAME = 'Link';
 const String PLACEHOLDER_IMAGE =
     'https://enamgroup.com/assets/images/defualt.jpeg';
 const String placeholderImageFemale =
@@ -30,6 +30,7 @@ const String GET_MATCH =
 
 //** Room Apis **/
 const String GET_PUBLIC_ROOM = '/api/v1/publicGroups';
+const String GET_SINGLE_ROOM = '/api/v1/getGroup';
 const String GET_MULTIPLE_ROOM = '/api/v1/getMultipleGroup';
 const String GET_JOINED_ROOM = '/api/v1/getGroupInJoined';
 const String JOIN_ROOM = '/api/v1/joinGroup';

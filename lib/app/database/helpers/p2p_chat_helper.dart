@@ -121,6 +121,7 @@ class P2PChatHelper {
                     photo: receiver.photo,
                     country: receiver.country)
               ]));
+          ChatController.conversations.refresh();
         } else {
           // update existing conversation
           message.sender.target = sender;
@@ -150,6 +151,7 @@ class P2PChatHelper {
                       reactions: message.reactions.target?.reactions,
                       reactedUserIds:
                           message.reactions.target?.reactedUserIds)));
+          ChatController.conversations.refresh();
         }
       }
     } catch (e) {

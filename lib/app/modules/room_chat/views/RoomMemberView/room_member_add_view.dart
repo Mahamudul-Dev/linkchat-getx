@@ -2,18 +2,19 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:linkchat/app/data/models/models.dart';
+import 'package:linkchat/app/data/models/room_res_model.dart';
 import 'package:linkchat/app/data/utils/utils.dart';
 import 'package:linkchat/app/modules/links/controllers/linklist_controller.dart';
 import 'package:linkchat/app/style/style.dart';
 import 'package:linkchat/app/widgets/views/CircullarShimmer.dart';
 import 'package:linkchat/app/widgets/views/SquareShimmer.dart';
-import 'package:linkchat/app/widgets/widgets.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import 'room_member_controller.dart';
 
 class RoomMemberAddView extends GetView<RoomMemberViewController> {
   RoomMemberAddView({super.key});
+  final RoomModel room = Get.arguments['room'];
 
   final linklistController = Get.put(LinklistController());
 
@@ -27,11 +28,11 @@ class RoomMemberAddView extends GetView<RoomMemberViewController> {
           fit: StackFit.expand,
           children: [
             FutureBuilder(
-                future: controller.getLinkedList(),
+                future: controller.getLinkedList(room),
                 builder:
                     (context, AsyncSnapshot<List<ShortProfileModel>> snapshot) {
                   if (snapshot.hasData) {
-                    return Obx(() => controller.isLoading.value
+                    return Obx(() => controller.isLinkedScreenLoading.value
                         ? Center(
                             child: LoadingAnimationWidget.inkDrop(
                                 color: accentColor, size: 25),
@@ -88,7 +89,7 @@ class RoomMemberAddView extends GetView<RoomMemberViewController> {
                         style: const ButtonStyle(
                             backgroundColor:
                                 MaterialStatePropertyAll(accentColor)),
-                        onPressed: () {},
+                        onPressed: () => controller.addMember(room.id),
                         child: Text(
                           'Add To Room',
                           style: Theme.of(context).textTheme.labelMedium,

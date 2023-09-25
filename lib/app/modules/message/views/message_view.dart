@@ -7,6 +7,7 @@ import 'package:linkchat/app/database/helpers/helpers.dart';
 import 'package:linkchat/app/modules/chat/controllers/chat_controller.dart';
 import 'package:linkchat/app/modules/message/views/chat_input_field.dart';
 import 'package:linkchat/app/modules/message/views/text_message.dart';
+import 'package:linkchat/app/routes/app_pages.dart';
 import 'package:linkchat/app/style/app_color.dart';
 import 'package:chatview/chatview.dart' as chatview;
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -143,7 +144,10 @@ AppBar _buildHeaderBar(
             color: accentColor,
           )),
       IconButton(
-          onPressed: () {},
+          onPressed: () => Get.toNamed(Routes.VIDEO_CALL, arguments: {
+                'profile': chatController.linikedList
+                    .singleWhere((element) => element.sId == sId)
+              }),
           icon: const Icon(
             CupertinoIcons.video_camera,
             color: accentColor,

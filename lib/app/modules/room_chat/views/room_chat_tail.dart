@@ -31,7 +31,9 @@ class RoomChatTile extends StatelessWidget {
                 radius: 25,
                 backgroundColor: blackAccent,
                 backgroundImage: CachedNetworkImageProvider(
-                    room.groupImage ?? PLACEHOLDER_IMAGE),
+                    room.groupImage == 'N/A'
+                        ? PLACEHOLDER_IMAGE
+                        : '$BASE_URL${room.groupImage}'),
               ),
               const SizedBox(width: 10),
               Column(

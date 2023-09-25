@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:logger/logger.dart';
 
 import '../../../../data/models/models.dart';
 import '../../../../data/models/multiple_profile_req_model.dart';
@@ -11,7 +12,10 @@ import '../../../links/controllers/linklist_controller.dart';
 class RoomMemberViewController extends GetxController
     with GetSingleTickerProviderStateMixin {
   RxBool isLoading = false.obs;
-  final _dio = Dio();
+  RxBool isLinkedScreenLoading = false.obs;
+  RxBool memberScreenIsLoading = false.obs;
+  RxBool adminScreenIsLoading = false.obs;
+
   late Rx<TabController> tabController =
       TabController(length: 2, vsync: this).obs;
   final linklistController = LinklistController();
@@ -34,8 +38,17 @@ class RoomMemberViewController extends GetxController
   RxList<FollowersCheckObjectModel> selectedLinked =
       <FollowersCheckObjectModel>[].obs;
 
+  Future<void> initScreen(
+      List<String> adminsIds, List<String> membersIds, RoomModel room) async {
+    await getAllAdmin(adminsIds);
+    await getAllMember(membersIds, room);
+  }
+
   Future<GetMultipleProfileModel?> getAllAdmin(List<String> adminsIds) async {
     isLoading.value = true;
+    if (selectedAdminList.isEmpty) {
+      selectableAdminList.value = false;
+    }
 
     final profiles = await ApiService.getMultipleProfile(
         GetMultipleProfileReqModel(idList: adminsIds));
@@ -58,6 +71,9 @@ class RoomMemberViewController extends GetxController
   Future<GetMultipleProfileModel?> getAllMember(
       List<String> membersIds, RoomModel room) async {
     isLoading.value = true;
+    if (selectedMemberList.isEmpty) {
+      selectableMemberList.value = false;
+    }
     final profiles = await ApiService.getMultipleProfile(
         GetMultipleProfileReqModel(idList: membersIds));
 
@@ -139,24 +155,176 @@ class RoomMemberViewController extends GetxController
     }
   }
 
-  Future<List<ShortProfileModel>> getLinkedList() async {
+  Future<List<ShortProfileModel>> getLinkedList(RoomModel room) async {
     final linkedList = await linklistController.getLinkedList();
     isLoading.value = true;
     allLinked.clear();
     for (var i = 0; i < linkedList.length; i++) {
-      allLinked.add(FollowersCheckObjectModel(
-          serverId: linkedList[i].sId,
-          uid: int.parse(linkedList[i].uid),
-          userName: linkedList[i].userName,
-          profilePic: linkedList[i].profilePic,
-          tagline: linkedList[i].tagLine));
+      if (!room.members.contains(linkedList[i].sId)) {
+        allLinked.add(FollowersCheckObjectModel(
+            serverId: linkedList[i].sId,
+            uid: int.parse(linkedList[i].uid),
+            userName: linkedList[i].userName,
+            profilePic: linkedList[i].profilePic,
+            tagline: linkedList[i].tagLine));
+      }
     }
     isLoading.value = false;
     return linkedList;
   }
 
-  Future<void> addMember() async {}
-  Future<void> removeMember() async {}
-  Future<void> makeAdmin() async {}
-  Future<void> removeAdmin() async {}
+  Future<void> addMember(String roomId) async {
+    isLinkedScreenLoading.value = true;
+    List<String> linkedIdList = [];
+
+    for (var i = 0; i < selectedLinked.length; i++) {
+      linkedIdList.add(selectedLinked[i].serverId);
+    }
+    Logger().i(linkedIdList);
+
+    final response = await ApiService.addMemberToRoom(roomId, linkedIdList);
+    if (response.statusCode == 200) {
+      for (var i = 0; i < linkedIdList.length; i++) {
+        allMemberList.add(allLinked
+            .singleWhere((element) => element.serverId == linkedIdList[i]));
+        allLinked.remove(allLinked
+            .singleWhere((element) => element.serverId == linkedIdList[i]));
+      }
+      isLinkedScreenLoading.value = false;
+      Get.snackbar('Success', 'Member added to the room');
+      linkedIdList.clear();
+      selectedLinked.clear();
+      selectableLinkedList.value = false;
+      Get.back();
+    } else if (response.statusCode == 404) {
+      isLinkedScreenLoading.value = false;
+      Get.snackbar('Opps', response.data);
+      linkedIdList.clear();
+      selectedMemberList.clear();
+    } else {
+      isLinkedScreenLoading.value = false;
+      Get.snackbar('Opps', 'There was a error, please check your connection');
+      linkedIdList.clear();
+      selectedMemberList.clear();
+    }
+  }
+
+  Future<void> removeMember(RoomModel room) async {
+    memberScreenIsLoading.value = true;
+    List<String> memberIdList = [];
+    List<String> newMemberIdsList = [];
+
+    for (var i = 0; i < selectedMemberList.length; i++) {
+      memberIdList.add(selectedMemberList[i].serverId);
+    }
+    Logger().i(memberIdList);
+
+    final response =
+        await ApiService.removeMemberFromRoom(room.id, memberIdList.first);
+    if (response.statusCode == 200) {
+      for (var i = 0; i < memberIdList.length; i++) {
+        allMemberList.remove(allMemberList
+            .singleWhere((element) => element.serverId == memberIdList[i]));
+      }
+
+      for (var i = 0; i < allMemberList.length; i++) {
+        newMemberIdsList.add(allMemberList[i].serverId);
+      }
+
+      memberScreenIsLoading.value = false;
+      Get.snackbar('Success', 'Member removed from the room');
+      memberIdList.clear();
+      selectedMemberList.clear();
+      selectableMemberList.value = false;
+      await getAllMember(newMemberIdsList, room);
+    } else if (response.statusCode == 404) {
+      memberScreenIsLoading.value = false;
+      Get.snackbar('Opps', response.data);
+      memberIdList.clear();
+      selectedAdminList.clear();
+    } else {
+      memberScreenIsLoading.value = false;
+      Get.snackbar('Opps', 'There was a error, please check your connection');
+      memberIdList.clear();
+      selectedAdminList.clear();
+    }
+  }
+
+  Future<void> makeAdmin(String roomId) async {
+    memberScreenIsLoading.value = true;
+    List<String> memberList = [];
+
+    for (var i = 0; i < selectedMemberList.length; i++) {
+      memberList.add(selectedMemberList[i].serverId);
+    }
+    Logger().i(memberList);
+
+    final response = await ApiService.addAdminToRoom(roomId, memberList);
+    if (response.statusCode == 200) {
+      for (var i = 0; i < memberList.length; i++) {
+        allAdminList.add(allMemberList
+            .singleWhere((element) => element.serverId == memberList[i]));
+        allMemberList.remove(allMemberList
+            .singleWhere((element) => element.serverId == memberList[i]));
+      }
+      memberScreenIsLoading.value = false;
+      Get.snackbar('Success', 'Admin added to the room');
+      memberList.clear();
+      selectedMemberList.clear();
+      selectableMemberList.value = false;
+    } else if (response.statusCode == 404) {
+      memberScreenIsLoading.value = false;
+      Get.snackbar('Opps', response.data);
+      memberList.clear();
+      selectedMemberList.clear();
+    } else {
+      memberScreenIsLoading.value = false;
+      Get.snackbar('Opps', 'There was a error, please check your connection');
+      memberList.clear();
+      selectedMemberList.clear();
+    }
+  }
+
+  Future<void> removeAdmin(RoomModel room) async {
+    adminScreenIsLoading.value = true;
+    List<String> adminList = [];
+    List<String> newAdminList = [];
+
+    for (var i = 0; i < selectedAdminList.length; i++) {
+      adminList.add(selectedAdminList[i].serverId);
+    }
+    Logger().i(adminList);
+
+    final response =
+        await ApiService.removeAdminFromRoom(room.id, adminList.first);
+    if (response.statusCode == 200) {
+      for (var i = 0; i < adminList.length; i++) {
+        allMemberList.add(allAdminList
+            .singleWhere((element) => element.serverId == adminList[i]));
+        allAdminList.remove(allAdminList
+            .singleWhere((element) => element.serverId == adminList[i]));
+      }
+
+      for (var i = 0; i < allAdminList.length; i++) {
+        newAdminList.add(allAdminList[i].serverId);
+      }
+
+      memberScreenIsLoading.value = false;
+      Get.snackbar('Success', 'Admin removed from the room');
+      await getAllAdmin(newAdminList);
+      adminList.clear();
+      selectedAdminList.clear();
+      selectableAdminList.value = false;
+    } else if (response.statusCode == 404) {
+      memberScreenIsLoading.value = false;
+      Get.snackbar('Opps', response.data);
+      adminList.clear();
+      selectedAdminList.clear();
+    } else {
+      memberScreenIsLoading.value = false;
+      Get.snackbar('Opps', 'There was a error, please check your connection');
+      adminList.clear();
+      selectedAdminList.clear();
+    }
+  }
 }

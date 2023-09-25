@@ -99,7 +99,7 @@ class RoomChatView extends GetView<RoomChatController> {
                                                         .data
                                                         ?.data[index]
                                                         .groupImage !=
-                                                    null
+                                                    'N/A'
                                                 ? '$BASE_URL${snapshot.data?.data[index].groupImage}'
                                                 : PLACEHOLDER_IMAGE,
                                             roomName: snapshot.data?.data[index]
@@ -137,6 +137,19 @@ class RoomChatView extends GetView<RoomChatController> {
                                                 'Everyone',
                                           );
                                         });
+                                  } else if (snapshot.data?.data == []) {
+                                    return SizedBox(
+                                      height: 300,
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Center(
+                                        child: Text(
+                                          'No Public Rooms Available For You.',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium,
+                                        ),
+                                      ),
+                                    );
                                   }
 
                                   return ListView.separated(

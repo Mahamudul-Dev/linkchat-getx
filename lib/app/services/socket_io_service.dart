@@ -1,17 +1,22 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:linkchat/app/data/models/room_conversation_model.dart';
 import 'package:linkchat/app/data/models/socket_model.dart';
 import 'package:linkchat/app/database/database.dart';
 import 'package:linkchat/app/modules/message/controllers/message_controller.dart';
+import 'package:linkchat/app/modules/room_chat/controllers/room_chat_controller.dart';
+import 'package:linkchat/app/services/api_service.dart';
 import 'package:linkchat/app/services/notification_service.dart';
 import 'package:logger/logger.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../data/models/conversation_model.dart';
+import '../data/models/room_res_model.dart';
 import '../data/utils/utils.dart';
 import '../database/helpers/helpers.dart';
 import '../modules/profile/controllers/profile_controller.dart';
+import '../modules/room_chat/controllers/room_conversation_controller.dart';
 
 class SocketIOService {
   static AudioPlayer audioPlayer = AudioPlayer();
@@ -54,9 +59,6 @@ class SocketIOService {
         } catch (e) {
           Logger().e(e);
         }
-        // playNotificationSound();
-        // Logger().i(
-        //     'Message Recieved from: ${msg.sender}, Message: ${msg.message.text}');
         final dbMsg = MessageSchema(
             message: msg.message,
             createdAt: msg.createdAt,
@@ -81,9 +83,21 @@ class SocketIOService {
         SocketIOService.socket.emit('joinGroup', joinedGroupList[i].groupId);
       }
 
-      socket.on('groupMessage', (message) {
-        Logger().i(message);
-        // RoomConversationController.message.add(message['message']);
+      socket.on('groupMessage', (message) async {
+        Logger().i('Message recieved from server: $message');
+
+        final roomMessage = RoomMessageModel.fromJson(message);
+        Logger().i('Message converted: ${roomMessage.toJson()}');
+
+        final roomRes = await ApiService.getRoomInfo(roomMessage.groupId!);
+
+        final room = RoomResModel.fromJson(roomRes.data);
+
+        await RoomChatHelper.saveMessageToRoom(room.data.first, roomMessage);
+      });
+
+      socket.on('offer', (data) async {
+        Logger().i({'call recieved': data});
       });
     });
 

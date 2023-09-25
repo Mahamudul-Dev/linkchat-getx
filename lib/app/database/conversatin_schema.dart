@@ -113,27 +113,3 @@ class ReplyMessage {
     this.voiceMessageDuration,
   });
 }
-
-
-// @Entity()
-// class MessageSchema {
-//   @Id()
-//   int objectId;
-//   String content;
-//   List<String> attachments;
-//   String receiverId;
-//   String senderServerId;
-//   @Property(type: PropertyType.date)
-//   DateTime timestamp;
-//   final sender = ToOne<ChatParticipantSchema>();
-//   final conversation = ToOne<ConversationSchema>();
-
-//   MessageSchema({
-//     this.objectId = 0,
-//     required this.content,
-//     required this.attachments,
-//     required this.receiverId,
-//     required this.senderServerId,
-//     required this.timestamp,
-//   });
-// }

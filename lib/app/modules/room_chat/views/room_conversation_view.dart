@@ -6,7 +6,6 @@ import 'package:linkchat/app/data/models/multiple_profile_req_model.dart';
 import 'package:linkchat/app/data/models/user_model.dart';
 import 'package:linkchat/app/data/utils/utils.dart';
 import 'package:linkchat/app/database/helpers/helpers.dart';
-import 'package:linkchat/app/modules/room_chat/views/room_edit_view.dart';
 import 'package:linkchat/app/routes/app_pages.dart';
 import 'package:linkchat/app/services/api_service.dart';
 import 'package:linkchat/app/style/app_color.dart';
@@ -14,13 +13,29 @@ import 'package:linkchat/app/widgets/views/SquareShimmer.dart';
 import 'package:logger/logger.dart';
 
 import '../../../data/models/room_res_model.dart';
+import '../../../widgets/views/CircullarShimmer.dart';
 import '../controllers/room_conversation_controller.dart';
-import 'room_chat_input_field.dart';
+import 'room_message_card_view.dart';
 
-class RoomConversationView extends GetView<RoomConversationController> {
+class RoomConversationView extends StatefulWidget {
   RoomConversationView({super.key});
 
+  @override
+  State<RoomConversationView> createState() => _RoomConversationViewState();
+}
+
+class _RoomConversationViewState extends State<RoomConversationView> {
   final RoomModel roomModel = Get.arguments['room'];
+  final controller = Get.find<RoomConversationController>();
+
+  @override
+  void initState() {
+    Logger().i(
+        'Room Conversation: ${RoomChatHelper.getSingleRoomConversation(roomModel.id)?.groupName}');
+    controller
+        .getRoomMessage(RoomChatHelper.getSingleRoomConversation(roomModel.id));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,16 +44,41 @@ class RoomConversationView extends GetView<RoomConversationController> {
       endDrawer: _buildDrawer(context, controller, roomModel),
       body: Column(
         children: [
-          Expanded(
-              child: Obx(() => ListView.builder(
-                  itemCount: RoomConversationController.message.length,
-                  itemBuilder: (context, index) {
-                    return Obx(() => ListTile(
-                          title:
-                              Text(RoomConversationController.message[index]),
-                        ));
-                  }))),
-          RoomChatInputField(roomId: roomModel.id),
+          Obx(() {
+            if (RoomConversationController.roomMessages.isNotEmpty) {
+              return Expanded(
+                  child: Obx(() => ListView.builder(
+                        reverse: false,
+                        controller:
+                            RoomConversationController.messageScrollController,
+                        physics: const BouncingScrollPhysics(),
+                        itemCount:
+                            RoomConversationController.roomMessages.length,
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        itemBuilder: (context, index) {
+                          Logger().i(
+                              'Room Message ${RoomConversationController.roomMessages[index].message}');
+                          return
+                              // ListTile(
+                              //   title: Text(RoomConversationController
+                              //           .roomMessages[index].message ??
+                              //       'No Message'),
+                              // );
+                              Obx(() => RoomMessageCardView(
+                                  message: RoomConversationController
+                                      .roomMessages[index]));
+                        },
+                      )));
+            } else {
+              return const Expanded(
+                  child: Center(
+                      child: Text(
+                'No Chat',
+                style: TextStyle(color: Colors.white),
+              )));
+            }
+          }),
+          _buildRoomChatInputField(controller, context, roomModel)
         ],
       ),
     );
@@ -50,8 +90,10 @@ AppBar _buildHeaderBar(RoomConversationController roomConversationController,
   return AppBar(
     title: Row(
       children: [
-        const CircleAvatar(
-          backgroundImage: CachedNetworkImageProvider(PLACEHOLDER_IMAGE),
+        CircleAvatar(
+          backgroundImage: CachedNetworkImageProvider(room.groupImage == 'N/A'
+              ? PLACEHOLDER_IMAGE
+              : '$BASE_URL${room.groupImage}'),
         ),
         const SizedBox(
           width: 5,
@@ -67,7 +109,7 @@ AppBar _buildHeaderBar(RoomConversationController roomConversationController,
               ),
               _buildRoomMemberAvater(
                   roomConversationController: roomConversationController,
-                  roomId: room.id,
+                  room: room,
                   context: context)
             ],
           ),
@@ -79,39 +121,62 @@ AppBar _buildHeaderBar(RoomConversationController roomConversationController,
 
 Widget _buildRoomMemberAvater(
     {required RoomConversationController roomConversationController,
-    required String roomId,
+    required RoomModel room,
     required BuildContext context}) {
   return SizedBox(
     width: MediaQuery.of(context).size.width * 0.5,
     height: 30,
     child: Center(
-        child: ListView.separated(
-            itemBuilder: (context, index) {
-              if (index == 5) {
-                return CircleAvatar(
-                  radius: 8,
-                  backgroundColor: blackAccent,
-                  child: Center(
-                    child: Text(
-                      '${index - 5}+',
-                      style: Theme.of(context).textTheme.bodySmall,
-                      overflow: TextOverflow.clip,
-                    ),
-                  ),
-                );
-              } else {
-                return const CircleAvatar(
-                  radius: 8,
-                  backgroundColor: blackAccent,
-                  backgroundImage:
-                      CachedNetworkImageProvider(PLACEHOLDER_IMAGE),
-                );
+        child: FutureBuilder(
+            future: ApiService.getMultipleProfile(
+                GetMultipleProfileReqModel(idList: room.members)),
+            builder:
+                (context, AsyncSnapshot<GetMultipleProfileModel?> snapshot) {
+              Logger().i(snapshot.hasData);
+              if (snapshot.hasData) {
+                if (snapshot.data!.profiles.isNotEmpty) {
+                  return ListView.separated(
+                      itemBuilder: (context, index) {
+                        if (index == 5) {
+                          return CircleAvatar(
+                            radius: 10,
+                            backgroundColor: blackAccent,
+                            child: Center(
+                              child: Text(
+                                '${index - 5}+',
+                                style: Theme.of(context).textTheme.labelSmall,
+                                overflow: TextOverflow.clip,
+                              ),
+                            ),
+                          );
+                        } else {
+                          return CircleAvatar(
+                            radius: 10,
+                            backgroundColor: blackAccent,
+                            backgroundImage: CachedNetworkImageProvider(
+                                snapshot.data!.profiles[index].profilePic),
+                          );
+                        }
+                      },
+                      scrollDirection: Axis.horizontal,
+                      physics: const BouncingScrollPhysics(),
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(width: 3),
+                      itemCount: snapshot.data!.profiles.length);
+                } else {
+                  return const SizedBox.shrink();
+                }
               }
-            },
-            scrollDirection: Axis.horizontal,
-            physics: const BouncingScrollPhysics(),
-            separatorBuilder: (context, index) => const SizedBox(width: 3),
-            itemCount: 6)),
+              return ListView.separated(
+                  itemBuilder: (context, index) {
+                    return const CircularShimmer();
+                  },
+                  scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(width: 3),
+                  itemCount: 5);
+            })),
   );
 }
 
@@ -130,8 +195,9 @@ Widget _buildDrawer(BuildContext context, RoomConversationController controller,
           CircleAvatar(
             backgroundColor: blackAccent,
             radius: 55.w,
-            backgroundImage: CachedNetworkImageProvider(
-                room.groupImage ?? PLACEHOLDER_IMAGE),
+            backgroundImage: CachedNetworkImageProvider(room.groupImage == 'N/A'
+                ? PLACEHOLDER_IMAGE
+                : '$BASE_URL${room.groupImage}'),
           ),
           const SizedBox(
             height: 15,
@@ -157,7 +223,8 @@ Widget _buildDrawer(BuildContext context, RoomConversationController controller,
             children: [
               room.admins.contains(AccountHelper.getUserData().serverId)
                   ? IconButton(
-                      onPressed: () => Get.toNamed(Routes.ROOM_EDIT_VIEW, arguments: {'room':room}),
+                      onPressed: () => Get.toNamed(Routes.ROOM_EDIT_VIEW,
+                          arguments: {'room': room}),
                       icon: Column(
                         children: [
                           const Icon(Icons.edit),
@@ -169,7 +236,8 @@ Widget _buildDrawer(BuildContext context, RoomConversationController controller,
                       ))
                   : room.settings.anyoneCanModifyGroup
                       ? IconButton(
-                          onPressed: () => Get.toNamed(Routes.ROOM_EDIT_VIEW, arguments: {'room':room}),
+                          onPressed: () => Get.toNamed(Routes.ROOM_EDIT_VIEW,
+                              arguments: {'room': room}),
                           icon: Column(
                             children: [
                               const Icon(Icons.edit),
@@ -182,7 +250,8 @@ Widget _buildDrawer(BuildContext context, RoomConversationController controller,
                       : const SizedBox.shrink(),
               room.admins.contains(AccountHelper.getUserData().serverId)
                   ? IconButton(
-                      onPressed: () => Get.toNamed(Routes.ROOM_SETTINGS_VIEW),
+                      onPressed: () => Get.toNamed(Routes.ROOM_SETTINGS_VIEW,
+                          arguments: {'room': room}),
                       icon: Column(
                         children: [
                           const Icon(Icons.settings),
@@ -252,20 +321,29 @@ Widget _buildDrawer(BuildContext context, RoomConversationController controller,
                               ),
                             )),
                         Expanded(
-                            child: GridView.builder(
-                                controller: controller.drawerScrollController,
-                                itemCount: 60,
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisSpacing: 2,
-                                        mainAxisSpacing: 2,
-                                        crossAxisCount: 5),
-                                itemBuilder: (context, index) {
-                                  return GridTile(
-                                      child: Container(
-                                    color: Colors.blueGrey,
-                                  ));
-                                }))
+                            child: Center(
+                          child: Text(
+                            'No Media File Found',
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        )
+
+                            // GridView.builder(
+                            //     controller: controller.drawerScrollController,
+                            //     itemCount: 60,
+                            //     gridDelegate:
+                            //         const SliverGridDelegateWithFixedCrossAxisCount(
+                            //             crossAxisSpacing: 2,
+                            //             mainAxisSpacing: 2,
+                            //             crossAxisCount: 5),
+                            //     itemBuilder: (context, index) {
+                            //       return GridTile(
+                            //           child: Container(
+                            //         color: Colors.blueGrey,
+                            //       ));
+                            //     }),
+
+                            )
                       ],
                     ),
                   ),
@@ -361,6 +439,77 @@ Widget _buildDrawer(BuildContext context, RoomConversationController controller,
           const SizedBox(
             height: 20,
           )
+        ],
+      ),
+    ),
+  );
+}
+
+Widget _buildRoomChatInputField(RoomConversationController controller,
+    BuildContext context, RoomModel room) {
+  return Container(
+    padding: const EdgeInsets.symmetric(
+      horizontal: 8,
+      vertical: 5,
+    ),
+    child: SafeArea(
+      child: Row(
+        children: [
+          Obx(() => controller.textMessage.value.isEmpty
+              ? IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.mic, color: accentColor))
+              : const SizedBox.shrink()),
+          Expanded(
+              child: AnimatedContainer(
+            duration: const Duration(milliseconds: 5000),
+            decoration: BoxDecoration(
+                color: darkAsh, borderRadius: BorderRadius.circular(30)),
+            child: Row(
+              children: [
+                const SizedBox(
+                  width: 10,
+                ),
+                Expanded(child: Obx(() {
+                  return TextField(
+                    controller: controller.textMessageController.value,
+                    onChanged: (txt) {
+                      controller.textMessage.value = txt;
+                    },
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Type message...',
+                        hintStyle: Theme.of(context)
+                            .textTheme
+                            .bodyMedium
+                            ?.copyWith(color: Colors.grey)),
+                  );
+                })),
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.attach_file_rounded,
+                    color: accentColor,
+                  ),
+                ),
+              ],
+            ),
+          )),
+          SizedBox(
+            width: 5.w,
+          ),
+          Obx(() => controller.textMessage.value.isNotEmpty
+              ? IconButton(
+                  onPressed: () => controller.sendMessage(room),
+                  icon: const Icon(
+                    Icons.send,
+                    color: brightWhite,
+                    size: 20,
+                  ),
+                  style: const ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(accentColor)),
+                )
+              : const SizedBox.shrink())
         ],
       ),
     ),
