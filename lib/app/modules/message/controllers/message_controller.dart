@@ -12,12 +12,14 @@ import 'package:mime/mime.dart';
 
 import '../../../database/conversatin_schema.dart';
 import '../../../database/helpers/helpers.dart';
+import '../../../routes/app_pages.dart';
 import '../../../services/socket_io_service.dart';
+import '../../../services/webRTC_service.dart';
 
 class MessageController extends GetxController {
   Rx<TextEditingController> textMessageController = TextEditingController().obs;
   RxString textMessage = ''.obs;
-  RxBool isTyping = false.obs;
+  static RxBool isTyping = false.obs;
   static ScrollController scrollController = ScrollController();
   static Rx<chat.ChatController?> chatViewController =
       Rx<chat.ChatController?>(null);
@@ -134,6 +136,15 @@ class MessageController extends GetxController {
         scrollController.jumpTo(scrollController.position.maxScrollExtent);
       });
     }
+  }
+
+  bool isKeyboardVisible(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    return mediaQuery.viewInsets.bottom > 0;
+  }
+
+  Future<void> makeCall(ShortProfileModel recieverProfile) async {
+    await WebRTCService.establishPeerConnectionForCreator(recieverProfile);
   }
 
   @override

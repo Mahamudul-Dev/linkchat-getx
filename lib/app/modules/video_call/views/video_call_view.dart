@@ -42,7 +42,7 @@ class VideoCallView extends GetView<VideoCallController> {
                       height: MediaQuery.of(context).size.height,
                       width: MediaQuery.of(context).size.width,
                       child: RTCVideoView(
-                        controller.remoteRenderer,
+                        VideoCallController.remoteRenderer,
                         mirror: true,
                         objectFit:
                             RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,

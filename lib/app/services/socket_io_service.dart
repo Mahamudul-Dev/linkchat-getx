@@ -1,13 +1,16 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:linkchat/app/data/models/models.dart';
 import 'package:linkchat/app/data/models/room_conversation_model.dart';
 import 'package:linkchat/app/data/models/socket_model.dart';
 import 'package:linkchat/app/database/database.dart';
 import 'package:linkchat/app/modules/message/controllers/message_controller.dart';
 import 'package:linkchat/app/modules/room_chat/controllers/room_chat_controller.dart';
+import 'package:linkchat/app/modules/video_call/controllers/video_call_controller.dart';
 import 'package:linkchat/app/services/api_service.dart';
 import 'package:linkchat/app/services/notification_service.dart';
+import 'package:linkchat/app/services/webRTC_service.dart';
 import 'package:logger/logger.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -83,6 +86,14 @@ class SocketIOService {
         SocketIOService.socket.emit('joinGroup', joinedGroupList[i].groupId);
       }
 
+      socket.on('typing', (_) {
+        MessageController.isTyping.value = true;
+      });
+
+      socket.on('stopTyping', (_) {
+        MessageController.isTyping.value = false;
+      });
+
       socket.on('groupMessage', (message) async {
         Logger().i('Message recieved from server: $message');
 
@@ -97,7 +108,21 @@ class SocketIOService {
       });
 
       socket.on('offer', (data) async {
+        Logger().i({'incoming call': data});
+        await VideoCallController.incommingCallRecieved(
+            ShortProfileModel.fromJson(data['callerDetails']));
+        WebRTCService.establishPeerConnectionForReciver(
+            data['callerDetails'], data['offer']);
+      });
+
+      socket.on('ice-candidate', (candidate) {
+        Logger().i(candidate);
+        WebRTCService.peerConnection.addCandidate(candidate);
+      });
+
+      socket.on('answer', (data) async {
         Logger().i({'call recieved': data});
+        WebRTCService.peerConnection.setRemoteDescription(data['answer']);
       });
     });
 

@@ -16,11 +16,13 @@ import 'package:flutter_webrtc/flutter_webrtc.dart' as rtc;
 import 'package:flutter_webrtc_wrapper/flutter_webrtc_wrapper.dart';
 import 'package:get/get.dart';
 
+import '../../../services/webRTC_service.dart';
+
 class VideoCallController extends GetxController {
-  RTCVideoRenderer remoteRenderer = RTCVideoRenderer();
+  static RTCVideoRenderer remoteRenderer = RTCVideoRenderer();
   RTCVideoRenderer localRenderer = RTCVideoRenderer();
   Connection? connection;
-  MediaStream? localStream;
+  static MediaStream? localStream;
   RxBool inCalling = false.obs;
   RxBool isConnected = false.obs;
 
@@ -31,7 +33,6 @@ class VideoCallController extends GetxController {
   @override
   void onInit() {
     initRenderer();
-    connectCall();
     super.onInit();
   }
 
@@ -187,7 +188,7 @@ class VideoCallController extends GetxController {
       type: 0,
       textAccept: 'Accept',
       textDecline: 'Decline',
-      missedCallNotification: NotificationParams(
+      missedCallNotification: const NotificationParams(
         showNotification: true,
         isShowCallback: true,
         subtitle: 'Missed call',
@@ -196,7 +197,7 @@ class VideoCallController extends GetxController {
       duration: 30000,
       extra: <String, dynamic>{'userId': '1a2b3c4d'},
       headers: <String, dynamic>{'apiKey': 'Abc@123!', 'platform': 'flutter'},
-      android: AndroidParams(
+      android: const AndroidParams(
           isCustomNotification: true,
           isShowLogo: false,
           ringtonePath: 'system_ringtone_default',
@@ -205,7 +206,7 @@ class VideoCallController extends GetxController {
           actionColor: '#4CAF50',
           incomingCallNotificationChannelName: "Incoming Call",
           missedCallNotificationChannelName: "Missed Call"),
-      ios: IOSParams(
+      ios: const IOSParams(
         iconName: 'CallKitLogo',
         handleType: 'generic',
         supportsVideo: true,

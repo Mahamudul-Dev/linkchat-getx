@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:linkchat/app/services/socket_io_service.dart';
 
 import '../../../style/style.dart';
 import '../controllers/message_controller.dart';
@@ -10,6 +13,11 @@ class ChatInputField extends GetView<MessageController> {
   final String receiverId;
   @override
   Widget build(BuildContext context) {
+    if (controller.isKeyboardVisible(context)) {
+      SocketIOService.socket.emit('typing', receiverId);
+    } else {
+      SocketIOService.socket.emit('stopTyping', receiverId);
+    }
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: 8,

@@ -41,7 +41,7 @@ class _MessageViewState extends State<MessageView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildHeaderBar(_chatController, sId, context),
+      appBar: _buildHeaderBar(_chatController, sId, context, controller),
       body: Column(
         children: [
           Obx(() {
@@ -67,7 +67,7 @@ class _MessageViewState extends State<MessageView> {
               )));
             }
           }),
-          Obx(() => controller.isTyping.value
+          Obx(() => MessageController.isTyping.value
               ? Padding(
                   padding: const EdgeInsets.only(bottom: 20, left: 8),
                   child: Row(
@@ -99,8 +99,8 @@ class _MessageViewState extends State<MessageView> {
   }
 }
 
-AppBar _buildHeaderBar(
-    ChatController chatController, String sId, BuildContext context) {
+AppBar _buildHeaderBar(ChatController chatController, String sId,
+    BuildContext context, MessageController controller) {
   return AppBar(
     leading: Padding(
       padding: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
@@ -144,10 +144,10 @@ AppBar _buildHeaderBar(
             color: accentColor,
           )),
       IconButton(
-          onPressed: () => Get.toNamed(Routes.VIDEO_CALL, arguments: {
-                'profile': chatController.linikedList
-                    .singleWhere((element) => element.sId == sId)
-              }),
+          onPressed: () async {
+            await controller.makeCall(chatController.linikedList
+                .singleWhere((element) => element.sId == sId));
+          },
           icon: const Icon(
             CupertinoIcons.video_camera,
             color: accentColor,
