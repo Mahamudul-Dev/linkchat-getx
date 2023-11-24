@@ -97,7 +97,7 @@ class FollowersView extends GetView<FollowersController> {
                     serverId: snapshot.data![index].sId,
                     userName: snapshot.data?[index].userName ?? '',
                     profilePic:
-                        snapshot.data?[index].profilePic ?? PLACEHOLDER_IMAGE,
+                        snapshot.data?[index].profilePic == 'N/A' ? PLACEHOLDER_IMAGE : snapshot.data?[index].profilePic ?? PLACEHOLDER_IMAGE,
                     country: snapshot.data?[index].country ?? '',
                     isActive: snapshot.data?[index].isActive ?? false,
                     isChat: false,

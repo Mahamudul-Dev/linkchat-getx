@@ -168,7 +168,7 @@ Widget _buildLinkList(LinklistController controller, bool isChat) {
                     leading: CircleAvatar(
                       backgroundColor: blackAccent,
                       backgroundImage: CachedNetworkImageProvider(
-                          snapshot.data?[index].profilePic ??
+                          snapshot.data?[index].profilePic == 'N/A' ? PLACEHOLDER_IMAGE : snapshot.data?[index].profilePic ??
                               PLACEHOLDER_IMAGE),
                     ),
                     title: Text(snapshot.data?[index].userName ?? 'Unknown'),
@@ -180,7 +180,7 @@ Widget _buildLinkList(LinklistController controller, bool isChat) {
                     ),
                   )
                 : UserListTile(
-                    profilePic: snapshot.data?[index].profilePic,
+                    profilePic: snapshot.data?[index].profilePic == 'N/A' ? PLACEHOLDER_IMAGE : snapshot.data?[index].profilePic,
                     userName: snapshot.data?[index].userName,
                     country: snapshot.data?[index].country,
                     onPresses: () => controller.handleFollow(
@@ -268,7 +268,7 @@ Widget _buildLinkRequestLink(LinklistController controller) {
               );
             },
             child: UserListTile(
-                profilePic: snapshot.data?[index].profilePic,
+                profilePic: snapshot.data?[index].profilePic == 'N/A' ? PLACEHOLDER_IMAGE : snapshot.data?[index].profilePic,
                 userName: snapshot.data?[index].userName,
                 country: snapshot.data?[index].country,
                 isActive: snapshot.data![index].isActive,

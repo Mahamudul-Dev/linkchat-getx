@@ -28,7 +28,7 @@ class ProfileCardView extends GetView<ProfileController> {
       borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(35), bottomRight: Radius.circular(35)),
       child: Container(
-        height: MediaQuery.of(context).size.height / 2.2,
+        height: MediaQuery.of(context).size.height / 2.1,
         decoration: BoxDecoration(
             color: bgColor ?? solidMate,
             borderRadius: const BorderRadius.only(
@@ -62,7 +62,7 @@ Widget _buildOwnProfile(ProfileController controller, BuildContext context) {
                 ? brightWhite
                 : blackAccent,
             backgroundImage: CachedNetworkImageProvider(
-                controller.getCurrentProfile.photo ?? PLACEHOLDER_IMAGE))
+                controller.getCurrentProfile.photo == 'N/A' ? PLACEHOLDER_IMAGE : controller.getCurrentProfile.photo ?? PLACEHOLDER_IMAGE))
       ]),
       const SizedBox(
         height: 8,
@@ -250,7 +250,7 @@ Widget _buildOtherProfile(
                       ? brightWhite
                       : blackAccent,
                   backgroundImage: CachedNetworkImageProvider(
-                      snapshot.data?.data.first.profilePic ??
+                      snapshot.data?.data.first.profilePic  == 'N/A' ? PLACEHOLDER_IMAGE : snapshot.data?.data.first.profilePic ??
                           PLACEHOLDER_IMAGE))
             ]),
             const SizedBox(
@@ -296,7 +296,7 @@ Widget _buildOtherProfile(
                   Expanded(
                       flex: 2,
                       child: SizedBox(
-                        height: 35,
+                        height: 45,
                         child: Center(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -334,7 +334,7 @@ Widget _buildOtherProfile(
                   Expanded(
                       flex: 2,
                       child: SizedBox(
-                        height: 35,
+                        height: 45,
                         child: Center(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -372,7 +372,7 @@ Widget _buildOtherProfile(
                   Expanded(
                       flex: 2,
                       child: SizedBox(
-                        height: 35,
+                        height: 45,
                         child: Center(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,

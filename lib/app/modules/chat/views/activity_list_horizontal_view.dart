@@ -8,6 +8,7 @@ import 'package:linkchat/app/widgets/views/CircullarShimmer.dart';
 import 'package:logger/logger.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../../data/utils/utils.dart';
 import '../../../modules/chat/controllers/chat_controller.dart';
 import '../../../style/style.dart';
 import '../../../widgets/widgets.dart';
@@ -88,7 +89,8 @@ class ActivityListHorizontalView extends GetView<ChatController> {
                           ? brightWhite
                           : black,
                       backgroundImage: CachedNetworkImageProvider(
-                          controller.activeUser[index].profilePic)),
+                          controller.activeUser[index].profilePic == 'N/A' ? PLACEHOLDER_IMAGE : controller.activeUser[index].profilePic ??
+                          PLACEHOLDER_IMAGE)),
                 ),
                 Align(
                   alignment: Alignment.bottomRight,
