@@ -5,6 +5,7 @@ A simple Flutter messeging app that allows users to communicate in real-time. We
 ## Table of Contents
 
 - [Features](#features)
+- [Media](#media)
 - [Screenshots](#screenshots)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
@@ -19,17 +20,23 @@ A simple Flutter messeging app that allows users to communicate in real-time. We
 - User authentication
 - Multi-platform support (iOS, Android)
 
+## Media
+
+### GIF
+
+![App Demo](/screenshots/demo.gif)
+
 ## Screenshots
 
-![Screenshot 1](/screenshots/demo.gif)
-![Screenshot 2](/screenshots/linkchat-ss-1.png)
-![Screenshot 3](/screenshots/linkchat-ss-2.png)
-![Screenshot 4](/screenshots/linkchat-ss-3.png)
-![Screenshot 5](/screenshots/linkchat-ss-4.png)
-![Screenshot 6](/screenshots/linkchat-ss-5.png)
-![Screenshot 7](/screenshots/linkchat-ss-6.png)
-![Screenshot 8](/screenshots/linkchat-ss-7.png)
-![Screenshot 9](/screenshots/linkchat-ss-8.png)
+| Screenshot 1 | Screenshot 2 || Screenshot 3 | Screenshot 4 |
+| ------------ | ------------ | | ------------ | ------------ |
+| ![Screenshot 1](/screenshots/linkchat-ss-1.png)| ![Screenshot 2](/screenshots/linkchat-ss-2.png) | ![Screenshot 3](/screenshots/linkchat-ss-3.png) | ![Screenshot 4](/screenshots/linkchat-ss-4.png) | 
+
+| Screenshot 5 | Screenshot 6 || Screenshot 7 | Screenshot 8 |
+| ------------ | ------------ | | ------------ | ------------ |
+| ![Screenshot 5](/screenshots/linkchat-ss-5.png)| ![Screenshot 6](/screenshots/linkchat-ss-6.png) | ![Screenshot 7](/screenshots/linkchat-ss-7.png) | ![Screenshot 8](/screenshots/linkchat-ss-8.png) | 
+
+
 
 ## Getting Started
 
